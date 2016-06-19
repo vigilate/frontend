@@ -19,6 +19,8 @@
     {{#each scripts.polyfills}}
     <script src="{{.}}"></script>
     {{/each}}
+    <script src="ng2-bootstrap.min.js"></script>
+    <link href="bootstrap.min.css" rel="stylesheet">
     <script>
       System.import('system-config.js').then(function () {
         System.import('main');
