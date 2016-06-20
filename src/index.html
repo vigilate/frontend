@@ -16,6 +16,7 @@
     padding-top: 50px;
     }
   </style>
+  <script src="ng2-bootstrap.min.js"></script>
 </head>
 <body>
   <app-root>Loading...</app-root>
@@ -25,8 +26,7 @@
     {{#each scripts.polyfills}}
     <script src="{{.}}"></script>
     {{/each}}
-    <script src="ng2-bootstrap.min.js"></script>
-    
+
     <script>
       System.import('system-config.js').then(function () {
         System.import('main');

@@ -13,12 +13,6 @@ import './rxjs-operators';
     directives: [ROUTER_DIRECTIVES, LoginComponent]
 })
 
-export class AppComponent implements OnInit {
-
-    constructor (private authService: AuthService){}
-    
-    ngOnInit() {
-    }
-
+export class AppComponent {
 
 }
