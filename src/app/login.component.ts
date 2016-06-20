@@ -1,37 +1,56 @@
 import { Component } from '@angular/core';
-import { LoginService } from './login.service';
-
+import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
 import { User } from './user.model';
+import { AlertComponent } from 'ng2-bootstrap/components/alert';
 
 @Component({
-    selector: 'login',
     templateUrl: 'app/login.component.html',
-    styles: [`
-	     .form-signin {
-		 max-width: 330px;
-		 padding: 15px;
-		 margin: 0 auto;
-	     }
-	    `]
+    styleUrls: ['app/login.component.css'],
+     directives: [AlertComponent]
 })
 
 export class LoginComponent {
 
-    errorMsg = "";
-    user: User;
+    user: User = null;
     username = "";
     password = "";
+    public alerts:Array<Object> = []
+    loadingLogin = false;
+    loadingSignin = false;
 
-    constructor (private loginService: LoginService) {}
+    constructor (private authService: AuthService, private router: Router) {}
     
-    onSubmit() {
-	console.log("test user: " + this.username);	
-	console.log("test pass: " + this.password);
-	
-	this.loginService.getLogin(this.username, this.password)
+    onSubmitLogin() {
+
+	this.loadingLogin = true;
+	this.authService.login(this.username, this.password)
             .subscribe(
                 user => {this.user = user;
-			  console.log(this.user)},
-                error =>  this.errorMsg = <any>error);
+			 console.log(this.user)
+			 this.loadingLogin = false;
+			 this.router.navigate(['/dashboard']);
+			},
+                error =>  {
+		    console.error(error);
+		    this.loadingLogin = false;
+		    this.alerts.push({msg: error, type: 'danger'});
+		});
+    }
+
+    onSubmitSignin() {
+
+	this.loadingSignin = true;
+	this.authService.signin(this.username, this.password)
+            .subscribe(
+                user => {this.user = user;
+			 console.log(this.user)
+			 this.loadingSignin = false;
+			},
+                error =>  {
+		    console.error(error);
+		    this.loadingSignin = false;
+		    this.alerts.push({msg: error, type: 'danger'});
+		});
     }
 }

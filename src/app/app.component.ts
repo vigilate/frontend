@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 
 import { LoginComponent } from './login.component';
-import { LoginService } from './login.service';
+import { AuthService } from './auth.service';
+import { ROUTER_DIRECTIVES } from '@angular/router';
 import './rxjs-operators';
 
 @Component({
@@ -9,10 +10,15 @@ import './rxjs-operators';
     selector: 'app-root',
     templateUrl: 'app.component.html',
     styleUrls: ['app.component.css'],
-    directives: [LoginComponent],
-    providers: [LoginService]
+    directives: [ROUTER_DIRECTIVES, LoginComponent]
 })
 
-export class AppComponent {
-    title = 'app works!';
+export class AppComponent implements OnInit {
+
+    constructor (private authService: AuthService){}
+    
+    ngOnInit() {
+    }
+
+
 }
