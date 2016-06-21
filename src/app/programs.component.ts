@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from './user.model';
 import { AuthService } from './auth.service';
 import { ProgramsService } from './programs.service';
@@ -12,7 +13,9 @@ export class ProgramsComponent implements OnInit {
 
     progs = []
     
-    constructor (private authService: AuthService, private programsService: ProgramsService){}
+    constructor (private authService: AuthService,
+		 private programsService: ProgramsService,
+		 private router: Router){}
 
     ngOnInit() {
 	this.programsService.getProgramsList()
@@ -22,9 +25,12 @@ export class ProgramsComponent implements OnInit {
 			},
                 error =>  {
 		    console.log(error);
-		    // this.alerts.push({msg: error, type: 'danger'});
 		});
 
+    }
+
+    onClick(id) {
+	this.router.navigate(['/programs', id]);
     }
     
 }

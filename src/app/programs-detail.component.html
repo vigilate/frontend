@@ -1,0 +1,15 @@
+
+<form class="form-horizontal" *ngIf="program_obj">
+
+  <div *ngFor="let program_parm of program_params" class="form-group" [class.has-warning]="program_obj_origin[program_parm.key] != program_obj[program_parm.key]">
+    <label attr.for="input-{{ program_parm.key }}" class="col-sm-3 control-label">
+      {{ program_parm.name }}
+    </label>
+    <div class="col-sm-9">
+      <input (input)="onChange(program_parm.key, $event)" value="{{program_obj[program_parm.key]}}" id="input-{{ program_parm.key }}" type="text" class="form-control" [readonly]="program_parm.readonly" />
+    </div>
+  </div>
+
+      <button *ngIf="have_changes" class="btn btn-lg btn-primary btn-block" (click)="onSubmit()">Submit</button>
+</form>
+<alert *ngFor="let alert of alerts" [type]="alert.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
