@@ -6,18 +6,31 @@ import {
   expect, it, xit,
   async, inject
 } from '@angular/core/testing';
-import { AppComponent } from './app.component';
 
-beforeEachProviders(() => [AppComponent]);
+import { provide } from '@angular/core';
+import { BaseRequestOptions, Response, ResponseOptions, Http } from '@angular/http';
+import { MockBackend, MockConnection } from '@angular/http/testing';
+
+import { AppComponent } from './app.component';
+import { AuthService } from './auth.service'
+
+beforeEachProviders(() => [
+    AppComponent,
+    AuthService,
+    BaseRequestOptions,
+    MockBackend,
+    provide(Http, {
+	useFactory: (backend: MockBackend, defaultOptions: BaseRequestOptions) => {
+	    return new Http(backend, defaultOptions);
+	},
+	deps: [MockBackend, BaseRequestOptions]
+    })
+]);
 
 describe('App: VigilateFrontend', () => {
-  it('should create the app',
-      inject([AppComponent], (app: AppComponent) => {
-    expect(app).toBeTruthy();
-  }));
-
-  // it('should have as title \'app works!\'',
-  //     inject([AppComponent], (app: AppComponent) => {
-  //   expect(app.title).toEqual('app works!');
-  // }));
+	
+    it('should create the app',
+       inject([AppComponent], (app: AppComponent) => {
+	   expect(app).toBeTruthy();
+       }));
 });

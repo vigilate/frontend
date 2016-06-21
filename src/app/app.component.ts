@@ -14,5 +14,5 @@ import './rxjs-operators';
 })
 
 export class AppComponent {
-
+    constructor (public authService: AuthService) {}
 }

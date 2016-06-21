@@ -20,11 +20,12 @@ export class AuthService {
 	headers.append('Accept', 'application/json');
 	headers.append('Authorization', 'Basic ' + btoa(user + ':' + pwd)); 
 	return this.http.get(this.url, new RequestOptions({ headers: headers }))
-	    .map((data) => data.json()).catch(this.handleError).do(data => {
-		this.user = data;
-		this.isLoggedIn = true;
+	    .do(data => {
+		this.isLoggedIn = data.ok;
+	    } ).map((data) => data.json()).catch(this.handleError).do((data) => {
+		if (this.isLoggedIn)
+		    this.user = data;
 	    })
-	
     }
 
     signin(user, pwd): Observable<User> {
@@ -37,7 +38,6 @@ export class AuthService {
 		this.user = data;
 
 	    })
-	
     }
 
     private handleError (error: any) {
