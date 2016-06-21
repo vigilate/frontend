@@ -11,9 +11,9 @@
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-	<li  *ngIf="authService.isLoggedIn" class="active"><a [routerLink]="['/dashboard']">Dasboard</a></li>
-        <li  *ngIf="authService.isLoggedIn" ><a href="#">Programs</a></li>
-        <li  *ngIf="authService.isLoggedIn" ><a href="#">Alerts</a></li>
+	<template [ngIf]="authService.isLoggedIn">
+	  <li *ngFor="let r of routes"  ><a [routerLink]="[r.path]">{{r.name}}</a></li>
+	</template>
       </ul>
     </div><!--/.nav-collapse -->
   </div>

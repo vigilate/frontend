@@ -13,10 +13,12 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { AppComponent } from './app.component';
 import { AuthService } from './auth.service'
+import { ProgramsService } from './programs.service'
 
 beforeEachProviders(() => [
     AppComponent,
     AuthService,
+    ProgramsService,
     BaseRequestOptions,
     MockBackend,
     provide(Http, {

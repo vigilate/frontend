@@ -8,17 +8,18 @@ import { User } from './user.model';
 export class AuthService {
     isLoggedIn: boolean = false;
     user: User;
+    basicAuthValue;
     
     constructor (private http: Http) {}
 
-    //private url = "http://127.0.0.1:4242/users/";
     private url = "http://172.16.67.131/api/users/";
     
     login(user, pwd): Observable<User> {
+	this.basicAuthValue = btoa(user + ':' + pwd);
 	var headers = new Headers();
 	headers.append('Content-Type', 'application/json');
 	headers.append('Accept', 'application/json');
-	headers.append('Authorization', 'Basic ' + btoa(user + ':' + pwd)); 
+	headers.append('Authorization', 'Basic ' + this.basicAuthValue); 
 	return this.http.get(this.url, new RequestOptions({ headers: headers }))
 	    .do(data => {
 		this.isLoggedIn = data.ok;
@@ -53,5 +54,9 @@ export class AuthService {
 	    error.status ? `${error.status} - ${error.statusText}` : 'Server error';
 
 	return Observable.throw(errMsg);
+    }
+
+    getBasicAuth() {
+	return this.basicAuthValue;
     }
 }

@@ -1,0 +1,14 @@
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Version</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let prog of progs">
+      <th>{{prog.program_name}}</th>
+      <th>{{prog.program_version}}</th>
+    </tr>
+  </tbody>
+</table>

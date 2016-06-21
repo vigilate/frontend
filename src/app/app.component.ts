@@ -2,7 +2,9 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 
 import { LoginComponent } from './login.component';
 import { AuthService } from './auth.service';
+import { ProgramsService } from './programs.service';
 import { ROUTER_DIRECTIVES } from '@angular/router';
+
 import './rxjs-operators';
 
 @Component({
@@ -14,5 +16,12 @@ import './rxjs-operators';
 })
 
 export class AppComponent {
-    constructor (public authService: AuthService) {}
+
+    routes = [
+	{name: "Dasboard", path: "/dashboard", active: false},
+	{name: "Programs", path: "/programs", active: false},
+	{name: "Alerts", path: "/dashboard", active: false}
+    ]
+    
+    constructor (private authService: AuthService, private programsService: ProgramsService) {}
 }
