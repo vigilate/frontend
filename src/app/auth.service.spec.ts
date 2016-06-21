@@ -12,11 +12,13 @@ import 'app/rxjs-operators'
 
 import { User } from './user.model';
 import { AuthService } from './auth.service';
+import { HttpServiceError } from './http-service-error.class'
 
 describe('AuthService', () => {
 
     beforeEachProviders(() => [
 	AuthService,
+	HttpServiceError,
 	BaseRequestOptions,
 	MockBackend,
 	provide(Http, {

@@ -14,10 +14,12 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { AppComponent } from './app.component';
 import { AuthService } from './auth.service'
 import { ProgramsService } from './programs.service'
+import { HttpServiceError } from './http-service-error.class'
 
 beforeEachProviders(() => [
     AppComponent,
     AuthService,
+    HttpServiceError,
     ProgramsService,
     BaseRequestOptions,
     MockBackend,

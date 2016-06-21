@@ -46,6 +46,7 @@ export class LoginComponent {
                 user => {this.user = user;
 			 console.log(this.user)
 			 this.loadingSignin = false;
+			 this.alerts.push({msg: "User " + user.username + " created", type: 'success'});
 			},
                 error =>  {
 		    console.error(error);
