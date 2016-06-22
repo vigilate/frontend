@@ -25,6 +25,7 @@ export class ProgramsDetailComponent implements OnInit {
     ]
     program_obj_origin;
     program_obj;
+    creating_new = false;
     
     constructor (private authService: AuthService,
 		 private programsService: ProgramsService,
@@ -34,11 +35,20 @@ export class ProgramsDetailComponent implements OnInit {
 
     ngOnInit() {
 	let sub = this.route.params.subscribe(params => {
-	    let id = +params['id'];
-	    this.programsService.getProgramsDetail(id).subscribe(program => {
-		this.program_obj_origin = JSON.parse(JSON.stringify(program))
-		this.program_obj = program;
-	    });
+	    if (params['id'] != "new") {
+		let id = +params['id'];
+		this.programsService.getProgramsDetail(id).subscribe(program => {
+		    this.program_obj_origin = JSON.parse(JSON.stringify(program))
+		    this.program_obj = program;
+		});
+	    }
+	    else {
+		this.program_params.shift();
+		this.creating_new = true;
+		this.program_obj_origin = {"program_name":"", "program_version":"",
+					   "minimum_score":"", "user_id":this.authService.user[0].id};
+		this.program_obj = JSON.parse(JSON.stringify(this.program_obj_origin));
+	    }
 	});
 	
     }
@@ -59,15 +69,27 @@ export class ProgramsDetailComponent implements OnInit {
     }
 
     onSubmit() {
-	this.programsService.updateProgramsDetail(this.program_obj.id, this.program_obj).subscribe(
-	    program => {
-		this.program_obj_origin = JSON.parse(JSON.stringify(program))
-		this.updateHaveChange();
-		this.alerts.push({msg: "Changes submited", type: 'success'});
-	    },
-	    error => {
-		this.alerts.push({msg: error, type: 'danger'});
-	    }
-	);
+	if (this.creating_new)	{
+	    this.programsService.createProgram(this.program_obj).subscribe(
+		program => {
+		    this.router.navigate(['/programs']);
+		},
+		error => {
+		    this.alerts.push({msg: error, type: 'danger'});
+		}
+	    );
+	}
+	else {
+	    this.programsService.updateProgramsDetail(this.program_obj.id, this.program_obj).subscribe(
+		program => {
+		    this.program_obj_origin = JSON.parse(JSON.stringify(program))
+		    this.updateHaveChange();
+		    this.alerts.push({msg: "Changes submited", type: 'success'});
+		},
+		error => {
+		    this.alerts.push({msg: error, type: 'danger'});
+		}
+	    );
+	}
     }
 }

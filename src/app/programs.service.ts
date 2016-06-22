@@ -43,6 +43,31 @@ export class ProgramsService {
 
 	return this.http.patch(this.url + id + "/", body, new RequestOptions({ headers: headers }))
 	    .map((data) => data.json()).catch(this.httpServiceError.handleError)
-    }
+		}
 
+    createProgram(obj): Observable<any> {
+	var headers = new Headers();
+	var body = JSON.stringify(obj);
+
+	headers.append('Content-Type', 'application/json');
+	headers.append('Accept', 'application/json');
+	headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth());
+
+	return this.http.post(this.url, body, new RequestOptions({ headers: headers }))
+	    .map((data) => data.json()).catch(this.httpServiceError.handleError)
+		}
+
+    deleteProgram(id): Observable<any> {
+	var headers = new Headers();
+	headers.append('Content-Type', 'application/json');
+	headers.append('Accept', 'application/json');
+	headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth());
+	return this.http.delete(this.url + id + "/", new RequestOptions({ headers: headers }))
+	    .map((data) => {
+		if (!data.ok)
+		    return data.json()
+		return data;
+	    })
+	    .catch(this.httpServiceError.handleError)
+	}
 }
