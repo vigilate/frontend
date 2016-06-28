@@ -1,17 +1,37 @@
-<table class="table table-bordered table-striped table-hover">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Version</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let prog of progs ; let i = index">
-      <td (click)="onClick(prog.id)">{{prog.program_name}}</td>
-      <td (click)="onClick(prog.id)">{{prog.program_version}}</td>
-      <td><button class="btn btn-default btn-danger" (click)="onClickDelete(prog.id, i)" >Delete</button></td>
-    </tr>
-  </tbody>
-</table>
-<button class="btn btn-default btn-primary" (click)="onNewProgram()">New program</button>
-<alert *ngFor="let alert of alerts" [type]="alert.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
+<div id="content" class="row">
+      <div class="medium-8 medium-offset-2 columns">
+        <h1><i class="fi-target"></i> Manage softwares</h1>
+        <br>
+        <table id="softwares">
+          <thead >
+            <tr>
+              <th width="200">Name</th>
+              <th width="1200">Version</th>
+              <th width="100">Delete</th>
+              <!--<th width="50">Edit</th>
+              <th width="70">Tracked</th>-->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let prog of progs ; let i = index">
+              <td (click)="onClick(prog.id)">{{prog.program_name}}</td>
+              <td (click)="onClick(prog.id)">{{prog.program_version}}</td>
+              <td class="right"> <button class="button alert tiny" (click)="onClickDelete(prog.id, i)" >Delete</button></td>
+              <!--<td>Django</td>
+              <td>1.9</td>
+              <td><a href="">Editer</a></td>
+              <td class="">
+                <div class="switch tiny">
+                  <input class="switch-input" id="tinySwitch1" type="checkbox" name="switch1" checked>
+                  <label class="switch-paddle" for="tinySwitch1">
+                    <span class="show-for-sr">Tiny Sandwiches Enabled</span>
+                  </label>
+                </div>
+              </td>-->
+            </tr>
+          </tbody>
+        </table>
+        <button class="hollow small button right" (click)="onNewProgram()">New program</button>
+        <alert *ngFor="let alert of alerts" [type]="alert.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
+      </div>
+    </div>
