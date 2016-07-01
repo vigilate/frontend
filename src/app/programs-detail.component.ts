@@ -21,7 +21,8 @@ export class ProgramsDetailComponent implements OnInit {
 	{name: "Id", key: "id", readonly:true},
 	{name: "Name", key: "program_name"},
 	{name: "Version", key: "program_version"},
-	{name: "Score", key: "minimum_score"}
+	{name: "Score", key: "minimum_score"},
+	{name: "Poste", key: "poste"}
     ]
     program_obj_origin;
     program_obj;
