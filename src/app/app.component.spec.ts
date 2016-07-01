@@ -15,6 +15,7 @@ import { AppComponent } from './app.component';
 import { AuthService } from './auth.service'
 import { ProgramsService } from './programs.service'
 import { HttpServiceError } from './http-service-error.class'
+import { Backend } from './backend.class'
 
 beforeEachProviders(() => [
     AppComponent,
@@ -23,6 +24,7 @@ beforeEachProviders(() => [
     ProgramsService,
     BaseRequestOptions,
     MockBackend,
+    Backend,
     provide(Http, {
 	useFactory: (backend: MockBackend, defaultOptions: BaseRequestOptions) => {
 	    return new Http(backend, defaultOptions);

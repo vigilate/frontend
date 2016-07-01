@@ -9,6 +9,7 @@ import { AuthService } from './auth.service'
 import { ProgramsService } from './programs.service';
 import { UserService } from './user.service';
 import { HttpServiceError } from './http-service-error.class'
+import { Backend } from './backend.class'
 
 export const routes: RouterConfig = [
     { path: '/dashboard',
@@ -22,5 +23,5 @@ export const routes: RouterConfig = [
 
 export const APP_ROUTER_PROVIDERS = [
     provideRouter(routes),
-    [AuthGuard, AuthService, ProgramsService, UserService, HttpServiceError]
+    [AuthGuard, AuthService, ProgramsService, UserService, HttpServiceError, Backend]
 ];
