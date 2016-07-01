@@ -1,6 +1,6 @@
-<div>
-  <h1>Dasboard</h1>
+<div class="medium-8 medium-offset-2 columns">
+  <h1>Dashboard</h1>
   Loged as {{ authService.user[0].username }}<br />
-  <button class="btn" (click)="logout()">Logout</button>
-  <button class="btn btn-danger" (click)="deleteAccount()">Delete account</button>
+  <button class="button" (click)="logout()">Logout</button>
+  <button class="button alert" (click)="deleteAccount()">Delete account</button>
 </div>

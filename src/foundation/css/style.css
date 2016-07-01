@@ -19,6 +19,19 @@
 	transition: color 0.2s;
 }
 
+.item_menu a {
+	text-decoration: none;
+	color: #fff;
+	transition: color 0.2s;
+}
+
+.item_menu a:hover {
+	text-decoration: none;
+	color: #1abdb7;
+	cursor: pointer;
+	transition: color 0.1s;
+}
+
 #logo {
 	text-align: left;
 }
@@ -38,6 +51,7 @@
 	font-size: 0.9em;
 	display: inline-block;
 }
+
 
 .item_menu:hover {
 	color: #1abdb7;
@@ -83,6 +97,10 @@
 	width: 100%;
 }
 
+#softwares button {
+	margin: 0;
+}
+
 #softwares .switch {
 	margin-bottom: 0;
 }
@@ -99,6 +117,12 @@
 
 .fi-alert {
 	color: #E71B00;
+}
+
+/* LOGIN */
+
+.form-signin button {
+	width: 100%;
 }
 
 /* COMMON RULES */
