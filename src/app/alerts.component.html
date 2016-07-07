@@ -1,0 +1,17 @@
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Version</th>
+      <th>CVE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let alert of alerts ; let i = index">
+      <td (click)="onClick(prog.id)">{{alert.program.program_name}}</td>
+      <td (click)="onClick(prog.id)">{{alert.program.program_version}}</td>
+      <td (click)="onClick(prog.id)">{{alert.cve.cveid}}</td>
+    </tr>
+  </tbody>
+</table>
+<alert *ngFor="let alert of alertsHtml" [type]="alert.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
