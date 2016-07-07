@@ -9,7 +9,9 @@ import { Backend } from './backend.class'
 
 @Injectable()
 export class ProgramsService {
-   
+
+    private programListObservable = null;
+
     constructor (private http: Http,
 		 private authService: AuthService,
 		 private httpServiceError: HttpServiceError,
@@ -19,12 +21,17 @@ export class ProgramsService {
     private url = "/uprog/";
     
     getProgramsList(): Observable<any> {
-	var headers = new Headers();
-	headers.append('Content-Type', 'application/json');
-	headers.append('Accept', 'application/json');
-	headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth()); 
-	return this.http.get(this.backend.getHost() + this.url, new RequestOptions({ headers: headers }))
-	    .map((data) => data.json()).catch(this.httpServiceError.handleError)
+	console.log(this.programListObservable);
+	if (this.programListObservable === null) {
+	    console.log("Fu, inside programs.service.ts");
+	    var headers = new Headers();
+	    headers.append('Content-Type', 'application/json');
+	    headers.append('Accept', 'application/json');
+	    headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth()); 
+	    this.programListObservable = this.http.get(this.backend.getHost() + this.url, new RequestOptions({ headers: headers })).cache()
+		.map((data) => data.json()).catch(this.httpServiceError.handleError)
+		    }
+		return this.programListObservable;
     }
 
     getProgramsDetail(id): Observable<any> {
