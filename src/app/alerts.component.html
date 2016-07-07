@@ -1,17 +1,23 @@
-<table class="table table-bordered table-striped table-hover">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Version</th>
-      <th>CVE</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let alert of alerts ; let i = index">
-      <td (click)="onClick(prog.id)">{{alert.program.program_name}}</td>
-      <td (click)="onClick(prog.id)">{{alert.program.program_version}}</td>
-      <td (click)="onClick(prog.id)">{{alert.cve.cveid}}</td>
-    </tr>
-  </tbody>
-</table>
-<alert *ngFor="let alert of alertsHtml" [type]="alert.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
+<div id="content" class="row">
+  <div class="medium-8 medium-offset-2 columns">
+    <table>
+      <thead>
+	<tr>
+	  <th width="200">Name</th>
+	  <th width="100">Version</th>
+	  <th width="50">Vulnerabilities</th>
+	  <th width="1150">Vulnerability score</th>
+	</tr>
+      </thead>
+      <tbody>
+	<tr *ngFor="let alert of alerts">
+	  <td (click)="onClick(alert.id)">{{alert.program.program_name}}</td>
+	  <td (click)="onClick(alert.id)">{{alert.program.program_version}}</td>
+	  <td (click)="onClick(alert.id)">{{alert.cve.length}}</td>
+	  <td (click)="onClick(alert.id)"><progress style="width:100%" max="100" value="{{alert.max_cvss*10}}"></progress></td>
+	</tr>
+      </tbody>
+    </table>
+    <alert *ngFor="let alert of alertsHtml" [type]="alertHtml.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
+  </div>
+</div>
