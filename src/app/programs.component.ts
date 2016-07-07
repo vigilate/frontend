@@ -4,11 +4,14 @@ import { User } from './user.model';
 import { AuthService } from './auth.service';
 import { ProgramsService } from './programs.service';
 import { AlertComponent } from 'ng2-bootstrap/components/alert';
+import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination/dist/ng2-pagination';
 
 @Component({
     selector: 'programs',
     templateUrl: 'app/programs.component.html',
-    directives: [AlertComponent]
+    directives: [AlertComponent, PaginationControlsCmp],
+    pipes: [PaginatePipe],
+    providers: [PaginationService]
 })
 
 export class ProgramsComponent implements OnInit {
