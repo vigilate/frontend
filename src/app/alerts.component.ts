@@ -32,4 +32,7 @@ export class AlertsComponent implements OnInit {
 
     }
 
+    onClick(id) {
+    }
+
 }
