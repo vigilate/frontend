@@ -13,7 +13,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let prog of progs ; let i = index">
+            <tr *ngFor="let prog of progs | paginate: { itemsPerPage: 100, currentPage: p } ; let i = index">
               <td (click)="onClick(prog.id)">{{prog.program_name}}</td>
               <td (click)="onClick(prog.id)">{{prog.program_version}}</td>
               <td class="right"> <button class="button alert tiny" (click)="onClickDelete(prog.id, i)" >Delete</button></td>
@@ -33,5 +33,6 @@
         </table>
         <button class="hollow small button right" (click)="onNewProgram()">New program</button>
         <alert *ngFor="let alert of alerts" [type]="alert.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
+	<pagination-controls (pageChange)="p = $event"></pagination-controls>
       </div>
     </div>

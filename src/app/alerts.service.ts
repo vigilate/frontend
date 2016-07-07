@@ -23,7 +23,6 @@ export class AlertsService {
     getAlertsList(): Observable<any> {
 	console.log(this.alertsListObservable);
 	if (this.alertsListObservable === null) {
-	    console.log("Fu, inside alerts.service.ts");
 	    var headers = new Headers();
 	    headers.append('Content-Type', 'application/json');
 	    headers.append('Accept', 'application/json');

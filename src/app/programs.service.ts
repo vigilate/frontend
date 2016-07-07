@@ -23,7 +23,6 @@ export class ProgramsService {
     getProgramsList(): Observable<any> {
 	console.log(this.programListObservable);
 	if (this.programListObservable === null) {
-	    console.log("Fu, inside programs.service.ts");
 	    var headers = new Headers();
 	    headers.append('Content-Type', 'application/json');
 	    headers.append('Accept', 'application/json');
