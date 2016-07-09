@@ -1,0 +1,37 @@
+<div id="content" class="row">
+  <div class="small-12 medium-8 medium-offset-2 columns">
+    <div *ngIf="alerts_obj">
+      Program name: {{alerts_obj.program.program_name}}<br />
+      Program version: {{alerts_obj.program.program_version}}<br />
+      
+      
+      
+      <div *ngFor="let cve of alerts_obj.cve">
+	<hr />
+	<table>
+	  <tr><th>CVEID</th></tr>
+	  <tr><td>{{cve.cveid}}</td></tr>
+	  
+	  <tr><th>Update date</th></tr>
+	  <tr><td>{{cve.modified_date}}</td></tr>
+	  
+	  <tr><th>Score</th></tr>
+	  <tr><td>{{cve.cvss_score}}</td></tr>
+	  
+	  <tr><th>Summary</th></tr>
+	  <tr><td>{{cve.summary}}</td></tr>
+	  
+	  <tr *ngIf="cve.cvss != ''"><th>Classification</th></tr>
+	  <tr *ngFor="let part of cve.cvss.split('/')"><td><span [outerHTML]="part | cvss"></span></td></tr>
+	  
+	  
+	</table>
+	
+	<div *ngIf="cve.cvss">
+	</div>
+	
+      </div>
+    </div>
+    <alert *ngFor="let alert of alerts" [type]="alert.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
+  </div>
+</div>

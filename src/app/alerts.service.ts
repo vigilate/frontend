@@ -34,4 +34,13 @@ export class AlertsService {
 		return this.alertsListObservable;
     }
 
+    getAlertsDetail(id): Observable<any> {
+	var headers = new Headers();
+	headers.append('Content-Type', 'application/json');
+	headers.append('Accept', 'application/json');
+	headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth()); 
+	return this.http.get(this.backend.getHost() + this.url + id + "/", new RequestOptions({ headers: headers }))
+	    .map((data) => data.json()).catch(this.httpServiceError.handleError)
+    }
+
 }

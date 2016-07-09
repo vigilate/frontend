@@ -11,9 +11,9 @@
       </thead>
       <tbody>
 	<tr *ngFor="let alert of alerts | paginate: { itemsPerPage: 50, currentPage: p }">
-	  <td (click)="onClick(alert.id)">{{alert.program.program_name}}</td>
-	  <td (click)="onClick(alert.id)">{{alert.program.program_version}}</td>
-	  <td (click)="onClick(alert.id)">{{alert.cve.length}}</td>
+	  <td (click)="onClick(alert.id)">{{alert.program_info.program_name}}</td>
+	  <td (click)="onClick(alert.id)">{{alert.program_info.program_version}}</td>
+	  <td (click)="onClick(alert.id)">{{alert.number_cve}}</td>
 	  <td (click)="onClick(alert.id)"><progress style="width:100%" max="100" value="{{alert.max_cvss*10}}"></progress></td>
 	</tr>
       </tbody>
