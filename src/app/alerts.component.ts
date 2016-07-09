@@ -36,6 +36,7 @@ export class AlertsComponent implements OnInit {
     }
 
     onClick(id) {
+	this.router.navigate(['/alerts', id]);
     }
 
 }
