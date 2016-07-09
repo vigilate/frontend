@@ -20,16 +20,7 @@
 	  
 	  <tr><th>Summary</th></tr>
 	  <tr><td>{{cve.summary}}</td></tr>
-
-	  <tr *ngIf="cve.cwe && cve.cwe.title"><th>Weakness Title</th></tr>
-	  <tr *ngIf="cve.cwe && cve.cwe.title"><td>{{cve.cwe.title}}</td></tr>
-
-	  <tr *ngIf="cve.cwe && cve.cwe.summary"><th>Weakness Summary</th></tr>
-	  <tr *ngIf="cve.cwe && cve.cwe.summary"><td>{{cve.cwe.summary}}</td></tr>
-
-	  <tr *ngIf="cve.cwe && cve.cwe.description"><th>Weakness Description</th></tr>
-	  <tr *ngIf="cve.cwe && cve.cwe.description"><td>{{cve.cwe.description}}</td></tr>
-
+	  
 	  <tr *ngIf="cve.cvss != ''"><th>Classification</th></tr>
 	  <tr *ngFor="let part of cve.cvss.split('/')"><td><span [outerHTML]="part | cvss"></span></td></tr>
 	  
