@@ -40,9 +40,9 @@ export class AuthService {
 	this.basicAuthValue = "";
     }
 
-    signin(user, pwd): Observable<User> {
+    signin(email, pwd): Observable<User> {
 	var headers = new Headers();
-	var body = JSON.stringify({ username: user, password:pwd, contrat:0, email:user+"@"+user+".com", id_dealer:0, user_type:0 });
+	var body = JSON.stringify({ email:email, password:pwd, contrat:0, id_dealer:0, user_type:0 });
 	headers.append('Content-Type', 'application/json');
 	headers.append('Accept', 'application/json');
 	return this.http.post(this.backend.getHost() + this.url, body, new RequestOptions({ headers: headers }))

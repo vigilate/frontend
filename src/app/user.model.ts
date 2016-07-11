@@ -3,6 +3,5 @@ export interface User {
     email: string,
     id_dealer: number,
     password: string,
-    user_type: number,
-    username: string,
+    user_type: number
 }

@@ -30,7 +30,7 @@ describe('AuthService', () => {
     ]);
 
     beforeEach(() => {
-	this.username = "UsernameA";
+	this.email = "UserA@a.com";
 	this.pwd = "PwdA";
 
 	this.baseResponseGood = new Response(new ResponseOptions(
@@ -40,8 +40,7 @@ describe('AuthService', () => {
 		[
 		    {
 			"id":1,
-			"username": this.username,
-			"email":"a",
+			"email": this.email,
 			"password":"hash",
 			"user_type":0,
 			"contrat":0,
@@ -51,7 +50,7 @@ describe('AuthService', () => {
 	    }
 	));
 
-	this.baseResponseBadUsername = new Response(new ResponseOptions(
+	this.baseResponseBadEmail = new Response(new ResponseOptions(
 	    {
 		status: 401,
 		body: JSON.stringify(
@@ -86,8 +85,8 @@ describe('AuthService', () => {
        inject([AuthService, MockBackend], (authService: AuthService, backend: MockBackend) => {
 	   backend.connections.subscribe((c: MockConnection) => c.mockRespond(this.baseResponseGood));
 
-	   authService.login(this.username, this.pwd).subscribe((res: User) => {
-	       expect(res[0]["username"]).toBe(this.username);
+	   authService.login(this.email, this.pwd).subscribe((res: User) => {
+	       expect(res[0]["email"]).toBe(this.email);
 	   });
        })
       );
@@ -97,18 +96,18 @@ describe('AuthService', () => {
        inject([AuthService, MockBackend], (authService: AuthService, backend: MockBackend) => {
 	   backend.connections.subscribe((c: MockConnection) => c.mockRespond(this.baseResponseGood));
 
-	   authService.login(this.username, this.pwd).subscribe((res: User) => {
+	   authService.login(this.email, this.pwd).subscribe((res: User) => {
 	       expect(authService.isLoggedIn).toBe(true);
 	   });
        })
       );
 
 
-    it('must not be connected after bad username',
+    it('must not be connected after bad email',
        inject([AuthService, MockBackend], (authService: AuthService, backend: MockBackend) => {
-	   backend.connections.subscribe((c: MockConnection) => c.mockRespond(this.baseResponseBadUsername));
+	   backend.connections.subscribe((c: MockConnection) => c.mockRespond(this.baseResponseBadEmail));
 
-	   authService.login(this.username, this.pwd).subscribe((res: User) => {
+	   authService.login(this.email, this.pwd).subscribe((res: User) => {
 	       expect(authService.isLoggedIn).toBe(false);
 	   });
        })
@@ -119,7 +118,7 @@ describe('AuthService', () => {
        inject([AuthService, MockBackend], (authService: AuthService, backend: MockBackend) => {
 	   backend.connections.subscribe((c: MockConnection) => c.mockRespond(this.baseResponseBadPassword));
 
-	   authService.login(this.username, this.pwd).subscribe((res: User) => {
+	   authService.login(this.email, this.pwd).subscribe((res: User) => {
 	       expect(authService.isLoggedIn).toBe(false);
 	   });
        })

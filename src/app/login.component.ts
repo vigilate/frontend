@@ -13,7 +13,7 @@ import { AlertComponent } from 'ng2-bootstrap/components/alert';
 export class LoginComponent {
 
     user: User = null;
-    username = "";
+    email = "";
     password = "";
     public alerts:Array<Object> = []
     loadingLogin = false;
@@ -24,7 +24,7 @@ export class LoginComponent {
     onSubmitLogin() {
 
 	this.loadingLogin = true;
-	this.authService.login(this.username, this.password)
+	this.authService.login(this.email, this.password)
             .subscribe(
                 user => {this.user = user;
 			 console.log(this.user)
@@ -41,12 +41,12 @@ export class LoginComponent {
     onSubmitSignin() {
 
 	this.loadingSignin = true;
-	this.authService.signin(this.username, this.password)
+	this.authService.signin(this.email, this.password)
             .subscribe(
                 user => {this.user = user;
 			 console.log(this.user)
 			 this.loadingSignin = false;
-			 this.alerts.push({msg: "User " + user.username + " created", type: 'success'});
+			 this.alerts.push({msg: "User " + user.email + " created", type: 'success'});
 			},
                 error =>  {
 		    console.error(error);
