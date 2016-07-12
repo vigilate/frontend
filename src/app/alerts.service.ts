@@ -41,6 +41,10 @@ export class AlertsService {
 	headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth()); 
 	return this.http.get(this.backend.getHost() + this.url + id + "/", new RequestOptions({ headers: headers }))
 	    .map((data) => data.json()).catch(this.httpServiceError.handleError)
+		}
+
+    discardCache() {
+	this.alertsListObservable = null;
     }
 
 }

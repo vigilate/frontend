@@ -13,6 +13,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { AppComponent } from './app.component';
 import { AuthService } from './auth.service'
+import { AlertsService } from './alerts.service';
 import { ProgramsService } from './programs.service'
 import { HttpServiceError } from './http-service-error.class'
 import { Backend } from './backend.class'
@@ -22,6 +23,7 @@ beforeEachProviders(() => [
     AuthService,
     HttpServiceError,
     ProgramsService,
+    AlertsService,
     BaseRequestOptions,
     MockBackend,
     Backend,
