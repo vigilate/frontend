@@ -4,6 +4,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { User } from './user.model';
 import { AuthService } from './auth.service';
+import { AlertsService } from './alerts.service';
 import { HttpServiceError } from './http-service-error.class'
 import { Backend } from './backend.class'
 
@@ -15,7 +16,8 @@ export class ProgramsService {
     constructor (private http: Http,
 		 private authService: AuthService,
 		 private httpServiceError: HttpServiceError,
-		 private backend: Backend
+		 private backend: Backend,
+		 private alertsService: AlertsService
 		) {}
 
     private url = "/uprog/";
@@ -46,6 +48,7 @@ export class ProgramsService {
 	var headers = new Headers();
 	var body = JSON.stringify(obj);
 
+	this.discardCache();
 	headers.append('Content-Type', 'application/json');
 	headers.append('Accept', 'application/json');
 	headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth());
@@ -58,6 +61,7 @@ export class ProgramsService {
 	var headers = new Headers();
 	var body = JSON.stringify(obj);
 
+	this.discardCache();
 	headers.append('Content-Type', 'application/json');
 	headers.append('Accept', 'application/json');
 	headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth());
@@ -68,6 +72,8 @@ export class ProgramsService {
 
     deleteProgram(id): Observable<any> {
 	var headers = new Headers();
+
+	this.discardCache();
 	headers.append('Content-Type', 'application/json');
 	headers.append('Accept', 'application/json');
 	headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth());
@@ -78,5 +84,10 @@ export class ProgramsService {
 		return data;
 	    })
 	    .catch(this.httpServiceError.handleError)
-	}
+		}
+
+    discardCache() {
+	this.programListObservable = null;
+	this.alertsService.discardCache();
+    }
 }
