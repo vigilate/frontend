@@ -1,0 +1,31 @@
+<div class="medium-8 medium-offset-2 columns">
+  Download the scanner for a new station:
+  <form>
+    <div class="row">
+      <label attr.for="input-name" class="small-3 medium-2 columns inline">
+	Station name
+      </label>
+      <div class="small-9 medium-10 columns">
+	<input [(ngModel)]="new_station_name" id="input-name" type="text"/>
+      </div>
+    </div>
+    <button class="button small right" (click)="onSubmit()">Download scanner</button>
+  </form>
+    <table>
+      <thead>
+	<tr>
+	  <th width="200">Id</th>
+	  <th width="100">Name</th>
+	  <th width="100">Delete</th>
+	</tr>
+      </thead>
+      <tbody>
+	<tr *ngFor="let station of stations | paginate: { itemsPerPage: 50, currentPage: p }">
+	  <td (click)="onClick(station.id)">{{station.id}}</td>
+	  <td (click)="onClick(station.id)">{{station.name}}</td>
+	  <td class="right"> <button class="button alert tiny" (click)="onClickDelete(station.id)">Delete</button></td>
+	</tr>
+      </tbody>
+    </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
