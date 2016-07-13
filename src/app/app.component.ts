@@ -20,7 +20,8 @@ export class AppComponent {
     routes = [
 	{name: "Dasboard", path: "/dashboard", active: false},
 	{name: "Programs", path: "/programs", active: false},
-	{name: "Alerts", path: "/alerts", active: false}
+	{name: "Alerts", path: "/alerts", active: false},
+	{name: "Settings", path: "/settings", active: false}
     ]
     
     constructor (private authService: AuthService, private programsService: ProgramsService) {}
