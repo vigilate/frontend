@@ -5,11 +5,11 @@ import { AuthService } from './auth.service';
 import { UserService } from './user.service';
 
 @Component({
-    selector: 'dasboard',
-    templateUrl: 'app/dashboard.component.html',
+    selector: 'settings',
+    templateUrl: 'app/settings.component.html',
 })
 
-export class DashboardComponent {
+export class SettingsComponent {
 
     
     constructor (private authService: AuthService,
@@ -17,9 +17,11 @@ export class DashboardComponent {
 		 private router: Router
 		){}
 
-    logout() {
-	this.authService.logout();
-	this.router.navigate(['/login']);
+    deleteAccount() {
+	this.userService.deleteAccount().subscribe(() => {
+	    this.authService.logout();
+	    this.router.navigate(['/login']);
+	});
     }
 
 }
