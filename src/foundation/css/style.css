@@ -139,3 +139,7 @@ h2 {
 .color_grey {
 	color: #222222;
 }
+
+.clickable {
+	cursor: pointer;
+}

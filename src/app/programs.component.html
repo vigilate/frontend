@@ -7,16 +7,18 @@
             <tr>
               <th width="200">Name</th>
               <th width="1200">Version</th>
-              <th width="100">Delete</th>
+              <th width="50">Edit</th>
+              <th width="50">Delete</th>
               <!--<th width="50">Edit</th>
               <th width="70">Tracked</th>-->
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let prog of progs | paginate: { itemsPerPage: 100, currentPage: p } ; let i = index">
-              <td (click)="onClick(prog.id)">{{prog.program_name}}</td>
-              <td (click)="onClick(prog.id)">{{prog.program_version}}</td>
-              <td class="right"> <button class="button alert tiny" (click)="onClickDelete(prog.id, i)" >Delete</button></td>
+              <td class="clickable" (click)="onClick(prog.id)">{{prog.program_name}}</td>
+              <td class="clickable" (click)="onClick(prog.id)">{{prog.program_version}}</td>
+              <td> <button class="button tiny" (click)="onClick(prog.id)">Edit</button></td>
+              <td class="right"> <button class="button alert tiny" (click)="onClickDelete(prog.id, i)">Delete</button></td>
               <!--<td>Django</td>
               <td>1.9</td>
               <td><a href="">Editer</a></td>
