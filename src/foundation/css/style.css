@@ -136,6 +136,10 @@ h2 {
 	font-size: 1.2em;
 }
 
+h3 {
+	font-size: 1.1em;
+}
+
 .color_grey {
 	color: #222222;
 }
@@ -143,3 +147,11 @@ h2 {
 .clickable {
 	cursor: pointer;
 }
+ .blue-label {
+ 	font-weight: bold;
+ 	color: #1bbab9;
+ }
+
+ .blue {
+ 	color: #1bbab9;
+ }
