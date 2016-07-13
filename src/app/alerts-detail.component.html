@@ -33,7 +33,22 @@
 	  <tr *ngIf="cve.cvss != ''"><th>Classification</th></tr>
 	  <tr *ngFor="let part of cve.cvss.split('/')"><td><span [outerHTML]="part | cvss"></span></td></tr>
 	  
-	  
+	</table>
+
+	References
+	<table>
+	  <thead>
+	    <th>Source</th>
+	    <th>Link</th>
+	    <th>Value</th>
+	  </thead>
+	  <tbody>
+	    <tr *ngFor="let ref of cve.reference_set">
+	      <td>{{ref.source}}</td>
+	      <td><a href="{{ref.href}}">{{ref.href}}</a></td>
+	      <td>{{ref.value}}</td>
+	    </tr>
+	  <tbody>
 	</table>
 	
 	<div *ngIf="cve.cvss">
