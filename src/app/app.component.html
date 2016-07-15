@@ -1,29 +1,3 @@
-<!--<nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Vigilate</a>
-    </div>
-    <div id="navbar" class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-	<template [ngIf]="authService.isLoggedIn">
-	  <li *ngFor="let r of routes"  ><a [routerLink]="[r.path]">{{r.name}}</a></li>
-	</template>
-      </ul>
-    </div>
-  </div>
-</nav>
-<div id="content">
-  <router-outlet></router-outlet>
-</div>-->
-
-<!-- FOUNDATION VERSION -->
-
 <div id="menu" class="row">
       <div class="medium-2 columns" id="logo">
         <img src="foundation/img/vigilate_logo.png">
@@ -39,26 +13,6 @@
           
         </div>
       </template>
-      <!--<div class="medium-2 columns item_menu">
-        <i class="fi-home"></i>
-        <span>Home</span>
-      </div>
-      <div class="medium-2 columns item_menu">
-        <i class="fi-torso"></i>
-        <span>Profile</span>
-      </div>
-      <div class="medium-2 columns item_menu">
-        <i class="fi-wrench"></i>
-        <span>Tools</span>
-      </div>
-      <div class="medium-2 columns item_menu">
-        <i class="fi-pricetag-multiple"></i>
-        <span>Pricing</span>
-      </div>
-      <div class="medium-2 columns item_menu">
-        <i class="fi-widget"></i>
-        <span>Settings</span>
-      </div>-->
 </div>
 <div id="content">
   <router-outlet></router-outlet>
