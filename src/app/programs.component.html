@@ -9,8 +9,6 @@
               <th width="1200">Version</th>
               <th width="50">Edit</th>
               <th width="50">Delete</th>
-              <!--<th width="50">Edit</th>
-              <th width="70">Tracked</th>-->
             </tr>
           </thead>
           <tbody>
@@ -19,17 +17,6 @@
               <td class="clickable" (click)="onClick(prog.id)">{{prog.program_version}}</td>
               <td> <button class="button tiny" (click)="onClick(prog.id)">Edit</button></td>
               <td class="right"> <button class="button alert tiny" (click)="onClickDelete(prog.id, i)">Delete</button></td>
-              <!--<td>Django</td>
-              <td>1.9</td>
-              <td><a href="">Editer</a></td>
-              <td class="">
-                <div class="switch tiny">
-                  <input class="switch-input" id="tinySwitch1" type="checkbox" name="switch1" checked>
-                  <label class="switch-paddle" for="tinySwitch1">
-                    <span class="show-for-sr">Tiny Sandwiches Enabled</span>
-                  </label>
-                </div>
-              </td>-->
             </tr>
           </tbody>
         </table>
