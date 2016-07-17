@@ -11,6 +11,8 @@ import { UserService } from './user.service';
 import { HttpServiceError } from './http-service-error.class'
 import { AlertsService } from './alerts.service';
 import { AlertsComponent } from './alerts.component';
+import { ToolsComponent } from './tools.component';
+import { SettingsComponent } from './settings.component';
 import { AlertsDetailComponent } from './alerts-detail.component';
 import { Backend } from './backend.class'
 
@@ -23,7 +25,9 @@ export const routes: RouterConfig = [
     { path: '/programs', component: ProgramsComponent, canActivate: [AuthGuard] },
     { path: '/programs/:id', component: ProgramsDetailComponent, canActivate: [AuthGuard] },
     { path: '/alerts', component: AlertsComponent, canActivate: [AuthGuard] },
-    { path: '/alerts/:id', component: AlertsDetailComponent, canActivate: [AuthGuard] }
+    { path: '/alerts/:id', component: AlertsDetailComponent, canActivate: [AuthGuard] },
+    { path: '/settings', component: SettingsComponent, canActivate: [AuthGuard] },
+    { path: '/tools', component: ToolsComponent, canActivate: [AuthGuard] }
 ];
 
 export const APP_ROUTER_PROVIDERS = [
