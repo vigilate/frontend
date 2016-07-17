@@ -3,18 +3,21 @@
         <h1><i class="fi-target"></i> Manage softwares</h1>
         <br>
         <table id="softwares">
-          <thead >
+          <thead>
             <tr>
               <th width="200">Name</th>
-              <th width="1200">Version</th>
-              <th width="50">Edit</th>
-              <th width="50">Delete</th>
+              <th width="800">Version</th>
+              <th width="200" class="text-center">Vulnerable</th>
+              <th width="50" class="text-center">Edit</th>
+              <th width="50" class="text-center">Delete</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let prog of progs | paginate: { itemsPerPage: 100, currentPage: p } ; let i = index">
               <td class="clickable" (click)="onClick(prog.id)">{{prog.program_name}}</td>
               <td class="clickable" (click)="onClick(prog.id)">{{prog.program_version}}</td>
+              <td *ngIf="prog.is_vulnerable" class="text-center red"><i class="fi-alert big-icon"></i> Learn more</td>
+              <td *ngIf="!prog.is_vulnerable"></td>
               <td> <button class="button tiny" (click)="onClick(prog.id)">Edit</button></td>
               <td class="right"> <button class="button alert tiny" (click)="onClickDelete(prog.id, i)">Delete</button></td>
             </tr>
