@@ -1,39 +1,45 @@
 <div id="content" class="row">
   <div class="small-12 medium-8 medium-offset-2 columns">
     <div *ngIf="alerts_obj">
-      <h1>Program name: {{alerts_obj.program.program_name}}</h1>
-      <h2>Program version: {{alerts_obj.program.program_version}}</h2>
+      <h1><i class="fi-target blue"></i> Program name: {{alerts_obj.program.program_name}}</h1>
+      <h2 class="subheader">Program version: {{alerts_obj.program.program_version}}</h2>
       
       
       
       <div *ngFor="let cve of alerts_obj.cve">
-	<hr />
-	<table>
-	  <tr><th>CVEID</th></tr>
-	  <tr><td>{{cve.cveid}}</td></tr>
-	  
-	  <tr><th>Update date</th></tr>
-	  <tr><td>{{cve.modified_date}}</td></tr>
-	  
-	  <tr><th>Score</th></tr>
-	  <tr><td>{{cve.cvss_score}}</td></tr>
-	  
-	  <tr><th>Summary</th></tr>
-	  <tr><td>{{cve.summary}}</td></tr>
+		<hr/>
+		<table>
+			<tr>
+				<td class="blue-label">CVEID</td>
+				<td>{{cve.cveid}}</td>
+			</tr>
+			<tr>
+				<td class="blue-label">Update date</td>
+				<td>{{cve.modified_date}}</td>
+			</tr>
+			<tr>
+				<td class="blue-label">Score</td>
+				<td>{{cve.cvss_score}}</td>
+			</tr>
+		</table>
+		<hr/>
 
-	  <tr *ngIf="cve.cwe && cve.cwe.title"><th>Weakness Title</th></tr>
-	  <tr *ngIf="cve.cwe && cve.cwe.title"><td>{{cve.cwe.title}}</td></tr>
+		<h3 class="subheader">Summary</h3>
+		<p>{{cve.summary}}</p>
 
-	  <tr *ngIf="cve.cwe && cve.cwe.summary"><th>Weakness Summary</th></tr>
-	  <tr *ngIf="cve.cwe && cve.cwe.summary"><td>{{cve.cwe.summary}}</td></tr>
+		<h3 *ngIf="cve.cwe && cve.cwe.title" class="subheader">Weakness Title</h3>
+		<p *ngIf="cve.cwe && cve.cwe.title">{{cve.cwe.title}}</p>
 
-	  <tr *ngIf="cve.cwe && cve.cwe.description"><th>Weakness Description</th></tr>
-	  <tr *ngIf="cve.cwe && cve.cwe.description"><td>{{cve.cwe.description}}</td></tr>
+		<h3 *ngIf="cve.cwe && cve.cwe.summary" class="subheader">Weakness Summary</h3>
+		<p *ngIf="cve.cwe && cve.cwe.summary">{{cve.cwe.summary}}</p>
 
-	  <tr *ngIf="cve.cvss != ''"><th>Classification</th></tr>
-	  <tr *ngFor="let part of cve.cvss.split('/')"><td><span [outerHTML]="part | cvss"></span></td></tr>
-	  
-	</table>
+		<h3 *ngIf="cve.cwe && cve.cwe.description" class="subheader">Weakness Description</h3>
+		<p *ngIf="cve.cwe && cve.cwe.description">{{cve.cwe.description}}</p>
+
+		<h3 *ngIf="cve.cvss != ''" class="subheader">Classification</h3>
+		<ul>
+			<li *ngFor="let part of cve.cvss.split('/')"><span [outerHTML]="part | cvss"></span></li>
+		</ul>
 
 	References
 	<table>
