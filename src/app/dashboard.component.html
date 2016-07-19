@@ -1,5 +1,29 @@
-<div class="medium-8 medium-offset-2 columns">
-  <h1>Dashboard</h1>
-  Loged as {{ authService.user[0].email }}<br />
-  <button class="button" (click)="logout()">Logout</button>
+<div class="small-12 medium-6 medium-offset-3 columns">
+	<h1><i class="fi-target blue"></i> Dashboard</h1>
+	<h3 class="subheader">Logged as {{ authService.user[0].email }}</h3>
+	<div class="row" id="dashboard-stats">
+		<div class="small-12 medium-4 columns">
+			<span>124</span>
+			<div>PROGRAMS</div>
+		</div>
+		<div class="small-12 medium-4 columns">
+			<span>56</span>
+			<div>ALERTS</div>
+		</div>
+		<div class="small-12 medium-4 columns">
+			<span>2</span>
+			<div>STATIONS</div>
+		</div>
+	</div>
+	<div class="row" id="dashboard-info">
+		<div class="small-12 medium-6 columns">
+			<span>Last password change : 15-07-2016</span>
+		</div>
+		<div class="small-12 medium-6 columns">
+			<span>Last connection IP : 5.50.96.22</span>
+		</div>
+	</div>
 </div>
+<br/>
+<button class="button right" (click)="logout()">Logout</button>
+
