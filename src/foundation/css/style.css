@@ -132,13 +132,13 @@
 /* DASHBOARD */
 
 #dashboard-stats div {
-	margin-top: 100px;
+	margin-top: 20px;
 	color: #3e4d60;
 }
 
 #dashboard-stats .columns {
 	text-align: center;
-	margin-top: 50px;
+	margin-top: 100px;
 }
 
 #dashboard-stats span {
