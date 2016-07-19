@@ -10,14 +10,15 @@
   	       <input [(ngModel)]="new_station_name" id="input-name" type="text"/>
         </div>
       </div>
-      <button class="button small right" (click)="onSubmit()">Download scanner</button>
+      <button class="button small right">Add station</button>
     </form>
     <hr/>
     <table>
       <thead>
       	<tr>
       	  <th width="50">Id</th>
-      	  <th width="1200">Name</th>
+      	  <th width="1100">Name</th>
+          <td width="200" class="text-center">Download scanner</td>
       	  <th width="100" class="text-center">Delete</th>
       	</tr>
       </thead>
@@ -25,7 +26,8 @@
       	<tr *ngFor="let station of stations | paginate: { itemsPerPage: 50, currentPage: p }">
       	  <td (click)="onClick(station.id)">{{station.id}}</td>
       	  <td (click)="onClick(station.id)">{{station.name}}</td>
-      	  <td class="right"> <button class="button alert tiny" (click)="onClickDelete(station.id)">Delete</button></td>
+          <td class="text-center"> <button class="button tiny">Download scanner</button></td>
+      	  <td class="text-center right"> <button class="button alert tiny" (click)="onClickDelete(station.id)">Delete</button></td>
       	</tr>
       </tbody>
     </table>
