@@ -147,19 +147,25 @@ h3 {
 .clickable {
 	cursor: pointer;
 }
- .blue-label {
+.blue-label {
  	font-weight: bold;
  	color: #1bbab9;
- }
+}
 
- .blue {
+.blue {
  	color: #1bbab9;
- }
+}
 
 .red {
 	color: #c60f13;
 }
 
- .big-icon {
+.big-icon {
  	font-size: 1.5em;
- }
+}
+
+.back-button {
+	bottom: 20px;
+	right: 0px;
+	position: fixed;
+}
