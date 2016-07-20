@@ -10,6 +10,21 @@
 		      <input (input)="onChange(program_parm.key, $event)" value="{{program_obj[program_parm.key]}}" id="input-{{ program_parm.key }}" type="text"  [readonly]="program_parm.readonly" />
 		    </div>
 		  </div>
+
+		  <div class="row">
+		  	<hr/><br/>
+		  	<div class="small-12 medium-3 columns inline">
+				<input id="checkbox" type="checkbox" checked><label for="checkbox">Use default alert value</label>
+		  	</div>
+		  </div>
+		  <div class="row">
+	        <label class="small-3 medium-2 columns inline">
+		      Score
+		    </label>
+		    <div class="small-9 medium-10 columns">
+		      <input type="text" />
+		    </div>
+		  </div>
 		  <button *ngIf="have_changes" class="button small right" (click)="onSubmit()">Submit</button>
 		</form>
 		<alert *ngFor="let alert of alerts" [type]="alert.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
