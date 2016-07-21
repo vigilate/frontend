@@ -22,7 +22,12 @@ export class ToolsComponent implements OnInit {
 		){}
 
     ngOnInit() {
-	this.stationsService.getStationsList()
+	this.reloadList();
+
+    }
+
+    reloadList() {
+    this.stationsService.getStationsList()
             .subscribe(
                 stations => {
 		    this.stations = stations;
@@ -30,16 +35,33 @@ export class ToolsComponent implements OnInit {
                 error =>  {
 		    console.log(error);
 		});
-
     }
-
+    
     onClick(id) {
     }
 
     onDelete(id) {
+	this.stationsService.deleteStation(id)
+            .subscribe(
+                stations => {
+		    this.stationsService.discardCache();
+		    this.reloadList();
+		},
+                error =>  {
+		    console.log(error);
+		});
     }
 
-    onSubmit() {
+    onAddStation() {
+	this.stationsService.createStation(this.new_station_name)
+            .subscribe(
+                stations => {
+		    this.stationsService.discardCache();
+		    this.reloadList();
+		},
+                error =>  {
+		    console.log(error);
+		});
     }
 
 }
