@@ -10,6 +10,7 @@ import { ProgramsService } from './programs.service';
 import { UserService } from './user.service';
 import { HttpServiceError } from './http-service-error.class'
 import { AlertsService } from './alerts.service';
+import { StorageService } from './storage.service';
 import { AlertsComponent } from './alerts.component';
 import { ToolsComponent } from './tools.component';
 import { SettingsComponent } from './settings.component';
@@ -32,5 +33,5 @@ export const routes: RouterConfig = [
 
 export const APP_ROUTER_PROVIDERS = [
     provideRouter(routes),
-    [AuthGuard, AuthService, ProgramsService, UserService, HttpServiceError, Backend, AlertsService]
+    [AuthGuard, AuthService, ProgramsService, UserService, HttpServiceError, Backend, AlertsService, StorageService]
 ];

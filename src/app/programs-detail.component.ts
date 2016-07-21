@@ -93,4 +93,8 @@ export class ProgramsDetailComponent implements OnInit {
 	    );
 	}
     }
+
+    onGoBackList() {
+	this.router.navigate(['/programs']);
+    }
 }

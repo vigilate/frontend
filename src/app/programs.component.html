@@ -25,6 +25,6 @@
         </table>
         <button class="hollow small button right" (click)="onNewProgram()">New program</button>
         <alert *ngFor="let alert of alerts" [type]="alert.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
-	<pagination-controls (pageChange)="p = $event"></pagination-controls>
+	<pagination-controls #pagination (pageChange)="p = $event;onPageChange(p)"></pagination-controls>
       </div>
     </div>

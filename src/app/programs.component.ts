@@ -4,7 +4,8 @@ import { User } from './user.model';
 import { AuthService } from './auth.service';
 import { ProgramsService } from './programs.service';
 import { AlertComponent } from 'ng2-bootstrap/components/alert';
-import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination/dist/ng2-pagination';
+import { PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination/dist/ng2-pagination';
+import { StorageService } from './storage.service'
 
 @Component({
     selector: 'programs',
@@ -18,12 +19,15 @@ export class ProgramsComponent implements OnInit {
 
     alerts:Array<Object> = []
     progs = []
+    p = 0;
     
     constructor (private authService: AuthService,
 		 private programsService: ProgramsService,
-		 private router: Router){}
+		 private router: Router,
+		 private storageService: StorageService){}
 
     ngOnInit() {
+	this.p = this.storageService.get("ProgramsComponent", "page", 1);
 	this.programsService.getProgramsList()
             .subscribe(
                 programs => {
@@ -53,5 +57,9 @@ export class ProgramsComponent implements OnInit {
 
     onNewProgram() {
 	this.router.navigate(['/programs', "new"]);
+    }
+
+    onPageChange(page) {
+	this.storageService.store("ProgramsComponent", "page", page);
     }
 }
