@@ -32,4 +32,8 @@ export class AlertsDetailComponent implements OnInit {
 	    });
 	});
     }
+
+    onGoBackList() {
+	this.router.navigate(['/alerts']);
+    }
 }
