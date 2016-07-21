@@ -18,7 +18,6 @@ export class ProgramsDetailComponent implements OnInit {
     alerts:Array<Object> = []
     have_changes = false;
     program_params = [
-	{name: "Id", key: "id", readonly:true},
 	{name: "Name", key: "program_name"},
 	{name: "Version", key: "program_version"},
 	{name: "Score", key: "minimum_score"},
