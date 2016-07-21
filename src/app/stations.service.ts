@@ -33,6 +33,29 @@ export class StationsService {
 		return this.stationsListObservable;
     }
 
+
+    createStation(name): Observable<any> {
+	var headers = new Headers();
+	var body = JSON.stringify({ name:name, user:this.authService.user[0].id });
+	headers.append('Content-Type', 'application/json');
+	headers.append('Accept', 'application/json');
+	headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth());
+
+	return this.http.post(this.backend.getHost() + this.url, body, new RequestOptions({ headers: headers }))
+	    .map((data) => data.json()).catch(this.httpServiceError.handleError)
+		}
+
+
+    deleteStation(id): Observable<any> {
+	var headers = new Headers();
+	headers.append('Content-Type', 'application/json');
+	headers.append('Accept', 'application/json');
+	headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth());
+	return this.http.delete(this.backend.getHost() + this.url + id + "/", new RequestOptions({ headers: headers }))
+	    .map((data) => data.json()).catch(this.httpServiceError.handleError)
+		}
+
+
     discardCache() {
 	this.stationsListObservable = null;
     }
