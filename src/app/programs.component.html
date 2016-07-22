@@ -16,7 +16,7 @@
             <tr *ngFor="let prog of progs | paginate: { itemsPerPage: 100, currentPage: p } ; let i = index">
               <td class="clickable" (click)="onClick(prog.id)">{{prog.program_name}}</td>
               <td class="clickable" (click)="onClick(prog.id)">{{prog.program_version}}</td>
-              <td *ngIf="prog.is_vulnerable" class="text-center red clickable"><i class="fi-alert big-icon"></i> Learn more <span class="red-badge">3</span></td>
+              <td *ngIf="prog.is_vulnerable" class="text-center red clickable"><i class="fi-alert big-icon"></i> Learn more</td>
               <td *ngIf="!prog.is_vulnerable"></td>
               <td> <button class="button tiny" (click)="onClick(prog.id)">Edit</button></td>
               <td class="right"> <button class="button alert tiny" (click)="onClickDelete(prog.id, i)">Delete</button></td>

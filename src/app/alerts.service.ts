@@ -21,7 +21,6 @@ export class AlertsService {
     private url = "/alerts/";
     
     getAlertsList(): Observable<any> {
-	console.log(this.alertsListObservable);
 	if (this.alertsListObservable === null) {
 	    var headers = new Headers();
 	    headers.append('Content-Type', 'application/json');
@@ -33,6 +32,30 @@ export class AlertsService {
 		    }
 		return this.alertsListObservable;
     }
+
+
+    markRead(id): Observable<any> {
+
+	    var headers = new Headers();
+	    headers.append('Content-Type', 'application/json');
+	    headers.append('Accept', 'application/json');
+	    headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth());
+
+	return this.alertsListObservable = this.http.get(this.backend.getHost() + this.url + id + "/mark_read/", new RequestOptions({ headers: headers })).cache()
+		.catch(this.httpServiceError.handleError)
+		    }
+
+    markUnread(id): Observable<any> {
+
+	    var headers = new Headers();
+	    headers.append('Content-Type', 'application/json');
+	    headers.append('Accept', 'application/json');
+	    headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth());
+
+	return this.alertsListObservable = this.http.get(this.backend.getHost() + this.url + id + "/mark_unread/", new RequestOptions({ headers: headers })).cache()
+		.catch(this.httpServiceError.handleError)
+    }
+
 
     getAlertsDetail(id): Observable<any> {
 	var headers = new Headers();
@@ -46,5 +69,6 @@ export class AlertsService {
     discardCache() {
 	this.alertsListObservable = null;
     }
+
 
 }

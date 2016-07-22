@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { User } from './user.model';
+import { BackgroundService } from './background.service';
 import { AlertComponent } from 'ng2-bootstrap/components/alert';
 
 @Component({
@@ -19,7 +20,9 @@ export class LoginComponent {
     loadingLogin = false;
     loadingSignin = false;
 
-    constructor (private authService: AuthService, private router: Router) {}
+    constructor (private authService: AuthService,
+		 private router: Router,
+		 private backgroundService: BackgroundService) {}
     
     onSubmitLogin() {
 
@@ -29,6 +32,7 @@ export class LoginComponent {
                 user => {this.user = user;
 			 console.log(this.user)
 			 this.loadingLogin = false;
+			 this.backgroundService.init()
 			 this.router.navigate(['/dashboard']);
 			},
                 error =>  {
