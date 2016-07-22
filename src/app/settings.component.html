@@ -1,42 +1,15 @@
 <div class="medium-8 medium-offset-2 columns">
 	<h1><i class="fi-target"></i> Settings</h1><br/>
 	<form>
-		<h2 class="subheader">Change email address</h2>
-		<div class="row">
-		    <label class="small-3 medium-2 columns inline">
-		      New email address
-		    </label>
-		    <div class="small-9 medium-10 columns">
-		      <input type="email"/>
-		    </div>
-		</div>
-		<div class="row">
-		    <label class="small-3 medium-2 columns inline">
-		      Confirm new email address
-		    </label>
-		    <div class="small-9 medium-10 columns">
-		      <input type="email"/>
-		    </div>
-		</div>
-		<br/>
 		<h2 class="subheader">Change phone number</h2>
 		<div class="row">
 		    <label class="small-3 medium-2 columns inline">
 		      New phone number
 		    </label>
 		    <div class="small-9 medium-10 columns">
-		      <input type="tel"/>
+		      <input [(ngModel)]="phone_number" type="tel"/>
 		    </div>
 		</div>
-		<div class="row">
-		    <label class="small-3 medium-2 columns inline">
-		      Confirm new phone number
-		    </label>
-		    <div class="small-9 medium-10 columns">
-		      <input type="tel"/>
-		    </div>
-		</div>
-		<br/>
 		<h2 class="subheader">Change password</h2>
 		<div class="row">
 		    <label class="small-3 medium-2 columns inline">
@@ -54,7 +27,7 @@
 		      <input type="password"/>
 		    </div>
 		</div><br/>
-		<button class="button">Submit</button>
+		<button (click)="onClickSubmit()" class="button">Submit</button>
 	</form><br/>
 	<hr/>
 	<button class="button alert" (click)="deleteAccount()">Delete account</button>
