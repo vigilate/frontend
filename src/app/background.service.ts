@@ -7,13 +7,20 @@ import { AuthService } from './auth.service';
 import { HttpServiceError } from './http-service-error.class'
 import { Backend } from './backend.class'
 import { AlertsService } from './alerts.service';
+import { ProgramsService } from './programs.service';
+import { StationsService } from './stations.service';
 
 @Injectable()
 export class BackgroundService {
 
     @Output() cntAlertChange = new EventEmitter();
+    @Output() cntTotalAlert = new EventEmitter();
+    @Output() cntTotalProg = new EventEmitter();
+    @Output() cntTotalStation = new EventEmitter();
     
-    constructor (private alertsService: AlertsService) {}
+    constructor (private alertsService: AlertsService,
+		 private programsService: ProgramsService,
+		private stationsService: StationsService) {}
 
     init() {
 	this.get_number_list();
@@ -29,6 +36,25 @@ export class BackgroundService {
 			    cnt++;
 		    }
 		    this.cntAlertChange.emit(cnt);
+		    this.cntTotalAlert.emit(alerts.length);
+		    },
+                error =>  {
+		    console.log(error);
+		});
+
+	this.programsService.getProgramsList()
+            .subscribe(
+                progs => {
+		    this.cntTotalProg.emit(progs.length);
+		    },
+                error =>  {
+		    console.log(error);
+		});
+
+	this.stationsService.getStationsList()
+            .subscribe(
+                stations => {
+		    this.cntTotalStation.emit(stations.length);
 		    },
                 error =>  {
 		    console.log(error);
