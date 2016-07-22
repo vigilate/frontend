@@ -12,8 +12,11 @@ export class CvssPipe implements PipeTransform {
 	"availability-impact": "This vulnerability lead to <strong>%s</strong> availability impact."
     }
 
-    transform(cvss_part: string): number {
-	let splited = cvss_part.split(":");
-	return this.CVSS_lvalue[splited[0]].replace("%s", splited[1].replace("NONE", "NO"));
+    transform(cvss_part: string): string {
+	if (cvss_part) {
+	    let splited = cvss_part.split(":");
+	    return this.CVSS_lvalue[splited[0]].replace("%s", splited[1].replace("NONE", "NO"));
+	}
+	return "";
     }
 }
