@@ -14,16 +14,36 @@
 		  <div class="row">
 		  	<hr/><br/>
 		  	<div class="small-12 medium-3 columns inline">
-				<input id="checkbox" type="checkbox" checked><label for="checkbox">Use default alert value</label>
+				<input id="checkbox" type="checkbox" (change)="delayedUpdateHaveChange()" [(ngModel)]="alert_custom.def"><label for="checkbox">Use default alert value</label>
 		  	</div>
 		  </div>
-		  <div class="row">
+		  
+		  <div *ngIf="!alert_custom.def" class="row">   
 	        <label class="small-3 medium-2 columns inline">
-		      Score
+		      Score alert mail
 		    </label>
-		    <div class="small-9 medium-10 columns">
-		      <input type="text" />
+		    <div class="small-9 medium-9 columns">
+		      <input type="text" (input)="updateHaveChange()" [(ngModel)]="alert_custom.mail.score" [disabled]="!alert_custom.mail.activated"/> 
 		    </div>
+		    <input id="checkbox_mail" type="checkbox" (change)="delayedUpdateHaveChange()" [(ngModel)]="alert_custom.mail.activated">
+		  </div>
+		  <div *ngIf="!alert_custom.def" class="row">
+	            <label class="small-3 medium-2 columns inline">
+		      Score alert sms
+		    </label>
+		    <div class="small-9 medium-9 columns">
+		      <input type="text" (input)="updateHaveChange()" [(ngModel)]="alert_custom.sms.score" [disabled]="!alert_custom.sms.activated"/>
+		    </div>
+		    <input id="checkbox_sms" type="checkbox" (change)="delayedUpdateHaveChange()" [(ngModel)]="alert_custom.sms.activated">
+		  </div>
+		  <div *ngIf="!alert_custom.def" class="row">
+	            <label class="small-3 medium-2 columns inline">
+		      Score alert web
+		    </label>
+		    <div class="small-9 medium-9 columns">
+		      <input type="text" (input)="updateHaveChange()" [(ngModel)]="alert_custom.web.score" [disabled]="!alert_custom.web.activated"/>
+		    </div>
+		    <input id="checkbox_web" type="checkbox" (change)="delayedUpdateHaveChange()" [(ngModel)]="alert_custom.web.activated">
 		  </div>
 		  <button *ngIf="have_changes" class="button small right" (click)="onSubmit()">Submit</button>
 		</form>
