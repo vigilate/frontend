@@ -29,6 +29,19 @@ export class UserService {
 		return data;
 	    }).catch(this.httpServiceError.handleError).do((data) => {
 	    })
-    }
+		}
+
+    updatePhoneNumber(phone): Observable<any> {
+	var headers = new Headers();
+	var body = JSON.stringify({"phone": phone});
+
+	headers.append('Content-Type', 'application/json');
+	headers.append('Accept', 'application/json');
+	headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth());
+
+	return this.http.patch(this.backend.getHost() + this.url + this.authService.user[0].id + "/", body, new RequestOptions({ headers: headers }))
+	    .map((data) => data.json()).catch(this.httpServiceError.handleError)
+		}
+
 
 }

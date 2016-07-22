@@ -11,6 +11,7 @@ import { UserService } from './user.service';
 
 export class SettingsComponent {
 
+    phone_number = "";
     
     constructor (private authService: AuthService,
 		 private userService: UserService,
@@ -21,6 +22,12 @@ export class SettingsComponent {
 	this.userService.deleteAccount().subscribe(() => {
 	    this.authService.logout();
 	    this.router.navigate(['/login']);
+	});
+    }
+
+    onClickSubmit() {
+
+	this.userService.updatePhoneNumber(this.phone_number).subscribe(() => {
 	});
     }
 
