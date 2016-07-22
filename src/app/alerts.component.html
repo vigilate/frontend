@@ -7,7 +7,9 @@
 	  <th width="200">Name</th>
 	  <th width="100">Version</th>
 	  <th width="50">Vulnerabilities</th>
-	  <th width="1150">Vulnerability score</th>
+	  <th width="1050">Vulnerability score</th>
+	  <th width="50">Mark as</th>
+	  <th width="50">New</th>
 	</tr>
       </thead>
       <tbody>
@@ -16,6 +18,8 @@
 	  <td (click)="onClick(alert.id)">{{alert.program_info.program_version}}</td>
 	  <td (click)="onClick(alert.id)">{{alert.number_cve}}</td>
 	  <td (click)="onClick(alert.id)"><progress style="width:100%" max="100" value="{{alert.max_cvss*10}}"></progress></td>
+	  <td> <button class="button tiny" (click)="onMark(alert)">{{alert.view ? "Unread" : "Read" }}</button></td>
+	  <td><i *ngIf="!alert.view" class="fi-alert big-icon"></i></td>
 	</tr>
       </tbody>
     </table>

@@ -5,7 +5,7 @@
       <template [ngIf]="authService.isLoggedIn">
         <div *ngFor="let r of routes" class="medium-2 columns item_menu">
           <a [routerLink]="[r.path]">
-            <i class="fi-target"></i><span class="red-badge">3</span>
+            <i class="fi-target"></i><span *ngIf="nb_new_alert && r.path == '/alerts'" class="red-badge">{{nb_new_alert}}</span>
             <span>{{r.name}}</span>
           </a>
         </div>

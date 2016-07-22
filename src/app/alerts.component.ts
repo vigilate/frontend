@@ -27,16 +27,19 @@ export class AlertsComponent implements OnInit {
 		 private storageService: StorageService){}
 
     ngOnInit() {
-	this.p = this.storageService.get("ProgramsComponent", "page", 1);
+	this.p = this.storageService.get("AlertsComponent", "page", 1);
+	this.updateList()
+    }
+
+    updateList() {
 	this.alertsService.getAlertsList()
             .subscribe(
                 alerts => {
 		    this.alerts = alerts;
-			},
+		},
                 error =>  {
 		    console.log(error);
 		});
-
     }
 
     onClick(id) {
@@ -45,6 +48,31 @@ export class AlertsComponent implements OnInit {
 
     onPageChange(page) {
 	this.storageService.store("AlertsComponent", "page", page);
+    }
+
+    onMark(obj) {
+	if (obj.view) {
+	    this.alertsService.markUnread(obj.id)
+		.subscribe(
+                    ret => {
+			this.alertsService.discardCache()
+			this.updateList()
+		    },
+                    error =>  {
+			console.log(error);
+		    });
+	}
+	else {
+	    this.alertsService.markRead(obj.id)
+		.subscribe(
+                    ret => {
+			this.alertsService.discardCache()
+			this.updateList()
+		    },
+                    error =>  {
+			console.log(error);
+		    });
+	}
     }
 
 }
