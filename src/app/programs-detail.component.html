@@ -11,6 +11,21 @@
 		    </div>
 		  </div>
 
+
+		  <div class="row">
+		    <label attr.for="input-poste" class="small-3 medium-2 columns inline">
+		      Station
+		    </label>
+		    <div class="small-9 medium-10 columns">
+		      <select (change)="delayedUpdateHaveChange()" [(ngModel)]="selectedStation">
+			<option *ngFor="let station of stations" value={{station.id}}>
+			  {{station.name}}
+			</option>
+		      </select>
+		      <input *ngIf="selectedStation == -1" type="text" [(ngModel)]="station_new_name" />
+		    </div>
+		  </div>
+
 		  <div class="row">
 		  	<hr/><br/>
 		  	<div class="small-12 medium-3 columns inline">

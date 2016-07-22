@@ -5,7 +5,7 @@ import { User } from './user.model';
 import { AuthService } from './auth.service';
 import { ProgramsService } from './programs.service';
 import { AlertComponent } from 'ng2-bootstrap/components/alert';
-
+import { StationsService } from './stations.service';
 
 @Component({
     selector: 'programs-detail',
@@ -20,11 +20,15 @@ export class ProgramsDetailComponent implements OnInit {
     program_params = [
 	{name: "Name", key: "program_name"},
 	{name: "Version", key: "program_version"},
-	{name: "Poste", key: "poste"}
+	// {name: "Poste", key: "poste"}
     ]
     program_obj_origin;
     program_obj;
     creating_new = false;
+
+    stations = []
+    selectedStation = -1;
+    station_new_name = "";
 
     alert_custom_origin = {
 	def: true,
@@ -38,7 +42,8 @@ export class ProgramsDetailComponent implements OnInit {
     constructor (private authService: AuthService,
 		 private programsService: ProgramsService,
 		 private router: Router,
-		 private route: ActivatedRoute
+		 private route: ActivatedRoute,
+		 private stationsService: StationsService
 		){}
 
     ngOnInit() {
@@ -51,7 +56,10 @@ export class ProgramsDetailComponent implements OnInit {
 		    this.program_obj = program;
 		    this.initAlertCustomFromData(this.program_obj_origin, this.alert_custom_origin);
 		    this.alert_custom = JSON.parse(JSON.stringify(this.alert_custom_origin));
+		    this.selectedStation = this.program_obj["poste"];
 		});
+		this.reloadStations()
+		
 	    }
 	    else {
 		this.creating_new = true;
@@ -59,16 +67,24 @@ export class ProgramsDetailComponent implements OnInit {
 					   "minimum_score":"", "user_id":this.authService.user[0].id,
 					   "alert_type_default": true, "email_score": 0,
 					   "sms_score": 0, "web_score": 0, "email_enabled": true,
-					   "sms_enabled": true, "web_enabled": true
+					   "sms_enabled": true, "web_enabled": true, "poste": 0
 					  };
 		this.program_obj = JSON.parse(JSON.stringify(this.program_obj_origin));
 		this.initAlertCustomFromData(this.program_obj_origin, this.alert_custom_origin);
 		this.alert_custom = JSON.parse(JSON.stringify(this.alert_custom_origin));
+		this.reloadStations()
+		this.selectedStation = -1;
 	    }
 	});
 	
     }
 
+    reloadStations() {
+	this.stationsService.getStationsList().subscribe(stations => {
+	    this.stations = [{"id":-1, "name": "Create new station"}]
+	    this.stations = this.stations.concat(stations)
+	});
+    }
     onChange(key, ev) {
 	this.program_obj[key] = ev.target.value;
 	this.updateHaveChange();
@@ -83,7 +99,8 @@ export class ProgramsDetailComponent implements OnInit {
 	    tmp_changes = tmp_changes || (this.program_obj_origin[k] != this.program_obj[k]);
 	}
 
-	console.log(this.alert_custom_origin.def, this.alert_custom.def)
+	tmp_changes = tmp_changes || (this.program_obj_origin.poste != this.selectedStation)
+
 	tmp_changes = tmp_changes || (this.alert_custom_origin.def != this.alert_custom.def)
 	
 	tmp_changes = tmp_changes || (this.alert_custom_origin.sms.activated != this.alert_custom.sms.activated)
@@ -102,6 +119,22 @@ export class ProgramsDetailComponent implements OnInit {
     }
 
     onSubmit() {
+	if (this.selectedStation == -1)
+	{
+	    this.stationsService.createStation(this.station_new_name).subscribe(
+		station => {
+		    this.stationsService.discardCache()
+		    this.reloadStations()
+		    this.selectedStation = station.id;
+		    this.onSubmit();
+		},
+		error => {
+		    this.alerts.push({msg: error, type: 'danger'});
+		}
+	    );
+	    return
+	}
+	
 	this.program_obj.alert_type_default = this.alert_custom.def;
 	this.program_obj.sms_score = this.alert_custom.sms.score;
 	this.program_obj.email_score = this.alert_custom.mail.score;
@@ -109,6 +142,8 @@ export class ProgramsDetailComponent implements OnInit {
 	this.program_obj.sms_enabled = this.alert_custom.sms.activated;
 	this.program_obj.email_enabled = this.alert_custom.mail.activated;
 	this.program_obj.web_enabled = this.alert_custom.web.activated;
+
+	this.program_obj.poste = this.selectedStation
 	
 	if (this.creating_new)	{
 	    this.programsService.createProgram(this.program_obj).subscribe(
