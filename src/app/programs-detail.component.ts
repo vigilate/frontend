@@ -64,7 +64,7 @@ export class ProgramsDetailComponent implements OnInit {
 	    else {
 		this.creating_new = true;
 		this.program_obj_origin = {"program_name":"", "program_version":"",
-					   "minimum_score":"", "user_id":this.authService.user[0].id,
+					   "minimum_score":"", "user":this.authService.user[0].id,
 					   "alert_type_default": true, "email_score": 0,
 					   "sms_score": 0, "web_score": 0, "email_enabled": true,
 					   "sms_enabled": true, "web_enabled": true, "poste": 0
