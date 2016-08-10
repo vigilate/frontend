@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { ProgramsService } from './programs.service';
 import { BackgroundService } from './background.service';
 import { ROUTER_DIRECTIVES } from '@angular/router';
+import { Backend } from './backend.class'
 
 import './rxjs-operators';
 
@@ -30,12 +31,22 @@ export class AppComponent implements OnInit {
     
     constructor (private authService: AuthService,
 		 private programsService: ProgramsService,
-		 private backgroundService: BackgroundService) {}
+		 private backgroundService: BackgroundService,
+		 private backend: Backend
+		) {}
 
     ngOnInit() {
 	this.backgroundService.cntAlertChange
 	    .subscribe(nb_new_alert => {
 		this.nb_new_alert = nb_new_alert
 	    });
+    }
+
+    onImgClick() {
+	let new_url = prompt("Backend URL:", this.backend.getHost());
+	if (new_url != null && new_url != this.backend.getHost())
+	{
+	    this.backend.setHost(new_url);
+	}
     }
 }
