@@ -1,6 +1,6 @@
 <div id="menu" class="row">
       <div class="medium-2 columns" id="logo">
-        <img src="foundation/img/vigilate_logo.png">
+        <img (click)="onImgClick()" src="foundation/img/vigilate_logo.png">
       </div>
       <template [ngIf]="authService.isLoggedIn">
         <div *ngFor="let r of routes" class="medium-2 columns item_menu">

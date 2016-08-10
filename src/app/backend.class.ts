@@ -5,4 +5,8 @@ export class Backend {
     getHost() {
 	return this.host;
     }
+
+    setHost(host) {
+	this.host = host;
+    }
 }
