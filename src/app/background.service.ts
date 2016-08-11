@@ -9,6 +9,7 @@ import { Backend } from './backend.class'
 import { AlertsService } from './alerts.service';
 import { ProgramsService } from './programs.service';
 import { StationsService } from './stations.service';
+import { UserService } from './user.service';
 
 @Injectable()
 export class BackgroundService {
@@ -20,46 +21,16 @@ export class BackgroundService {
     
     constructor (private alertsService: AlertsService,
 		 private programsService: ProgramsService,
-		private stationsService: StationsService) {}
+		 private stationsService: StationsService,
+		 private userService: UserService) {}
 
     init() {
-	this.get_number_list();
-    }
-
-    get_number_list() {
-	this.alertsService.getAlertsList()
-            .subscribe(
-                alerts => {
-		    let cnt = 0;
-		    for (let i = 0 ; i < alerts.length; i++) {
-			if (!alerts[i].view)
-			    cnt++;
-		    }
-		    this.cntAlertChange.emit(cnt);
-		    this.cntTotalAlert.emit(alerts.length);
-		    },
-                error =>  {
-		    console.log(error);
-		});
-
-	this.programsService.getProgramsList()
-            .subscribe(
-                progs => {
-		    this.cntTotalProg.emit(progs.length);
-		    },
-                error =>  {
-		    console.log(error);
-		});
-
-	this.stationsService.getStationsList()
-            .subscribe(
-                stations => {
-		    this.cntTotalStation.emit(stations.length);
-		    },
-                error =>  {
-		    console.log(error);
-		});
-
-	
+	this.userService.getStats()
+	.subscribe(stats => {
+	    this.cntAlertChange.emit(stats.new_alerts)
+	    this.cntTotalAlert.emit(stats.alerts)
+	    this.cntTotalProg.emit(stats.programs)
+	    this.cntTotalStation.emit(stats.stations)
+	});
     }
 }
