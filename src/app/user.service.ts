@@ -43,5 +43,15 @@ export class UserService {
 	    .map((data) => data.json()).catch(this.httpServiceError.handleError)
 		}
 
+    getStats(): Observable<any> {
+	var headers = new Headers();
+	headers.append('Content-Type', 'application/json');
+	headers.append('Accept', 'application/json');
+	headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth());
+
+	return this.http.get(this.backend.getHost() + this.url + this.authService.user[0].id + "/stats/" , new RequestOptions({ headers: headers }))
+	    .map((data) => data.json()).catch(this.httpServiceError.handleError);
+    }
+
 
 }
