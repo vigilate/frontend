@@ -6,6 +6,7 @@ import { User } from './user.model';
 import { AuthService } from './auth.service';
 import { HttpServiceError } from './http-service-error.class'
 import { Backend } from './backend.class'
+import { ProgramsService } from './programs.service';
 
 @Injectable()
 export class StationsService {
@@ -15,7 +16,8 @@ export class StationsService {
     constructor (private http: Http,
 		 private authService: AuthService,
 		 private httpServiceError: HttpServiceError,
-		 private backend: Backend
+		 private backend: Backend,
+		 private programsService: ProgramsService
 		) {}
 
     private url = "/stations/";
@@ -52,7 +54,7 @@ export class StationsService {
 	headers.append('Accept', 'application/json');
 	headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth());
 	return this.http.delete(this.backend.getHost() + this.url + id + "/", new RequestOptions({ headers: headers }))
-	    .map((data) => data.json()).catch(this.httpServiceError.handleError)
+	    .map((data) => {data.json(); this.programsService.discardCache()}).catch(this.httpServiceError.handleError)
 		}
 
 
