@@ -6,13 +6,13 @@ import { StationsService } from './stations.service';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination/dist/ng2-pagination';
 
 @Component({
-    selector: 'tools',
-    templateUrl: 'app/tools.component.html',
+    selector: 'stations',
+    templateUrl: 'app/stations.component.html',
     pipes: [PaginatePipe],
     providers: [StationsService, PaginationService]
 })
 
-export class ToolsComponent implements OnInit {
+export class StationsComponent implements OnInit {
     stations = []
     new_station_name = "";
     

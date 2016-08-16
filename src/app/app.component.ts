@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
 	{name: "Programs", path: "/programs", active: false},
 	{name: "Alerts", path: "/alerts", active: false},
 	{name: "Settings", path: "/settings", active: false},
-	{name: "Tools", path: "/tools", active: false}
+	{name: "Stations", path: "/stations", active: false}
     ]
     
     constructor (private authService: AuthService,
