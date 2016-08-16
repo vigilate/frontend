@@ -29,6 +29,18 @@ export class AlertsDetailComponent implements OnInit {
 	    let id = +params['id'];
 	    this.alertsService.getAlertsDetail(id).subscribe(program => {
 		this.alerts_obj = JSON.parse(JSON.stringify(program))
+		if (!this.alerts_obj.view) {
+		    this.alertsService.markRead(id)
+			.subscribe(
+			    ret => {
+				this.alertsService.discardCache()
+			    },
+			    error =>  {
+				console.log(error);
+			    });
+		}
+	    
+		    
 	    });
 	});
     }
