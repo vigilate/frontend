@@ -48,4 +48,8 @@ export class AlertsDetailComponent implements OnInit {
     onGoBackList() {
 	this.router.navigate(['/alerts']);
     }
+    
+    onGoProgram() {
+	this.router.navigate(['/programs', this.alerts_obj.program.id]);
+    }
 }

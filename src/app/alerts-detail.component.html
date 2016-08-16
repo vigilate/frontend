@@ -3,6 +3,11 @@
     <div *ngIf="alerts_obj">
       <h1><i class="fi-target blue"></i> Program name: {{alerts_obj.program.program_name}}</h1>
       <h2 class="subheader">Program version: {{alerts_obj.program.program_version}}</h2>
+      <h2 *ngIf="alerts_obj.program.alert_type_default" class="subheader">Default alert type</h2>
+      <h2 *ngIf="!alerts_obj.program.alert_type_default && alerts_obj.program.sms_enabled" class="subheader">Alert by SMS if score over {{alerts_obj.program.sms_score}}</h2>
+      <h2 *ngIf="!alerts_obj.program.alert_type_default && alerts_obj.program.email_enabled" class="subheader">Alert by EMAIL if score over {{alerts_obj.program.email_score}}</h2>
+      <h2 *ngIf="!alerts_obj.program.alert_type_default && alerts_obj.program.web_enabled" class="subheader">Alert by WEB if score over {{alerts_obj.program.web_score}}</h2>
+      <button class="button" (click)="onGoProgram()"><i class="fi-list"></i> Show program detail</button><br />
       
       
       
