@@ -35,7 +35,12 @@ export class AlertsComponent implements OnInit {
 	this.alertsService.getAlertsList()
             .subscribe(
                 alerts => {
+		    for (let i = 0 ; i < alerts.length ; i++)
+		    {
+			alerts[i].loadingMark = false;
+		    }
 		    this.alerts = alerts;
+		    
 		},
                 error =>  {
 		    console.log(error);
@@ -51,14 +56,17 @@ export class AlertsComponent implements OnInit {
     }
 
     onMark(obj) {
+	obj.loadingMark = true;
 	if (obj.view) {
 	    this.alertsService.markUnread(obj.id)
 		.subscribe(
                     ret => {
+			obj.loadingMark = false;
 			this.alertsService.discardCache()
 			this.updateList()
 		    },
                     error =>  {
+			obj.loadingMark = false;
 			console.log(error);
 		    });
 	}
@@ -66,10 +74,12 @@ export class AlertsComponent implements OnInit {
 	    this.alertsService.markRead(obj.id)
 		.subscribe(
                     ret => {
+			obj.loadingMark = false;
 			this.alertsService.discardCache()
 			this.updateList()
 		    },
                     error =>  {
+			obj.loadingMark = false;
 			console.log(error);
 		    });
 	}

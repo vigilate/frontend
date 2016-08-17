@@ -13,6 +13,8 @@ import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagina
 })
 
 export class StationsComponent implements OnInit {
+
+    loadingSubmit = false;
     stations = []
     new_station_name = "";
     
@@ -53,13 +55,16 @@ export class StationsComponent implements OnInit {
     }
 
     onAddStation() {
+	this.loadingSubmit = true;
 	this.stationsService.createStation(this.new_station_name)
             .subscribe(
                 stations => {
+		    this.loadingSubmit = false;
 		    this.stationsService.discardCache();
 		    this.reloadList();
 		},
                 error =>  {
+		    this.loadingSubmit = false;
 		    console.log(error);
 		});
     }

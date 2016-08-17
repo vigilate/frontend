@@ -10,7 +10,10 @@
   	       <input [(ngModel)]="new_station_name" id="input-name" type="text"/>
         </div>
       </div>
-      <button (click)="onAddStation()" class="button small right">Add station</button>
+      <button (click)="onAddStation()" class="button small right">
+	<span *ngIf="!loadingSubmit">Add station</span>
+	<span *ngIf="loadingSubmit">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>
+      </button>
     </form>
     <hr/>
     <table>
