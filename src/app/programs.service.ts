@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, forwardRef } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { AlertsService } from './alerts.service';
 import { HttpServiceError } from './http-service-error.class'
 import { Backend } from './backend.class'
+import { BackgroundService } from './background.service';
 
 @Injectable()
 export class ProgramsService {
@@ -17,7 +18,8 @@ export class ProgramsService {
 		 private authService: AuthService,
 		 private httpServiceError: HttpServiceError,
 		 private backend: Backend,
-		 private alertsService: AlertsService
+		 private alertsService: AlertsService,
+		 @Inject(forwardRef(()  => BackgroundService)) private backgroundService: BackgroundService
 		) {}
 
     private url = "/uprog/";
@@ -89,5 +91,6 @@ export class ProgramsService {
     discardCache() {
 	this.programListObservable = null;
 	this.alertsService.discardCache();
+	this.backgroundService.update();
     }
 }

@@ -3,12 +3,8 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import { User } from './user.model';
-import { AuthService } from './auth.service';
 import { HttpServiceError } from './http-service-error.class'
 import { Backend } from './backend.class'
-import { AlertsService } from './alerts.service';
-import { ProgramsService } from './programs.service';
-import { StationsService } from './stations.service';
 import { UserService } from './user.service';
 
 @Injectable()
@@ -19,18 +15,19 @@ export class BackgroundService {
     @Output() cntTotalProg = new EventEmitter();
     @Output() cntTotalStation = new EventEmitter();
     
-    constructor (private alertsService: AlertsService,
-		 private programsService: ProgramsService,
-		 private stationsService: StationsService,
-		 private userService: UserService) {}
+    constructor (private userService: UserService) {}
 
     init() {
+	this.update();
+    }
+
+    update() {
 	this.userService.getStats()
-	.subscribe(stats => {
-	    this.cntAlertChange.emit(stats.new_alerts)
-	    this.cntTotalAlert.emit(stats.alerts)
-	    this.cntTotalProg.emit(stats.programs)
-	    this.cntTotalStation.emit(stats.stations)
+	    .subscribe(stats => {
+		this.cntAlertChange.emit(stats.new_alerts)
+		this.cntTotalAlert.emit(stats.alerts)
+		this.cntTotalProg.emit(stats.programs)
+		this.cntTotalStation.emit(stats.stations)
 	});
     }
 }
