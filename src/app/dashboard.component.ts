@@ -47,6 +47,7 @@ export class DashboardComponent implements OnInit {
 		this.storageService.store("DashboardComponent", "total_station", nb_total_station);
 	    });
 
+	this.backgroundService.update();
 
     }
     

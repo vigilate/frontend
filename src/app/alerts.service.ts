@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, forwardRef } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
@@ -6,6 +6,7 @@ import { User } from './user.model';
 import { AuthService } from './auth.service';
 import { HttpServiceError } from './http-service-error.class'
 import { Backend } from './backend.class'
+import { BackgroundService } from './background.service';
 
 @Injectable()
 export class AlertsService {
@@ -15,7 +16,8 @@ export class AlertsService {
     constructor (private http: Http,
 		 private authService: AuthService,
 		 private httpServiceError: HttpServiceError,
-		 private backend: Backend
+		 private backend: Backend,
+		 @Inject(forwardRef(()  => BackgroundService)) private backgroundService: BackgroundService
 		) {}
 
     private url = "/alerts/";
@@ -68,6 +70,7 @@ export class AlertsService {
 
     discardCache() {
 	this.alertsListObservable = null;
+	this.backgroundService.update();
     }
 
 
