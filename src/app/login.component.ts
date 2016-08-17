@@ -38,7 +38,7 @@ export class LoginComponent {
                 error =>  {
 		    console.error(error);
 		    this.loadingLogin = false;
-		    this.alerts.push({msg: error, type: 'danger'});
+		    this.alerts.push({msg: error.msg, type: 'danger'});
 		});
     }
 
@@ -55,7 +55,7 @@ export class LoginComponent {
                 error =>  {
 		    console.error(error);
 		    this.loadingSignin = false;
-		    this.alerts.push({msg: error, type: 'danger'});
+		    this.alerts.push({msg: error.msg, type: 'danger'});
 		});
     }
 }

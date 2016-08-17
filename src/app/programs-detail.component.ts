@@ -51,13 +51,19 @@ export class ProgramsDetailComponent implements OnInit {
 	let sub = this.route.params.subscribe(params => {
 	    if (params['id'] != "new") {
 		let id = +params['id'];
-		this.programsService.getProgramsDetail(id).subscribe(program => {
-		    this.program_obj_origin = JSON.parse(JSON.stringify(program))
-		    this.program_obj = program;
-		    this.initAlertCustomFromData(this.program_obj_origin, this.alert_custom_origin);
-		    this.alert_custom = JSON.parse(JSON.stringify(this.alert_custom_origin));
-		    this.selectedStation = this.program_obj["poste"];
-		});
+		this.programsService.getProgramsDetail(id).subscribe(
+		    program => {
+			this.program_obj_origin = JSON.parse(JSON.stringify(program))
+			this.program_obj = program;
+			this.initAlertCustomFromData(this.program_obj_origin, this.alert_custom_origin);
+			this.alert_custom = JSON.parse(JSON.stringify(this.alert_custom_origin));
+			this.selectedStation = this.program_obj["poste"];
+		    },
+		    error => {
+			this.programsService.discardCache();
+			this.onGoBackList();
+		    }
+		);
 		this.reloadStations()
 		
 	    }
@@ -130,7 +136,7 @@ export class ProgramsDetailComponent implements OnInit {
 		    this.onSubmit();
 		},
 		error => {
-		    this.alerts.push({msg: error, type: 'danger'});
+		    this.alerts.push({msg: error.msg, type: 'danger'});
 		}
 	    );
 	    return
@@ -154,7 +160,7 @@ export class ProgramsDetailComponent implements OnInit {
 		},
 		error => {
 		    this.loadingSubmit = false;
-		    this.alerts.push({msg: error, type: 'danger'});
+		    this.alerts.push({msg: error.msg, type: 'danger'});
 		}
 	    );
 	}
@@ -171,7 +177,7 @@ export class ProgramsDetailComponent implements OnInit {
 		},
 		error => {
 		    this.loadingSubmit = false;
-		    this.alerts.push({msg: error, type: 'danger'});
+		    this.alerts.push({msg: error.msg, type: 'danger'});
 		}
 	    );
 	}

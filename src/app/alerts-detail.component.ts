@@ -27,21 +27,25 @@ export class AlertsDetailComponent implements OnInit {
     ngOnInit() {
 	let sub = this.route.params.subscribe(params => {
 	    let id = +params['id'];
-	    this.alertsService.getAlertsDetail(id).subscribe(program => {
-		this.alerts_obj = JSON.parse(JSON.stringify(program))
-		if (!this.alerts_obj.view) {
-		    this.alertsService.markRead(id)
-			.subscribe(
-			    ret => {
-				this.alertsService.discardCache()
-			    },
-			    error =>  {
-				console.log(error);
-			    });
+	    this.alertsService.getAlertsDetail(id).subscribe(
+		program => {
+		    this.alerts_obj = JSON.parse(JSON.stringify(program))
+		    if (!this.alerts_obj.view) {
+			this.alertsService.markRead(id)
+			    .subscribe(
+				ret => {
+				    this.alertsService.discardCache()
+				},
+				error =>  {
+				    console.log(error);
+				});
+		    }   
+		},
+		error => {
+		    this.alertsService.discardCache();
+		    this.onGoBackList();
 		}
-	    
-		    
-	    });
+	    );
 	});
     }
 

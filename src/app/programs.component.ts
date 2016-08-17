@@ -51,7 +51,7 @@ export class ProgramsComponent implements OnInit {
 		    this.progs.splice(index_array, 1);
 		},
                 error =>  {
-		    this.alerts.push({msg: error, type: 'danger'});
+		    this.alerts.push({msg: error.msg, type: 'danger'});
 		});
     }
 
