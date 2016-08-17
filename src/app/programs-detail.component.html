@@ -60,7 +60,10 @@
 		    </div>
 		    <input id="checkbox_web" type="checkbox" (change)="delayedUpdateHaveChange()" [(ngModel)]="alert_custom.web.activated">
 		  </div>
-		  <button *ngIf="have_changes" class="button small right" (click)="onSubmit()">Submit</button>
+		  <button *ngIf="have_changes" class="button small right" (click)="onSubmit()">
+		    <span *ngIf="!loadingSubmit">Submit</span>
+		    <span *ngIf="loadingSubmit">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>
+		  </button>
 		</form>
 		<alert *ngFor="let alert of alerts" [type]="alert.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
 	</div>

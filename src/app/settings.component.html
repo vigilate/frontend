@@ -27,7 +27,10 @@
 		      <input type="password"/>
 		    </div>
 		</div><br/>
-		<button (click)="onClickSubmit()" class="button">Submit</button>
+		<button (click)="onClickSubmit()" class="button">
+		  <span *ngIf="!loadingSubmit">Submit</span>
+		  <span *ngIf="loadingSubmit">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>
+		</button>
 	</form><br/>
 	<hr/>
 	<button class="button alert" (click)="deleteAccount()">Delete account</button>

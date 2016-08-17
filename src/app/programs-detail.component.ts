@@ -15,6 +15,7 @@ import { StationsService } from './stations.service';
 
 export class ProgramsDetailComponent implements OnInit {
 
+    loadingSubmit = false;
     alerts:Array<Object> = []
     have_changes = false;
     program_params = [
@@ -47,7 +48,6 @@ export class ProgramsDetailComponent implements OnInit {
 		){}
 
     ngOnInit() {
-
 	let sub = this.route.params.subscribe(params => {
 	    if (params['id'] != "new") {
 		let id = +params['id'];
@@ -119,6 +119,7 @@ export class ProgramsDetailComponent implements OnInit {
     }
 
     onSubmit() {
+	this.loadingSubmit = true;
 	if (this.selectedStation == -1)
 	{
 	    this.stationsService.createStation(this.station_new_name).subscribe(
@@ -148,9 +149,11 @@ export class ProgramsDetailComponent implements OnInit {
 	if (this.creating_new)	{
 	    this.programsService.createProgram(this.program_obj).subscribe(
 		program => {
+		    this.loadingSubmit = false;
 		    this.router.navigate(['/programs']);
 		},
 		error => {
+		    this.loadingSubmit = false;
 		    this.alerts.push({msg: error, type: 'danger'});
 		}
 	    );
@@ -158,6 +161,7 @@ export class ProgramsDetailComponent implements OnInit {
 	else {
 	    this.programsService.updateProgramsDetail(this.program_obj.id, this.program_obj).subscribe(
 		program => {
+		    this.loadingSubmit = false;
 		    this.program_obj_origin = JSON.parse(JSON.stringify(program))
 		    this.initAlertCustomFromData(this.program_obj_origin, this.alert_custom_origin);
 		    this.alert_custom = JSON.parse(JSON.stringify(this.alert_custom_origin));
@@ -166,6 +170,7 @@ export class ProgramsDetailComponent implements OnInit {
 		    this.alerts.push({msg: "Changes submited", type: 'success'});
 		},
 		error => {
+		    this.loadingSubmit = false;
 		    this.alerts.push({msg: error, type: 'danger'});
 		}
 	    );

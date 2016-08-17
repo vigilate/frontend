@@ -11,6 +11,7 @@ import { UserService } from './user.service';
 
 export class SettingsComponent {
 
+    loadingSubmit = false;
     phone_number = "";
     
     constructor (private authService: AuthService,
@@ -26,8 +27,9 @@ export class SettingsComponent {
     }
 
     onClickSubmit() {
-
+	this.loadingSubmit = true;
 	this.userService.updatePhoneNumber(this.phone_number).subscribe(() => {
+	    this.loadingSubmit = false;
 	});
     }
 
