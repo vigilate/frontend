@@ -17,6 +17,7 @@ import { StorageService } from './storage.service'
 
 export class ProgramsComponent implements OnInit {
 
+    cacheSubscription = null;
     alerts:Array<Object> = []
     progs = []
     p = 0;
@@ -28,6 +29,22 @@ export class ProgramsComponent implements OnInit {
 
     ngOnInit() {
 	this.p = this.storageService.get("ProgramsComponent", "page", 1);
+	this.updateList();
+
+	this.cacheSubscription = this.programsService.cacheTimeout.subscribe(
+	    () => {
+		this.updateList();
+	    }
+	);
+
+    }
+
+    ngOnDestroy() {
+	if (this.cacheSubscription)
+	    this.cacheSubscription.unsubscribe();
+    }
+
+    updateList() {
 	this.programsService.getProgramsList()
             .subscribe(
                 programs => {
@@ -36,7 +53,6 @@ export class ProgramsComponent implements OnInit {
                 error =>  {
 		    console.log(error);
 		});
-
     }
 
     onClick(id) {

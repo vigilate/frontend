@@ -1,4 +1,4 @@
-import { Injectable, Inject, forwardRef } from '@angular/core';
+import { Injectable, Inject, forwardRef, Output, EventEmitter } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
@@ -11,8 +11,12 @@ import { BackgroundService } from './background.service';
 
 @Injectable()
 export class ProgramsService {
+    @Output() cacheTimeout = new EventEmitter();
 
     private programListObservable = null;
+    private cacheTimestamp = 0;
+    private cacheDuration = 1 * 60;
+    private timerId = -1;
 
     constructor (private http: Http,
 		 private authService: AuthService,
@@ -25,16 +29,18 @@ export class ProgramsService {
     private url = "/uprog/";
     
     getProgramsList(): Observable<any> {
-	console.log(this.programListObservable);
+	this.checkCacheTimestamp();
 	if (this.programListObservable === null) {
 	    var headers = new Headers();
 	    headers.append('Content-Type', 'application/json');
 	    headers.append('Accept', 'application/json');
 	    headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth()); 
-	    this.programListObservable = this.http.get(this.backend.getHost() + this.url, new RequestOptions({ headers: headers })).cache()
-		.map((data) => data.json()).catch(this.httpServiceError.handleError)
-		    }
-		return this.programListObservable;
+	    this.programListObservable = this.http.get(this.backend.getHost() + this.url, new RequestOptions({ headers: headers }))
+		.cache()
+		.map((data) => data.json())
+		.catch(this.httpServiceError.handleError).do(() => this.updateCacheTimestamp());
+	}
+	return this.programListObservable;
     }
 
     getProgramsDetail(id): Observable<any> {
@@ -89,8 +95,30 @@ export class ProgramsService {
 		}
 
     discardCache() {
-	this.programListObservable = null;
+	this.cacheTimestamp = 0;
 	this.alertsService.discardCache();
 	this.backgroundService.update();
     }
+
+    updateCacheTimestamp() {
+	this.cacheTimestamp = new Date().getTime() / 1000;
+	if (this.timerId != -1)
+	    clearTimeout(this.timerId);
+	this.timerId = setTimeout(
+	    () => {
+		this.checkCacheTimestamp()
+	    },
+	    this.cacheDuration * 1000
+	);
+    }
+
+    checkCacheTimestamp() {
+	let now = new Date().getTime() / 1000;
+	if (now - this.cacheTimestamp >= this.cacheDuration
+	    && this.programListObservable !== null) {
+	    this.programListObservable = null;
+	    this.cacheTimeout.emit(null)
+	}
+    }
+
 }
