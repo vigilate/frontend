@@ -252,3 +252,19 @@ h3 {
 	transform: rotate(359deg);
     }
 }
+
+/* ALERTS */
+
+.state-badge {
+	background-color: #c60f13;
+	color: #fff;
+	display: inline-block;
+	padding: 1px 2px 1px 2px;
+	margin: 2px;
+	height: 20px;
+	border-radius: 10%;
+}
+
+.state-badge-patch {
+	background-color: #13c60f;
+}
