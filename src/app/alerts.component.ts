@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from './user.model';
 import { AuthService } from './auth.service';
@@ -15,8 +15,9 @@ import { StorageService } from './storage.service'
     providers: [PaginationService]
 })
 
-export class AlertsComponent implements OnInit {
+export class AlertsComponent implements OnInit, OnDestroy {
 
+    cacheSubscription = null;
     alertsHtml:Array<Object> = []
     alerts = []
     p = 0;
@@ -29,6 +30,17 @@ export class AlertsComponent implements OnInit {
     ngOnInit() {
 	this.p = this.storageService.get("AlertsComponent", "page", 1);
 	this.updateList()
+
+	this.cacheSubscription = this.alertsService.cacheTimeout.subscribe(
+	    () => {
+		this.updateList();
+	    }
+	);
+    }
+
+    ngOnDestroy() {
+	if (this.cacheSubscription)
+	    this.cacheSubscription.unsubscribe();
     }
 
     updateList() {

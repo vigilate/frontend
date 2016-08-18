@@ -14,10 +14,20 @@ export class BackgroundService {
     @Output() cntTotalAlert = new EventEmitter();
     @Output() cntTotalProg = new EventEmitter();
     @Output() cntTotalStation = new EventEmitter();
+
+    update_interval = 10;
+    intervalId = -1;
     
     constructor (private userService: UserService) {}
 
     init() {
+	if (this.intervalId == -1) {
+	    this.intervalId = setInterval(
+		() => {
+		    this.update();
+		},
+		this.update_interval * 1000);
+	}
 	this.update();
     }
 
