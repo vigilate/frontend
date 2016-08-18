@@ -19,15 +19,13 @@
     <table>
       <thead>
       	<tr>
-      	  <th width="50">Id</th>
-      	  <th width="1100">Name</th>
+      	  <th width="1150">Name</th>
           <td width="200" class="text-center">Download scanner</td>
       	  <th width="100" class="text-center">Delete</th>
       	</tr>
       </thead>
       <tbody>
       	<tr *ngFor="let station of stations | paginate: { itemsPerPage: 50, currentPage: p }">
-      	  <td (click)="onClick(station.id)">{{station.id}}</td>
       	  <td (click)="onClick(station.id)">{{station.name}}</td>
           <td class="text-center"> <a href="https://vigilate.eax.ovh/get_scanner/{{station.id}}/" class="button tiny">Download scanner</a></td>
       	  <td class="text-center right"> <button class="button alert tiny" (click)="onDelete(station.id)">Delete</button></td>
