@@ -56,4 +56,7 @@ export class DashboardComponent implements OnInit {
 	this.router.navigate(['/login']);
     }
 
+    onClick(target) {
+	this.router.navigate(['/' + target]);
+    }
 }

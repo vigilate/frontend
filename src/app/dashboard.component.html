@@ -2,17 +2,17 @@
 	<h1><i class="fi-target blue"></i> Dashboard</h1>
 	<h3 class="subheader">Logged as {{ authService.user[0].email }}</h3>
 	<div class="row" id="dashboard-stats">
-		<div class="small-12 medium-4 columns">
-			<span>{{nb_total_prog}}</span>
-			<div>PROGRAMS</div>
+		<div (click)="onClick('programs')" class="small-12 medium-4 columns">
+			<span class="clickable">{{nb_total_prog}}</span>
+			<div class="clickable">PROGRAMS</div>
 		</div>
-		<div class="small-12 medium-4 columns">
-			<span>{{nb_total_alert}}</span>
-			<div>ALERTS</div>
+		<div (click)="onClick('alerts')" class="small-12 medium-4 columns">
+			<span class="clickable">{{nb_total_alert}}</span>
+			<div class="clickable">ALERTS</div>
 		</div>
-		<div class="small-12 medium-4 columns">
-			<span>{{nb_total_station}}</span>
-			<div>STATIONS</div>
+		<div (click)="onClick('stations')" class="small-12 medium-4 columns">
+			<span class="clickable">{{nb_total_station}}</span>
+			<div class="clickable">STATIONS</div>
 		</div>
 	</div>
 	<div class="row" id="dashboard-info">
