@@ -1,7 +1,10 @@
 import { Observable } from 'rxjs/Observable';
 
+
 export class HttpServiceError {
-    
+
+    lastError = 0;
+     
     public handleError (error: any) {
 	let error_resp = {
 	    code: 0,
@@ -17,7 +20,11 @@ export class HttpServiceError {
 		error_resp.msg = j["detail"]
 	}
 	catch (e) {}
-	
+
+	this.lastError = error_resp.code;
+	if (error_resp.code == 401) {
+	    throw "NeedToReconnect";
+	}
 	return Observable.throw(error_resp);
     }
 }

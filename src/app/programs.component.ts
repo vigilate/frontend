@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from './user.model';
-import { AuthService } from './auth.service';
 import { ProgramsService } from './programs.service';
 import { AlertComponent } from 'ng2-bootstrap/components/alert';
 import { PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination/dist/ng2-pagination';
@@ -22,8 +21,7 @@ export class ProgramsComponent implements OnInit {
     progs = []
     p = 0;
     
-    constructor (private authService: AuthService,
-		 private programsService: ProgramsService,
+    constructor (private programsService: ProgramsService,
 		 private router: Router,
 		 private storageService: StorageService){}
 
@@ -51,6 +49,8 @@ export class ProgramsComponent implements OnInit {
 		    this.progs = programs;
 			},
                 error =>  {
+		    if (error == "NeedToReconnect")
+			throw error;
 		    console.log(error);
 		});
     }
@@ -67,6 +67,8 @@ export class ProgramsComponent implements OnInit {
 		    this.progs.splice(index_array, 1);
 		},
                 error =>  {
+		    if (error == "NeedToReconnect")
+			throw error;
 		    this.alerts.push({msg: error.msg, type: 'danger'});
 		});
     }

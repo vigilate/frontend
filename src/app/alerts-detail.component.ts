@@ -37,11 +37,15 @@ export class AlertsDetailComponent implements OnInit {
 				    this.alertsService.discardCache()
 				},
 				error =>  {
+				    if (error == "NeedToReconnect")
+					throw error;
 				    console.log(error);
 				});
 		    }   
 		},
 		error => {
+		    if (error == "NeedToReconnect")
+			throw error;
 		    this.alertsService.discardCache();
 		    this.onGoBackList();
 		}

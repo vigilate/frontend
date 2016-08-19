@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { LoginComponent } from './login.component';
 import { AuthService } from './auth.service';

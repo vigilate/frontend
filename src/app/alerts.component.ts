@@ -55,6 +55,8 @@ export class AlertsComponent implements OnInit, OnDestroy {
 		    
 		},
                 error =>  {
+		    if (error == "NeedToReconnect")
+			throw error;
 		    console.log(error);
 		});
     }
@@ -79,6 +81,8 @@ export class AlertsComponent implements OnInit, OnDestroy {
 		    },
                     error =>  {
 			obj.loadingMark = false;
+			if (error == "NeedToReconnect")
+			    throw error;
 			console.log(error);
 		    });
 	}
@@ -92,6 +96,8 @@ export class AlertsComponent implements OnInit, OnDestroy {
 		    },
                     error =>  {
 			obj.loadingMark = false;
+			if (error == "NeedToReconnect")
+			    throw error;
 			console.log(error);
 		    });
 	}

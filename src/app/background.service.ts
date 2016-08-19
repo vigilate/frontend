@@ -1,6 +1,4 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-
 import { Observable } from 'rxjs/Observable';
 import { User } from './user.model';
 import { HttpServiceError } from './http-service-error.class'
@@ -39,5 +37,9 @@ export class BackgroundService {
 		this.cntTotalProg.emit(stats.programs)
 		this.cntTotalStation.emit(stats.stations)
 	});
+    }
+
+    stop() {
+	clearInterval(this.intervalId);
     }
 }

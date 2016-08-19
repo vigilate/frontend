@@ -28,5 +28,12 @@ export class StorageService {
 	return this.storage[client][key]
     }
 
+    delete(client, key) {
+	if (!(client in this.storage)) {
+	    return;
+	}
+	delete this.storage[client][key];
+    }
+
     
 }

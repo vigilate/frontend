@@ -1,12 +1,9 @@
 import { Injectable, Inject, forwardRef, Output, EventEmitter } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-
 import { Observable } from 'rxjs/Observable';
 import { User } from './user.model';
-import { AuthService } from './auth.service';
 import { AlertsService } from './alerts.service';
 import { HttpServiceError } from './http-service-error.class'
-import { Backend } from './backend.class'
+import { Api } from './api.service'
 import { BackgroundService } from './background.service';
 
 @Injectable()
@@ -18,10 +15,8 @@ export class ProgramsService {
     private cacheDuration = 1 * 60;
     private timerId = -1;
 
-    constructor (private http: Http,
-		 private authService: AuthService,
-		 private httpServiceError: HttpServiceError,
-		 private backend: Backend,
+    constructor (private httpServiceError: HttpServiceError,
+		 private api: Api,
 		 private alertsService: AlertsService,
 		 @Inject(forwardRef(()  => BackgroundService)) private backgroundService: BackgroundService
 		) {}
@@ -31,68 +26,49 @@ export class ProgramsService {
     getProgramsList(): Observable<any> {
 	this.checkCacheTimestamp();
 	if (this.programListObservable === null) {
-	    var headers = new Headers();
-	    headers.append('Content-Type', 'application/json');
-	    headers.append('Accept', 'application/json');
-	    headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth()); 
-	    this.programListObservable = this.http.get(this.backend.getHost() + this.url, new RequestOptions({ headers: headers }))
+	    this.programListObservable = this.api.get(this.url)
 		.cache()
-		.map((data) => data.json())
+		.map(data => data.json())
 		.catch(this.httpServiceError.handleError).do(() => this.updateCacheTimestamp());
 	}
 	return this.programListObservable;
     }
 
     getProgramsDetail(id): Observable<any> {
-	var headers = new Headers();
-	headers.append('Content-Type', 'application/json');
-	headers.append('Accept', 'application/json');
-	headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth()); 
-	return this.http.get(this.backend.getHost() + this.url + id + "/", new RequestOptions({ headers: headers }))
-	    .map((data) => data.json()).catch(this.httpServiceError.handleError)
+	return this.api.get(this.url + id + "/")
+	    .map(data => data.json())
+	    .catch(this.httpServiceError.handleError);
     }
 
     updateProgramsDetail(id, obj): Observable<any> {
-	var headers = new Headers();
 	var body = JSON.stringify(obj);
 
 	this.discardCache();
-	headers.append('Content-Type', 'application/json');
-	headers.append('Accept', 'application/json');
-	headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth());
-
-	return this.http.patch(this.backend.getHost() + this.url + id + "/", body, new RequestOptions({ headers: headers }))
-	    .map((data) => data.json()).catch(this.httpServiceError.handleError)
-		}
+	return this.api.patch(this.url + id + "/", body)
+	    .map(data => data.json())
+	    .catch(this.httpServiceError.handleError);
+    }
 
     createProgram(obj): Observable<any> {
-	var headers = new Headers();
 	var body = JSON.stringify(obj);
 
 	this.discardCache();
-	headers.append('Content-Type', 'application/json');
-	headers.append('Accept', 'application/json');
-	headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth());
-
-	return this.http.post(this.backend.getHost() + this.url, body, new RequestOptions({ headers: headers }))
-	    .map((data) => data.json()).catch(this.httpServiceError.handleError)
-		}
+	return this.api.post(this.url, body)
+	    .map(data => data.json())
+	    .catch(this.httpServiceError.handleError);
+    }
 
     deleteProgram(id): Observable<any> {
-	var headers = new Headers();
-
 	this.discardCache();
-	headers.append('Content-Type', 'application/json');
-	headers.append('Accept', 'application/json');
-	headers.append('Authorization', 'Basic ' + this.authService.getBasicAuth());
-	return this.http.delete(this.backend.getHost() + this.url + id + "/", new RequestOptions({ headers: headers }))
-	    .map((data) => {
+
+	return this.api.delete(this.url + id + "/")
+	    .map(data => {
 		if (!data.ok)
 		    return data.json()
 		return data;
 	    })
-	    .catch(this.httpServiceError.handleError)
-		}
+	    .catch(this.httpServiceError.handleError);
+    }
 
     discardCache() {
 	this.cacheTimestamp = 0;
@@ -120,5 +96,4 @@ export class ProgramsService {
 	    this.cacheTimeout.emit(null)
 	}
     }
-
 }
