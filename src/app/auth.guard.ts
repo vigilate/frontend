@@ -32,7 +32,8 @@ export class AuthGuard implements CanActivate {
 		    }
 		});	    
 	}
-	this.storageService.store("AuthGuard", "redirect", route.urlSegments[0].path);
+	if (route.urlSegments[0])
+	    this.storageService.store("AuthGuard", "redirect", route.urlSegments[0].path);
 	return false;
     }a
 }
