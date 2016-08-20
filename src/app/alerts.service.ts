@@ -44,6 +44,19 @@ export class AlertsService {
 	    .catch(this.httpServiceError.handleError);
     }
 
+    markAllRead(): Observable<any> {
+	return this.api.get(this.url + "mark_all_read/")
+	    .cache()
+	    .catch(this.httpServiceError.handleError);
+    }
+
+    markAllUnread(): Observable<any> {
+	return this.api.get(this.url + "mark_all_unread/")
+	    .cache()
+	    .catch(this.httpServiceError.handleError);
+    }
+
+
     getAlertsDetail(id): Observable<any> {
 	return this.api.get(this.url + id + "/")
 	    .map(data => data.json())
@@ -75,5 +88,10 @@ export class AlertsService {
 	    this.alertsListObservable = null;
 	    this.cacheTimeout.emit(null)
 	}
+    }
+
+    trigerEmitTimeout() {
+	this.discardCache();
+	this.checkCacheTimestamp();
     }
 }

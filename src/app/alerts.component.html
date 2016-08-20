@@ -1,6 +1,14 @@
 <div id="content" class="row">
   <div class="medium-8 medium-offset-2 columns">
-  	<h1><i class="fi-target"></i> Alerts</h1><br/>
+    <h1><i class="fi-target"></i> Alerts</h1><br/>
+    <button class="button tiny" (click)="onMarkAll('read')">
+      <span *ngIf="!loadingMarkAll['read']">Mark all read</span>
+      <span *ngIf="loadingMarkAll['read']">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>  
+    </button>
+    <button class="button tiny" (click)="onMarkAll('unread')">
+      <span *ngIf="!loadingMarkAll['unread']">Mark all unread</span>
+      <span *ngIf="loadingMarkAll['unread']">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>  
+    </button>
     <table>
       <thead>
 	<tr>
@@ -22,7 +30,7 @@
 	    <span *ngFor="let state of alert.state" class="state-badge state-badge-{{state}}">{{state}}</span>
 	  </td>
 	  <td (click)="onClick(alert.id)"><progress style="width:100%" max="100" value="{{alert.max_cvss*10}}"></progress></td>
-	  <td> <button class="button tiny" (click)="onMark(alert)">
+	  <td><button class="button tiny" (click)="onMark(alert)">
 	       <span *ngIf="!alert.loadingMark">{{alert.view ? "Unread" : "Read" }}</span>
 	       <span *ngIf="alert.loadingMark">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>  
 	  </button></td>

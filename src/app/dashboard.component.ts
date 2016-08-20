@@ -48,7 +48,6 @@ export class DashboardComponent implements OnInit {
 	    });
 
 	this.backgroundService.update();
-
     }
     
     logout() {
