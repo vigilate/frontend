@@ -39,8 +39,7 @@ export class StationsService {
 
     deleteStation(id): Observable<any> {
 	return this.api.delete(this.url + id + "/")
-	    .map(data => {
-		data.json();
+	    .do(() => {
 		this.programsService.discardCache()
 	    })
 	    .catch(this.httpServiceError.handleError);
