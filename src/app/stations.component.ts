@@ -9,7 +9,7 @@ import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagina
     selector: 'stations',
     templateUrl: 'app/stations.component.html',
     pipes: [PaginatePipe],
-    providers: [StationsService, PaginationService]
+    providers: [PaginationService]
 })
 
 export class StationsComponent implements OnInit {

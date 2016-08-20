@@ -34,6 +34,9 @@ export class StationsService {
 
 	return this.api.post(this.url, body)
 	    .map(data => data.json())
+	    .do(() => {
+		this.programsService.discardCache()
+	    })
 	    .catch(this.httpServiceError.handleError);
     }
 

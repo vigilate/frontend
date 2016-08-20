@@ -16,7 +16,7 @@ export class AlertsService {
 
     constructor (private httpServiceError: HttpServiceError,
 		 private api: Api,
-		 @Inject(forwardRef(()  => BackgroundService)) private backgroundService: BackgroundService
+		 private backgroundService: BackgroundService
 		) {}
 
     private url = "/alerts/";

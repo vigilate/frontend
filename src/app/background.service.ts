@@ -15,6 +15,7 @@ export class BackgroundService {
 
     update_interval = 10;
     intervalId = -1;
+    is_new = true;
     
     constructor (private userService: UserService) {}
 
@@ -30,6 +31,7 @@ export class BackgroundService {
     }
 
     update() {
+	this.is_new = false;
 	this.userService.getStats()
 	    .subscribe(stats => {
 		this.cntAlertChange.emit(stats.new_alerts)
