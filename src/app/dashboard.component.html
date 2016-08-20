@@ -1,6 +1,6 @@
 <div class="small-12 medium-6 medium-offset-3 columns">
 	<h1><i class="fi-target blue"></i> Dashboard</h1>
-	<h3 class="subheader">Logged as {{ authService.user[0].email }}</h3>
+	<h3 class="subheader">Logged as {{ userService.user.email }}</h3>
 	<div class="row" id="dashboard-stats">
 		<div (click)="onClick('programs')" class="small-12 medium-4 columns">
 			<span class="clickable">{{nb_total_prog}}</span>

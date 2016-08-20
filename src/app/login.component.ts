@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { User } from './user.model';
 import { BackgroundService } from './background.service';
+import { UserService } from './user.service';
 import { AlertComponent } from 'ng2-bootstrap/components/alert';
+import { StorageService } from './storage.service'
 
 @Component({
     templateUrl: 'app/login.component.html',
@@ -11,7 +13,7 @@ import { AlertComponent } from 'ng2-bootstrap/components/alert';
      directives: [AlertComponent]
 })
 
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
     user: User = null;
     email = "";
@@ -21,25 +23,53 @@ export class LoginComponent {
     loadingSignin = false;
 
     constructor (private authService: AuthService,
+		 private userService: UserService,
 		 private router: Router,
-		 private backgroundService: BackgroundService) {}
+		 private backgroundService: BackgroundService,
+		 private storageService: StorageService) {}
+
+    ngOnInit() {
+	if (this.authService.isLoggedIn)
+	    this.router.navigate(['/dashboard']);
+    }
     
     onSubmitLogin() {
 
 	this.loadingLogin = true;
+	this.login();
+    }
+
+    login() {
 	this.authService.login(this.email, this.password)
             .subscribe(
-                user => {this.user = user;
-			 console.log(this.user)
-			 this.loadingLogin = false;
-			 this.backgroundService.init()
-			 this.router.navigate(['/dashboard']);
+		data => {
+		    console.log(data)
+		    this.getUser();
+		},
+		error =>  {
+		    console.error(error);
+		    this.loadingLogin = false;
+		    this.alerts.push({msg: error.msg, type: 'danger'});
+		});
+    }
+
+    getUser() {
+	this.userService.getUser()
+            .subscribe(
+                data => {
+		    console.log(data)
+		    this.loadingLogin = false;
+		    this.backgroundService.init()
+		    let redir = this.storageService.get("AuthGuard", "redirect", "dashboard");
+		    this.storageService.delete("AuthGuard", "redirect");
+		    this.router.navigate(['/' + redir]);
 			},
                 error =>  {
 		    console.error(error);
 		    this.loadingLogin = false;
 		    this.alerts.push({msg: error.msg, type: 'danger'});
 		});
+
     }
 
     onSubmitSignin() {
@@ -47,7 +77,7 @@ export class LoginComponent {
 	this.loadingSignin = true;
 	this.authService.signin(this.email, this.password)
             .subscribe(
-                user => {this.user = user;
+                user => {
 			 console.log(this.user)
 			 this.loadingSignin = false;
 			 this.alerts.push({msg: "User " + user.email + " created", type: 'success'});

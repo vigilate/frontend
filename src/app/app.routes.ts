@@ -18,6 +18,7 @@ import { StationsComponent } from './stations.component';
 import { SettingsComponent } from './settings.component';
 import { AlertsDetailComponent } from './alerts-detail.component';
 import { Backend } from './backend.class'
+import { Api } from './api.service'
 
 export const routes: RouterConfig = [
     { path: '/dashboard',
@@ -35,5 +36,5 @@ export const routes: RouterConfig = [
 
 export const APP_ROUTER_PROVIDERS = [
     provideRouter(routes),
-    [AuthGuard, AuthService, ProgramsService, UserService, HttpServiceError, Backend, AlertsService, StorageService, BackgroundService, StationsService]
+    [AuthGuard, AuthService, ProgramsService, UserService, HttpServiceError, Backend, AlertsService, StorageService, BackgroundService, StationsService, Api]
 ];

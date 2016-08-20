@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { User } from './user.model';
-import { AuthService } from './auth.service';
+import { UserService } from './user.service';
 import { ProgramsService } from './programs.service';
 import { AlertComponent } from 'ng2-bootstrap/components/alert';
 import { StationsService } from './stations.service';
@@ -40,7 +40,7 @@ export class ProgramsDetailComponent implements OnInit {
 
     alert_custom;
     
-    constructor (private authService: AuthService,
+    constructor (private userService: UserService,
 		 private programsService: ProgramsService,
 		 private router: Router,
 		 private route: ActivatedRoute,
@@ -60,6 +60,8 @@ export class ProgramsDetailComponent implements OnInit {
 			this.selectedStation = this.program_obj["poste"];
 		    },
 		    error => {
+			if (error == "NeedToReconnect")
+			    throw error;
 			this.programsService.discardCache();
 			this.onGoBackList();
 		    }
@@ -70,7 +72,8 @@ export class ProgramsDetailComponent implements OnInit {
 	    else {
 		this.creating_new = true;
 		this.program_obj_origin = {"program_name":"", "program_version":"",
-					   "minimum_score":"", "user":this.authService.user[0].id,
+					   "minimum_score":"", "user":this.userService.user
+					   .id,
 					   "alert_type_default": true, "email_score": 0,
 					   "sms_score": 0, "web_score": 0, "email_enabled": true,
 					   "sms_enabled": true, "web_enabled": true, "poste": 0
@@ -136,6 +139,8 @@ export class ProgramsDetailComponent implements OnInit {
 		    this.onSubmit();
 		},
 		error => {
+		    if (error == "NeedToReconnect")
+			throw error;
 		    this.alerts.push({msg: error.msg, type: 'danger'});
 		}
 	    );
@@ -160,6 +165,8 @@ export class ProgramsDetailComponent implements OnInit {
 		},
 		error => {
 		    this.loadingSubmit = false;
+		    if (error == "NeedToReconnect")
+			throw error;
 		    this.alerts.push({msg: error.msg, type: 'danger'});
 		}
 	    );
@@ -177,6 +184,8 @@ export class ProgramsDetailComponent implements OnInit {
 		},
 		error => {
 		    this.loadingSubmit = false;
+		    if (error == "NeedToReconnect")
+			throw error;
 		    this.alerts.push({msg: error.msg, type: 'danger'});
 		}
 	    );

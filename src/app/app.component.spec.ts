@@ -20,6 +20,7 @@ import { Backend } from './backend.class'
 import { BackgroundService } from './background.service';
 import { StationsService } from './stations.service';
 import { UserService } from './user.service';
+import { Api } from './api.service';
 
 beforeEachProviders(() => [
     AppComponent,
@@ -33,6 +34,7 @@ beforeEachProviders(() => [
     BackgroundService,
     StationsService,
     UserService,
+    Api,
     provide(Http, {
 	useFactory: (backend: MockBackend, defaultOptions: BaseRequestOptions) => {
 	    return new Http(backend, defaultOptions);

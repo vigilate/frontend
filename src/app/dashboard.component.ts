@@ -53,6 +53,7 @@ export class DashboardComponent implements OnInit {
     
     logout() {
 	this.authService.logout();
+	this.backgroundService.stop()
 	this.router.navigate(['/login']);
     }
 

@@ -35,6 +35,8 @@ export class StationsComponent implements OnInit {
 		    this.stations = stations;
 			},
                 error =>  {
+		    if (error == "NeedToReconnect")
+			throw error;
 		    console.log(error);
 		});
     }
@@ -50,6 +52,8 @@ export class StationsComponent implements OnInit {
 		    this.reloadList();
 		},
                 error =>  {
+		    if (error == "NeedToReconnect")
+			throw error;
 		    console.log(error);
 		});
     }
@@ -65,6 +69,8 @@ export class StationsComponent implements OnInit {
 		},
                 error =>  {
 		    this.loadingSubmit = false;
+		    if (error == "NeedToReconnect")
+			throw error;
 		    console.log(error);
 		});
     }
