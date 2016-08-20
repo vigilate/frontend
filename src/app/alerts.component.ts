@@ -21,6 +21,10 @@ export class AlertsComponent implements OnInit, OnDestroy {
     alertsHtml:Array<Object> = []
     alerts = []
     p = 0;
+    loadingMarkAll = {
+	read: false,
+	unread: false
+    };
     
     constructor (private authService: AuthService,
 		 private alertsService: AlertsService,
@@ -76,8 +80,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
 		.subscribe(
                     ret => {
 			obj.loadingMark = false;
-			this.alertsService.discardCache()
-			this.updateList()
+			this.alertsService.trigerEmitTimeout()
 		    },
                     error =>  {
 			obj.loadingMark = false;
@@ -91,8 +94,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
 		.subscribe(
                     ret => {
 			obj.loadingMark = false;
-			this.alertsService.discardCache()
-			this.updateList()
+			this.alertsService.trigerEmitTimeout()
 		    },
                     error =>  {
 			obj.loadingMark = false;
@@ -101,6 +103,28 @@ export class AlertsComponent implements OnInit, OnDestroy {
 			console.log(error);
 		    });
 	}
+    }
+
+    onMarkAll(act) {
+	this.loadingMarkAll[act] = true;
+	let fct;
+
+	if (act == 'unread')
+	    fct = this.alertsService.markAllUnread();
+	else
+	    fct = this.alertsService.markAllRead();
+
+	fct.subscribe(
+            ret => {
+		this.loadingMarkAll[act] = false;
+		this.alertsService.trigerEmitTimeout()
+	    },
+            error =>  {
+		this.loadingMarkAll[act] = false;
+		if (error == "NeedToReconnect")
+		    throw error;
+		console.log(error);
+	    });
     }
 
 }

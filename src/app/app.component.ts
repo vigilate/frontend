@@ -6,7 +6,7 @@ import { ProgramsService } from './programs.service';
 import { BackgroundService } from './background.service';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { Backend } from './backend.class'
-
+import { UserService } from './user.service';
 import './rxjs-operators';
 
 @Component({
@@ -32,7 +32,8 @@ export class AppComponent implements OnInit {
     constructor (private authService: AuthService,
 		 private programsService: ProgramsService,
 		 private backgroundService: BackgroundService,
-		 private backend: Backend
+		 private backend: Backend,
+		 private userService: UserService
 		) {}
 
     ngOnInit() {

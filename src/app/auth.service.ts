@@ -7,7 +7,7 @@ import { Backend } from './backend.class'
 
 @Injectable()
 export class AuthService {
-    checkLoggedObservable: Observable<boolean> = null;
+    checkLoggedObservable: Observable<any> = null;
     isLoggedIn: boolean = false;
     isChecking: boolean = false;
     token = localStorage.getItem("token");
@@ -27,21 +27,18 @@ export class AuthService {
 	    headers.append('Accept', 'application/json');
 	    headers.append('Authorization', 'token ' + this.token);
 
-	    this.checkLoggedObservable = Observable.create(observer => {
-		this.http.get(this.backend.getHost() + this.url, new RequestOptions({ headers: headers }))
-		    .catch(this.httpServiceError.handleError).cache().subscribe(
-			data => {
-			    this.isLoggedIn = data.ok;
-			    observer.next(data.ok);
-			    this.isChecking = false;
-			},
-			err => {
-			    this.isLoggedIn = false;
-			    observer.next(false);
-			    this.isChecking = false;
-			}
-		    );
-	    });
+	    this.checkLoggedObservable = this.http.get(this.backend.getHost() + this.url, new RequestOptions({ headers: headers }))
+		.do(
+		    data => {
+			this.isLoggedIn = data.ok;
+			this.isChecking = false;
+		    })
+		.catch(
+		    err => {
+			this.isLoggedIn = false;
+			this.isChecking = false;
+			return this.httpServiceError.handleError(err);
+		    });
 	}
 	return this.checkLoggedObservable;
     }
