@@ -17,7 +17,8 @@ module.exports = function(defaults) {
       'rxjs/**/*.+(js|js.map)',
       '@angular/**/*.+(js|js.map)',
 	'ng2-bootstrap/**/*',
-	'ng2-pagination/**/*'
+	'ng2-pagination/**/*',
+	'file-saver/**/*.+(js|js.map)'
     ]
   });
 };

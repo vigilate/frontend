@@ -20,19 +20,22 @@ export class Api {
 	return options;
     }
     
-    get(url) {	
-	return this.http.get(this.backend.getHost() + url, this.generateOptions());
+    get(url, with_api_path=true) {
+	if (with_api_path)
+	    return this.http.get(this.backend.getUrl() + url, this.generateOptions());
+	else
+	    return this.http.get(this.backend.getHost() + url, this.generateOptions());
     }
 
     delete(url) {	
-	return this.http.delete(this.backend.getHost() + url, this.generateOptions());
+	return this.http.delete(this.backend.getUrl() + url, this.generateOptions());
     }
     
     post(url, body) {
-	return this.http.post(this.backend.getHost() + url, body, this.generateOptions());
+	return this.http.post(this.backend.getUrl() + url, body, this.generateOptions());
     }
 
     patch(url, body) {
-	return this.http.patch(this.backend.getHost() + url, body, this.generateOptions());
+	return this.http.patch(this.backend.getUrl() + url, body, this.generateOptions());
     }
 }

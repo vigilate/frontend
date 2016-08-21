@@ -4,6 +4,7 @@ import { User } from './user.model';
 import { AuthService } from './auth.service';
 import { StationsService } from './stations.service';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination/dist/ng2-pagination';
+import { Api } from './api.service';
 
 @Component({
     selector: 'stations',
@@ -20,7 +21,8 @@ export class StationsComponent implements OnInit {
     
     constructor (private authService: AuthService,
 		 private stationsService: StationsService,
-		 private router: Router
+		 private router: Router,
+		 private api: Api
 		){}
 
     ngOnInit() {
@@ -75,4 +77,15 @@ export class StationsComponent implements OnInit {
 		});
     }
 
+    onDownload(id) {
+	this.api.get("/get_scanner/" + id + "/", false).subscribe(
+	    data => {
+		console.log(data);
+		let type = 'application/text';
+		if (data.headers.has("Content-Type"))
+		    type = data.headers.get("Content-Type");
+		let blob = new Blob([data.text()], {type: type});
+		window["saveAs"](blob, "scanner.py");
+	    });
+    }
 }
