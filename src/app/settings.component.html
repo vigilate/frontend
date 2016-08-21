@@ -1,37 +1,61 @@
 <div class="medium-8 medium-offset-2 columns">
 	<h1><i class="fi-target"></i> Settings</h1><br/>
-	<form>
+	<form [ngFormModel]="ctrl.form">
 		<h2 class="subheader">Change phone number</h2>
 		<div class="row">
+		  <small class="error" *ngIf="error_field.phone">{{error_field['phone']}}</small>
+		  <div *ngIf="ctrl.phone.dirty && !ctrl.phone.valid">
+		    <small class="error" *ngIf="ctrl.phone.errors.isPrefixed">The phone must be prefixed with the international code. (+44/+33/...)</small>
+		  </div>
 		    <label class="small-3 medium-2 columns inline">
-		      New phone number
+		      Phone number<br />(with international code)
 		    </label>
 		    <div class="small-9 medium-10 columns">
-		      <input [(ngModel)]="phone_number" type="tel"/>
+		      <input [(ngModel)]="phone_number" ngControl="phone" type="tel"/>
 		    </div>
 		</div>
+
+		<h2 class="subheader">Change default alert</h2>
+		<div class="row">
+		  <small class="error" *ngIf="error_field.default_alert_type">{{error_field['default_alert_type']}}</small>
+		    <label class="small-3 medium-2 columns inline">
+		      Alert type
+		    </label>
+		    <div class="small-9 medium-10 columns">
+		      <select [(ngModel)]="default_alert">
+			<option *ngFor="let type of default_alert_types" value={{type}}>
+			  {{type}}
+			</option>
+		      </select>
+		    </div>
+		</div>
+
 		<h2 class="subheader">Change password</h2>
 		<div class="row">
 		    <label class="small-3 medium-2 columns inline">
 		      New password
 		    </label>
 		    <div class="small-9 medium-10 columns">
-		      <input type="password"/>
+		      <input ngControl="password" [(ngModel)]="password" type="password" />
 		    </div>
 		</div>
 		<div class="row">
+		  <div *ngIf="!ctrl.password_confirm.valid">
+		    <small class="error" *ngIf="ctrl.password_confirm.errors.match">The confirmation password must match the password.</small>
+		  </div>
 		    <label class="small-3 medium-2 columns inline">
 		      Confirm new password
 		    </label>
 		    <div class="small-9 medium-10 columns">
-		      <input type="password"/>
+		      <input ngControl="password_confirm" [(ngModel)]="password_confirm" type="password" data-equalto="password"/>
 		    </div>
 		</div><br/>
-		<button (click)="onClickSubmit()" class="button">
+		<button [disabled]="!ctrl.form.valid" (click)="onClickSubmit()" class="button">
 		  <span *ngIf="!loadingSubmit">Submit</span>
 		  <span *ngIf="loadingSubmit">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>
 		</button>
 	</form><br/>
+	<alert *ngFor="let alert of alerts" [type]="alert.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
 	<hr/>
-	<button class="button alert" (click)="deleteAccount()">Delete account</button>
+	<button type="submit" class="button alert" (click)="deleteAccount()">Delete account</button>
 </div>

@@ -40,6 +40,13 @@ export class UserService {
 	    .catch(this.httpServiceError.handleError);
     }
 
+    updateInfos(infos): Observable<any> {
+	var body = JSON.stringify(infos);
+	return this.api.patch(this.url + this.user.id + "/", body)
+	    .map(data => data.json())
+	    .catch(this.httpServiceError.handleError);
+    }
+
     getStats(): Observable<any> {
 	return this.api.get(this.url + this.user.id + "/stats/")
 	    .map(data => data.json())

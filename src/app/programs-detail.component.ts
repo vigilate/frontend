@@ -20,8 +20,7 @@ export class ProgramsDetailComponent implements OnInit {
     have_changes = false;
     program_params = [
 	{name: "Name", key: "program_name"},
-	{name: "Version", key: "program_version"},
-	// {name: "Poste", key: "poste"}
+	{name: "Version", key: "program_version"}
     ]
     program_obj_origin;
     program_obj;
