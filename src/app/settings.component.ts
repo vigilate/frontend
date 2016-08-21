@@ -53,8 +53,7 @@ export class SettingsComponent implements OnInit {
 
     deleteAccount() {
 	this.userService.deleteAccount().subscribe(() => {
-	    this.authService.logout();
-	    this.router.navigate(['/login']);
+	    this.router.navigate(['/logout']);
 	});
     }
 

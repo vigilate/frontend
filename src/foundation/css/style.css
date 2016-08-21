@@ -14,8 +14,9 @@
 }
 
 .item_menu {
-	/*line-height: 100px;*/
+    /*line-height: 100px;*/
 	margin-top: 20px;
+	/* margin-right: 50px; */
 	transition: color 0.2s;
 }
 
@@ -59,6 +60,14 @@
 	transition: color 0.1s;
 }
 
+
+.columns:last-child {
+    float: left !important;
+}
+
+#item-logout {
+    float: right !important;
+}
 /* CONTENT */
 
 #content {

@@ -23,7 +23,6 @@ export class AuthGuard implements CanActivate {
 
 	if (this.authService.isLoggedIn && this.userService.user)
 	    return true;
-
 	if (this.authService.token != "") {
 	    return this.authService.checkToken().flatMap(
 		data => {

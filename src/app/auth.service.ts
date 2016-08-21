@@ -11,6 +11,7 @@ export class AuthService {
     isLoggedIn: boolean = false;
     isChecking: boolean = false;
     token = localStorage.getItem("token");
+    triedToConnect = false;
     
     constructor (private http: Http,
 		 private httpServiceError: HttpServiceError,
@@ -19,9 +20,9 @@ export class AuthService {
     private url = "/sessions/";
 
     checkToken() {
+	this.triedToConnect = true;
 	if (!this.isChecking || this.checkLoggedObservable != null) {
 	    this.isChecking = true;
-	    console.log("Checking token");
 	    var headers = new Headers();
 	    headers.append('Content-Type', 'application/json');
 	    headers.append('Accept', 'application/json');
