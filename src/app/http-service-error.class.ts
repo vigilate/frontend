@@ -8,7 +8,8 @@ export class HttpServiceError {
     public handleError (error: any) {
 	let error_resp = {
 	    code: 0,
-	    msg: ""
+	    msg: "",
+	    json: null
 	}
 
 	error_resp.code = error.status;
@@ -18,6 +19,10 @@ export class HttpServiceError {
 	    let j = JSON.parse(error._body);
 	    if ("detail" in j)
 		error_resp.msg = j["detail"]
+	    else {
+		error_resp.msg = "";
+		error_resp.json = j;
+	    }
 	}
 	catch (e) {}
 
