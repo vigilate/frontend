@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
 		 private storageService: StorageService) {}
 
     ngOnInit() {
-	if (this.authService.isLoggedIn || (!this.authService.triedToConnect && this.authService.token == ""))
+	if (this.authService.isLoggedIn || (!this.authService.triedToConnect && this.authService.token != ""))
 	    this.router.navigate(['/dashboard']);
     }
     

@@ -74,7 +74,7 @@ export class AuthService {
 	var body = JSON.stringify({ email:email, password:pwd });
 	headers.append('Content-Type', 'application/json');
 	headers.append('Accept', 'application/json');
-	return this.http.post(this.backend.getHost() + this.url, body, new RequestOptions({ headers: headers }))
+	return this.http.post(this.backend.getHost() + "/users/", body, new RequestOptions({ headers: headers }))
 	    .map(data => data.json())
 	    .catch(this.httpServiceError.handleError);
     }
