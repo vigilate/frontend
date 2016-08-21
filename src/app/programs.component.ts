@@ -5,12 +5,14 @@ import { ProgramsService } from './programs.service';
 import { AlertComponent } from 'ng2-bootstrap/components/alert';
 import { PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination/dist/ng2-pagination';
 import { StorageService } from './storage.service'
+import { StationsService } from './stations.service';
+import { StationPipe } from './station.pipe';
 
 @Component({
     selector: 'programs',
     templateUrl: 'app/programs.component.html',
     directives: [AlertComponent, PaginationControlsCmp],
-    pipes: [PaginatePipe],
+    pipes: [PaginatePipe, StationPipe],
     providers: [PaginationService]
 })
 
@@ -19,11 +21,16 @@ export class ProgramsComponent implements OnInit {
     cacheSubscription = null;
     alerts:Array<Object> = []
     progs = []
+    stations_list = []
+    stations = {}
+    filtered_station = 'all';
     p = 0;
     
     constructor (private programsService: ProgramsService,
 		 private router: Router,
-		 private storageService: StorageService){}
+		 private storageService: StorageService,
+		 private stationsService: StationsService
+		){}
 
     ngOnInit() {
 	this.p = this.storageService.get("ProgramsComponent", "page", 1);
@@ -43,6 +50,15 @@ export class ProgramsComponent implements OnInit {
     }
 
     updateList() {
+	this.stationsService.getStationsList().subscribe(stations => {
+	    this.stations_list = stations;
+	    for (let st of stations)
+		this.stations[st.id] = st.name;
+	    this.updateListProgOnly();
+	});
+    }
+    
+    updateListProgOnly() {
 	this.programsService.getProgramsList()
             .subscribe(
                 programs => {
@@ -79,5 +95,9 @@ export class ProgramsComponent implements OnInit {
 
     onPageChange(page) {
 	this.storageService.store("ProgramsComponent", "page", page);
+    }
+
+    selectStation(st) {
+	this.filtered_station = st;
     }
 }

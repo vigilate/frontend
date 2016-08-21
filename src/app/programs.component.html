@@ -2,20 +2,28 @@
       <div class="medium-8 medium-offset-2 columns">
         <h1><i class="fi-target"></i> Manage softwares</h1>
         <br>
+	<div>
+	  <ul class="pagination">
+	    <li class="current"><button (click)="selectStation('all')" href="">All</button></li>
+	    <li *ngFor="let station of stations_list"><button (click)="selectStation(station.id)" href="#">{{station.name}}</button></li>
+	  </ul>
+	</div>
         <table id="softwares">
           <thead>
             <tr>
               <th width="200">Name</th>
-              <th width="800">Version</th>
+              <th width="200">Version</th>
+	      <th width="600">Station</th>
               <th width="200" class="text-center">Vulnerable</th>
               <th width="50" class="text-center">Edit</th>
               <th width="50" class="text-center">Delete</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let prog of progs | paginate: { itemsPerPage: 100, currentPage: p } ; let i = index">
+            <tr *ngFor="let prog of progs | station:filtered_station | paginate: { itemsPerPage: 100, currentPage: p } ; let i = index">
               <td class="clickable" (click)="onClick(prog.id)">{{prog.program_name}}</td>
               <td class="clickable" (click)="onClick(prog.id)">{{prog.program_version}}</td>
+	      <td class="clickable" (click)="onClick(prog.id)">{{stations[prog.poste]}}</td>
               <td *ngIf="prog.is_vulnerable" class="text-center red clickable"><i class="fi-alert big-icon"></i> Learn more</td>
               <td *ngIf="!prog.is_vulnerable"></td>
               <td> <button class="button tiny" (click)="onClick(prog.id)">Edit</button></td>

@@ -277,3 +277,10 @@ h3 {
 .state-badge-patch {
 	background-color: #13c60f;
 }
+
+/* TAB */
+
+.sub-nav {
+    background-color: #f2f2f2;
+    padding: 10px 10px 10px 0;
+}
