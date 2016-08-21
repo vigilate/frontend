@@ -27,7 +27,7 @@
       <tbody>
       	<tr *ngFor="let station of stations | paginate: { itemsPerPage: 50, currentPage: p }">
       	  <td (click)="onClick(station.id)">{{station.name}}</td>
-          <td class="text-center"> <a href="https://vigilate.eax.ovh/get_scanner/{{station.id}}/" class="button tiny">Download scanner</a></td>
+          <td class="text-center"><button class="button tiny" (click)="onDownload(station.id)">Download scanner</button></td>
       	  <td class="text-center right"> <button class="button alert tiny" (click)="onDelete(station.id)">Delete</button></td>
       	</tr>
       </tbody>

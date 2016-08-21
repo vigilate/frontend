@@ -28,7 +28,7 @@ export class AuthService {
 	    headers.append('Accept', 'application/json');
 	    headers.append('Authorization', 'token ' + this.token);
 
-	    this.checkLoggedObservable = this.http.get(this.backend.getHost() + this.url, new RequestOptions({ headers: headers }))
+	    this.checkLoggedObservable = this.http.get(this.backend.getUrl() + this.url, new RequestOptions({ headers: headers }))
 		.do(
 		    data => {
 			this.isLoggedIn = data.ok;
@@ -51,7 +51,7 @@ export class AuthService {
 	headers.append('Content-Type', 'application/json');
 	headers.append('Accept', 'application/json');
 	
-	return this.http.post(this.backend.getHost() + this.url, body, new RequestOptions({ headers: headers }))
+	return this.http.post(this.backend.getUrl() + this.url, body, new RequestOptions({ headers: headers }))
 	    .do(data => {
 		this.isLoggedIn = data.ok;
 	    } ).map((data) => data.json()).catch(this.httpServiceError.handleError).do((data) => {
@@ -74,7 +74,7 @@ export class AuthService {
 	var body = JSON.stringify({ email:email, password:pwd });
 	headers.append('Content-Type', 'application/json');
 	headers.append('Accept', 'application/json');
-	return this.http.post(this.backend.getHost() + "/users/", body, new RequestOptions({ headers: headers }))
+	return this.http.post(this.backend.getUrl() + "/users/", body, new RequestOptions({ headers: headers }))
 	    .map(data => data.json())
 	    .catch(this.httpServiceError.handleError);
     }

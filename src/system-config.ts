@@ -9,7 +9,8 @@
 const map: any = {
     'moment': 'vendor/moment/moment.js',
     'ng2-bootstrap': 'vendor/ng2-bootstrap',
-    'ng2-pagination': 'vendor/ng2-pagination'
+    'ng2-pagination': 'vendor/ng2-pagination',
+    'file-saver': 'vendor/file-saver'
 };
 
 /** User packages configuration. */
@@ -19,8 +20,12 @@ const packages:any = {
     },
     'vendor/ng2-pagination': {
       defaultExtension: 'js'
+    },
+    'vendor/file-saver': {
+	main: 'FileSaver.js',
+	defaultExtension: 'js',
+	format: 'cjs'
     }
-    
 };
 
 
@@ -43,7 +48,7 @@ const barrels: string[] = [
 
   // App specific barrels.
   'app',
-  'app/shared',
+    'app/shared',
   /** @cli-barrel */
 ];
 
@@ -62,7 +67,7 @@ System.config({
     'rxjs': 'vendor/rxjs',
     'main': 'main.js'
   },
-  packages: cliSystemConfigPackages
+    packages: cliSystemConfigPackages,
 });
 
 // Apply the user's configuration.
