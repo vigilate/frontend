@@ -2,6 +2,7 @@ import { provideRouter, RouterConfig } from '@angular/router';
 
 import { DashboardComponent } from './dashboard.component'
 import { LoginComponent } from './login.component'
+import { LogoutComponent } from './logout.component'
 import { ProgramsComponent } from './programs.component'
 import { ProgramsDetailComponent } from './programs-detail.component'
 import { AuthGuard } from './auth.guard'
@@ -26,6 +27,7 @@ export const routes: RouterConfig = [
       index:true,
       canActivate: [AuthGuard]},
     { path: '/login', component: LoginComponent },
+    { path: '/logout', component: LogoutComponent },
     { path: '/programs', component: ProgramsComponent, canActivate: [AuthGuard] },
     { path: '/programs/:id', component: ProgramsDetailComponent, canActivate: [AuthGuard] },
     { path: '/alerts', component: AlertsComponent, canActivate: [AuthGuard] },

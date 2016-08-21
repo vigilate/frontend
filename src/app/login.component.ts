@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from './auth.service';
 import { User } from './user.model';
 import { BackgroundService } from './background.service';
@@ -25,14 +25,13 @@ export class LoginComponent implements OnInit {
     constructor (private authService: AuthService,
 		 private userService: UserService,
 		 private router: Router,
+		 private route: ActivatedRoute,
 		 private backgroundService: BackgroundService,
 		 private storageService: StorageService) {}
 
     ngOnInit() {
-	if (this.authService.isLoggedIn)
+	if (this.authService.isLoggedIn || (!this.authService.triedToConnect && this.authService.token == ""))
 	    this.router.navigate(['/dashboard']);
-	if (!this.backgroundService.is_new)
-	    window.location.replace('/');
     }
     
     onSubmitLogin() {

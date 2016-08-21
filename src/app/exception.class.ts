@@ -27,9 +27,7 @@ export class MyExceptionHandler extends ExceptionHandler {
 	this.getDependencies();
 	if (error == "NeedToReconnect")
 	{
-	    this.authService.logout();
-	    this.backgroundService.stop();
-	    this.router.navigate(['/login']);
+	    this.router.navigate(['/logout']);
 	}
 	else
 	    super.call(error, stackTrace, reason);

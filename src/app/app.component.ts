@@ -4,9 +4,10 @@ import { LoginComponent } from './login.component';
 import { AuthService } from './auth.service';
 import { ProgramsService } from './programs.service';
 import { BackgroundService } from './background.service';
-import { ROUTER_DIRECTIVES } from '@angular/router';
+import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { Backend } from './backend.class'
 import { UserService } from './user.service';
+import { NavigationExtras } from '@angular/router/router';
 import './rxjs-operators';
 
 @Component({
@@ -33,7 +34,8 @@ export class AppComponent implements OnInit {
 		 private programsService: ProgramsService,
 		 private backgroundService: BackgroundService,
 		 private backend: Backend,
-		 private userService: UserService
+		 private userService: UserService,
+		 private router: Router
 		) {}
 
     ngOnInit() {
@@ -49,5 +51,9 @@ export class AppComponent implements OnInit {
 	{
 	    this.backend.setHost(new_url);
 	}
+    }
+
+    logout() {
+	this.router.navigate(['/logout']);
     }
 }

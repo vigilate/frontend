@@ -49,11 +49,6 @@ export class DashboardComponent implements OnInit {
 
 	this.backgroundService.update();
     }
-    
-    logout() {
-	this.authService.logout();
-	this.backgroundService.stop()
-    }
 
     onClick(target) {
 	this.router.navigate(['/' + target]);

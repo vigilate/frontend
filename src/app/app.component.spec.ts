@@ -10,7 +10,6 @@ import {
 import { provide } from '@angular/core';
 import { BaseRequestOptions, Response, ResponseOptions, Http } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-
 import { AppComponent } from './app.component';
 import { AuthService } from './auth.service'
 import { AlertsService } from './alerts.service';
@@ -21,6 +20,13 @@ import { BackgroundService } from './background.service';
 import { StationsService } from './stations.service';
 import { UserService } from './user.service';
 import { Api } from './api.service';
+import { Router, ActivatedRoute } from '@angular/router';
+
+
+import { routes } from './app.routes';
+
+class MockRouter { createUrlTree() {} }
+class MockActivatedRoute { }
 
 beforeEachProviders(() => [
     AppComponent,
@@ -35,6 +41,8 @@ beforeEachProviders(() => [
     StationsService,
     UserService,
     Api,
+    provide(Router, { useClass: MockRouter }),
+    provide(ActivatedRoute, { useClass: MockActivatedRoute }),
     provide(Http, {
 	useFactory: (backend: MockBackend, defaultOptions: BaseRequestOptions) => {
 	    return new Http(backend, defaultOptions);
