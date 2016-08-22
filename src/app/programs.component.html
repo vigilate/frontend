@@ -2,10 +2,10 @@
       <div class="medium-8 medium-offset-2 columns">
         <h1><i class="fi-target"></i> Manage softwares</h1>
         <br>
-	<div>
+	<div *ngIf="stations_list.length > 1">
 	  <ul class="pagination">
-	    <li class="current"><button (click)="selectStation('all')" href="">All</button></li>
-	    <li *ngFor="let station of stations_list"><button (click)="selectStation(station.id)" href="#">{{station.name}}</button></li>
+	    <li class="{{(filtered_station == 'all') ? 'current': ''}}"><button (click)="selectStation('all')" href="">All</button></li>
+	    <li class="{{(filtered_station == station.id) ? 'current': ''}}" *ngFor="let station of stations_list"><button (click)="selectStation(station.id)" href="#">{{station.name}}</button></li>
 	  </ul>
 	</div>
         <table id="softwares">
@@ -20,7 +20,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let prog of progs | station:filtered_station | paginate: { itemsPerPage: 100, currentPage: p } ; let i = index">
+            <tr *ngFor="let prog of progs | station:'prog':filtered_station | paginate: { itemsPerPage: 100, currentPage: p } ; let i = index">
               <td class="clickable" (click)="onClick(prog.id)">{{prog.program_name}}</td>
               <td class="clickable" (click)="onClick(prog.id)">{{prog.program_version}}</td>
 	      <td class="clickable" (click)="onClick(prog.id)">{{stations[prog.poste]}}</td>
