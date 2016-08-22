@@ -5,13 +5,15 @@ import { AuthService } from './auth.service';
 import { AlertsService } from './alerts.service';
 import { AlertComponent } from 'ng2-bootstrap/components/alert';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination/dist/ng2-pagination';
+import { StationsService } from './stations.service';
 import { StorageService } from './storage.service'
+import { StationPipe } from './station.pipe';
 
 @Component({
     selector: 'alerts',
     templateUrl: 'app/alerts.component.html',
     directives: [AlertComponent, PaginationControlsCmp],
-    pipes: [PaginatePipe],
+    pipes: [PaginatePipe, StationPipe],
     providers: [PaginationService]
 })
 
@@ -21,6 +23,9 @@ export class AlertsComponent implements OnInit, OnDestroy {
     alertsHtml:Array<Object> = []
     alerts = []
     p = 0;
+    stations_list = []
+    stations = {}
+    filtered_station = 'all';
     loadingMarkAll = {
 	read: false,
 	unread: false
@@ -29,7 +34,8 @@ export class AlertsComponent implements OnInit, OnDestroy {
     constructor (private authService: AuthService,
 		 private alertsService: AlertsService,
 		 private router: Router,
-		 private storageService: StorageService){}
+		 private storageService: StorageService,
+		 private stationsService: StationsService){}
 
     ngOnInit() {
 	this.p = this.storageService.get("AlertsComponent", "page", 1);
@@ -48,6 +54,15 @@ export class AlertsComponent implements OnInit, OnDestroy {
     }
 
     updateList() {
+	this.stationsService.getStationsList().subscribe(stations => {
+	    this.stations_list = stations;
+	    for (let st of stations)
+		this.stations[st.id] = st.name;
+	    this.updateListAlertOnly();
+	});
+}
+    
+    updateListAlertOnly() {
 	this.alertsService.getAlertsList()
             .subscribe(
                 alerts => {
@@ -127,4 +142,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
 	    });
     }
 
+    selectStation(st) {
+	this.filtered_station = st;
+    }
 }

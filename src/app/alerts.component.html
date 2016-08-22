@@ -9,22 +9,30 @@
       <span *ngIf="!loadingMarkAll['unread']">Mark all unread</span>
       <span *ngIf="loadingMarkAll['unread']">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>  
     </button>
+    <div *ngIf="stations_list.length > 1">
+	  <ul class="pagination">
+	    <li class="{{(filtered_station == 'all') ? 'current': ''}}"><button (click)="selectStation('all')" href="">All</button></li>
+	    <li class="{{(filtered_station == station.id) ? 'current': ''}}" *ngFor="let station of stations_list"><button (click)="selectStation(station.id)" href="#">{{station.name}}</button></li>
+	  </ul>
+	</div>
     <table>
       <thead>
 	<tr>
 	  <th width="200">Name</th>
 	  <th width="100">Version</th>
+	  <th width="100">Station</th>
 	  <th width="50">Vulnerabilities</th>
-	  <th width="1000">State</th>
+	  <th width="900">State</th>
 	  <th width="50">Vulnerability score</th>
 	  <th width="50">Mark as</th>
 	  <th width="50">New</th>
 	</tr>
       </thead>
       <tbody>
-	<tr *ngFor="let alert of alerts | paginate: { itemsPerPage: 50, currentPage: p }">
+	<tr *ngFor="let alert of alerts | station:'alert':filtered_station | paginate: { itemsPerPage: 50, currentPage: p }">
 	  <td (click)="onClick(alert.id)">{{alert.program_info.program_name}}</td>
 	  <td (click)="onClick(alert.id)">{{alert.program_info.program_version}}</td>
+	  <td (click)="onClick(alert.id)">{{stations[alert.program_info.poste]}}</td>
 	  <td (click)="onClick(alert.id)">{{alert.number_cve}}</td>
 	  <td (click)="onClick(alert.id)">
 	    <span *ngFor="let state of alert.state" class="state-badge state-badge-{{state}}">{{state}}</span>
