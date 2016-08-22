@@ -22,7 +22,6 @@ const packages:any = {
       defaultExtension: 'js'
     },
     'vendor/file-saver': {
-	main: 'FileSaver.js',
 	defaultExtension: 'js',
 	format: 'cjs'
     }
