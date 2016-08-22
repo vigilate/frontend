@@ -18,7 +18,10 @@ module.exports = function(defaults) {
       '@angular/**/*.+(js|js.map)',
 	'ng2-bootstrap/**/*',
 	'ng2-pagination/**/*',
-	'file-saver/**/*.+(js|js.map)'
-    ]
+	'file-saver/FileSaver.min.js'
+    ],
+      polyfills: [
+	  'vendor/file-saver/FileSaver.min.js'
+      ]
   });
 };
