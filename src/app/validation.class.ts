@@ -6,7 +6,7 @@ interface ValidationResult {
 
 export class PhoneValidator { 
     static isPrefixed(control: Control): ValidationResult { 
-	if (control.value !="" && control.value.charAt(0) == "+")
+	if (control.value !="" && control.value != null && control.value.charAt(0) == "+")
 	    return null;
 	return {"isPrefixed": true};
     }
