@@ -99,7 +99,6 @@ export class ProgramsDetailComponent implements OnInit {
     }
 
     updateHaveChange() {
-	console.log("bla");
 	let tmp_changes = false;
 	for (var i = 0 ; i < this.program_params.length ; i++)
 	{

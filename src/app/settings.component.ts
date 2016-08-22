@@ -48,7 +48,6 @@ export class SettingsComponent implements OnInit {
 	    password:  this.ctrl.password,
 	    password_confirm:  this.ctrl.password_confirm
 	});
-	console.log(this.ctrl);
     }
 
     deleteAccount() {
