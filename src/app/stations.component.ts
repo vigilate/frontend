@@ -42,8 +42,9 @@ export class StationsComponent implements OnInit {
 		    console.log(error);
 		});
     }
-    
+
     onClick(id) {
+	this.router.navigate(['/stations', id]);
     }
 
     onDelete(id) {

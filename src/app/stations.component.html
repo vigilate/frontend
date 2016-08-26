@@ -19,14 +19,16 @@
     <table>
       <thead>
       	<tr>
-      	  <th width="1150">Name</th>
+      	  <th width="1050">Name</th>
+	  <td width="100" class="text-center">Edit</td>
           <td width="200" class="text-center">Download scanner</td>
       	  <th width="100" class="text-center">Delete</th>
       	</tr>
       </thead>
       <tbody>
       	<tr *ngFor="let station of stations | paginate: { itemsPerPage: 50, currentPage: p }">
-      	  <td (click)="onClick(station.id)">{{station.name}}</td>
+      	  <td class="clickable" (click)="onClick(station.id)">{{station.name}}</td>
+	  <td> <button class="button tiny" (click)="onClick(prog.id)">Edit</button></td>
           <td class="text-center"><button class="button tiny" (click)="onDownload(station.id)">Download scanner</button></td>
       	  <td class="text-center right"> <button class="button alert tiny" (click)="onDelete(station.id)">Delete</button></td>
       	</tr>
