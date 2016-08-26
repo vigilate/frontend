@@ -64,9 +64,18 @@ export class AuthService {
     }
 
     logout() {
-	this.isLoggedIn = false;
-	this.token = "";
 	localStorage.setItem("token", "");
+	var headers = new Headers();
+	headers.append('Content-Type', 'application/json');
+	headers.append('Accept', 'application/json');
+	headers.append('Authorization', 'token ' + this.token);
+
+	return this.http.delete(this.backend.getUrl() + this.url + "/" + this.token + "/", new RequestOptions({ headers: headers }))
+	    .do(() => {
+		this.isLoggedIn = false;
+		this.token = "";
+	    })
+		.catch(this.httpServiceError.handleError);
     }
 
     signin(email, pwd): Observable<User> {
