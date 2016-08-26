@@ -18,6 +18,7 @@ import { AlertsComponent } from './alerts.component';
 import { StationsComponent } from './stations.component';
 import { SettingsComponent } from './settings.component';
 import { AlertsDetailComponent } from './alerts-detail.component';
+import { StationsDetailComponent } from './stations-detail.component';
 import { Backend } from './backend.class'
 import { Api } from './api.service'
 
@@ -33,7 +34,8 @@ export const routes: RouterConfig = [
     { path: '/alerts', component: AlertsComponent, canActivate: [AuthGuard] },
     { path: '/alerts/:id', component: AlertsDetailComponent, canActivate: [AuthGuard] },
     { path: '/settings', component: SettingsComponent, canActivate: [AuthGuard] },
-    { path: '/stations', component: StationsComponent, canActivate: [AuthGuard] }
+    { path: '/stations', component: StationsComponent, canActivate: [AuthGuard] },
+    { path: '/stations/:id', component: StationsDetailComponent, canActivate: [AuthGuard] },
 ];
 
 export const APP_ROUTER_PROVIDERS = [
