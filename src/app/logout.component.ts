@@ -5,7 +5,7 @@ import { BackgroundService } from './background.service';
 import { UserService } from './user.service';
 
 @Component({
-    template: ''
+    template: 'Disconnecting...'
 })
 
 export class LogoutComponent implements OnInit {
@@ -18,8 +18,17 @@ export class LogoutComponent implements OnInit {
     ngOnInit() {
 	if (!this.authService.isLoggedIn && !this.backgroundService.is_new)
 	    this.router.navigate(['/login']);
-	this.authService.logout();
-	this.backgroundService.stop();
-	window.location.replace('/');
+	this.authService.logout().subscribe(
+	    () => {
+		this.backgroundService.stop();
+		window.location.replace('/');
+	    },
+	    () => {
+		this.backgroundService.stop();
+		window.location.replace('/');
+	    }
+	);
+					    ;
+	
     }
 }
