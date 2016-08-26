@@ -29,7 +29,7 @@
       	<tr *ngFor="let station of stations | paginate: { itemsPerPage: 50, currentPage: p }">
       	  <td class="clickable" (click)="onClick(station.id)">{{station.name}}</td>
 	  <td> <button class="button tiny" (click)="onClick(prog.id)">Edit</button></td>
-          <td class="text-center"><button class="button tiny" (click)="onDownload(station.id)">Download scanner</button></td>
+          <td class="text-center"><button class="button tiny" (click)="onDownload(station.id, station.name)">Download scanner</button></td>
       	  <td class="text-center right"> <button class="button alert tiny" (click)="onDelete(station.id)">Delete</button></td>
       	</tr>
       </tbody>

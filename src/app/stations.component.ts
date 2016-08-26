@@ -78,7 +78,7 @@ export class StationsComponent implements OnInit {
 		});
     }
 
-    onDownload(id) {
+    onDownload(id, name) {
 	this.api.get("/get_scanner/" + id + "/", false).subscribe(
 	    data => {
 		console.log(data);
@@ -86,7 +86,11 @@ export class StationsComponent implements OnInit {
 		if (data.headers.has("Content-Type"))
 		    type = data.headers.get("Content-Type");
 		let blob = new Blob([data.text()], {type: type});
-		window["saveAs"](blob, "scanner.py");
+		window["saveAs"](blob, "scanner-" + this.sanitizedName(name) + "_" + id + ".py");
 	    });
+    }
+
+    sanitizedName(name) {
+	return name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
     }
 }
