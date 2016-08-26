@@ -19,6 +19,7 @@ import { StationPipe } from './station.pipe';
 
 export class AlertsComponent implements OnInit, OnDestroy {
 
+    pageLoading = true;
     cacheSubscription = null;
     alertsHtml:Array<Object> = []
     alerts = []
@@ -54,6 +55,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
     }
 
     updateList() {
+	this.pageLoading = true;
 	this.stationsService.getStationsList().subscribe(stations => {
 	    this.stations_list = stations;
 	    for (let st of stations)
@@ -63,6 +65,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
 }
     
     updateListAlertOnly() {
+	this.pageLoading = true;
 	this.alertsService.getAlertsList()
             .subscribe(
                 alerts => {
@@ -71,9 +74,10 @@ export class AlertsComponent implements OnInit, OnDestroy {
 			alerts[i].loadingMark = false;
 		    }
 		    this.alerts = alerts;
-		    
+		    this.pageLoading = false;
 		},
                 error =>  {
+		    this.pageLoading = false;
 		    if (error == "NeedToReconnect")
 			throw error;
 		    console.log(error);

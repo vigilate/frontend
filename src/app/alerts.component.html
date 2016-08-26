@@ -46,7 +46,8 @@
 	</tr>
       </tbody>
     </table>
+    <div *ngIf="pageLoading" class="page-loading"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span></div>
     <alert *ngFor="let alert of alertsHtml" [type]="alertHtml.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
-    <pagination-controls (pageChange)="p = $event;onPageChange(p)"></pagination-controls>
+    <pagination-controls autoHide="true" (pageChange)="p = $event;onPageChange(p)"></pagination-controls>
   </div>
 </div>

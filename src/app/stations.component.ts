@@ -15,6 +15,7 @@ import { Api } from './api.service';
 
 export class StationsComponent implements OnInit {
 
+    pageLoading = true;
     loadingSubmit = false;
     stations = []
     new_station_name = "";
@@ -31,12 +32,15 @@ export class StationsComponent implements OnInit {
     }
 
     reloadList() {
-    this.stationsService.getStationsList()
+	this.pageLoading = true;
+	this.stationsService.getStationsList()
             .subscribe(
                 stations => {
 		    this.stations = stations;
-			},
+		    this.pageLoading = false;
+		},
                 error =>  {
+		    this.pageLoading = false;
 		    if (error == "NeedToReconnect")
 			throw error;
 		    console.log(error);

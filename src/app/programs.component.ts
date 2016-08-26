@@ -18,6 +18,7 @@ import { StationPipe } from './station.pipe';
 
 export class ProgramsComponent implements OnInit {
 
+    pageLoading = true;
     cacheSubscription = null;
     alerts:Array<Object> = []
     progs = []
@@ -50,21 +51,30 @@ export class ProgramsComponent implements OnInit {
     }
 
     updateList() {
-	this.stationsService.getStationsList().subscribe(stations => {
-	    this.stations_list = stations;
-	    for (let st of stations)
-		this.stations[st.id] = st.name;
-	    this.updateListProgOnly();
-	});
+	this.pageLoading = true;
+	this.stationsService.getStationsList().subscribe(
+	    stations => {
+		this.stations_list = stations;
+		for (let st of stations)
+		    this.stations[st.id] = st.name;
+		this.updateListProgOnly();
+	    },
+	    () => {
+		this.pageLoading = false;
+	    }
+	);
     }
     
     updateListProgOnly() {
+	this.pageLoading = true;
 	this.programsService.getProgramsList()
             .subscribe(
                 programs => {
 		    this.progs = programs;
-			},
+		    this.pageLoading = false;
+		},
                 error =>  {
+		    this.pageLoading = false;
 		    if (error == "NeedToReconnect")
 			throw error;
 		    console.log(error);
