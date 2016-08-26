@@ -34,6 +34,7 @@
       	</tr>
       </tbody>
     </table>
-    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <div *ngIf="pageLoading" class="page-loading"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span></div>
+    <pagination-controls autoHide="true" (pageChange)="p = $event"></pagination-controls>
   </div>
 </div>
