@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
     nb_total_prog = 0;
     nb_total_alert = 0;
     nb_total_station = 0;
+    stats_loaded = false;
     
     constructor (private authService: AuthService,
 		 private userService: UserService,
@@ -33,18 +34,21 @@ export class DashboardComponent implements OnInit {
 	    .subscribe(nb_total_alert => {
 		this.nb_total_alert = nb_total_alert;
 		this.storageService.store("DashboardComponent", "total_alert", nb_total_alert);
+		this.stats_loaded = true;
 	    });
 
 	this.backgroundService.cntTotalProg
 	    .subscribe(nb_total_prog => {
 		this.nb_total_prog = nb_total_prog;
 		this.storageService.store("DashboardComponent", "total_prog", nb_total_prog);
+		this.stats_loaded = true;
 	    });
 
 	this.backgroundService.cntTotalStation
 	    .subscribe(nb_total_station => {
 		this.nb_total_station = nb_total_station;
 		this.storageService.store("DashboardComponent", "total_station", nb_total_station);
+		this.stats_loaded = true;
 	    });
 
 	this.backgroundService.update();
@@ -52,5 +56,9 @@ export class DashboardComponent implements OnInit {
 
     onClick(target) {
 	this.router.navigate(['/' + target]);
+    }
+
+    onClickTour() {
+	this.storageService.store("Tour", "current_step", "/stations");
     }
 }
