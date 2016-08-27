@@ -26,7 +26,7 @@ export class SettingsComponent implements OnInit {
     password = "";
     password_confirm = "";
     default_alert = "";
-    default_alert_types = ["EMAIL", "SMS", "WEB"];
+    default_alert_types = ["EMAIL", "SMS"];
     alerts:Array<Object> = []
     error_field = {};
     
