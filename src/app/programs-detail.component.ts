@@ -34,7 +34,6 @@ export class ProgramsDetailComponent implements OnInit {
 	def: true,
 	sms: {score: 0, activated: false},
 	mail: {score: 0, activated: false},
-	web: {score: 0, activated: false},
     }
 
     alert_custom;
@@ -74,8 +73,8 @@ export class ProgramsDetailComponent implements OnInit {
 					   "minimum_score":"", "user":this.userService.user
 					   .id,
 					   "alert_type_default": true, "email_score": 0,
-					   "sms_score": 0, "web_score": 0, "email_enabled": true,
-					   "sms_enabled": true, "web_enabled": true, "poste": 0
+					   "sms_score": 0, "email_enabled": true,
+					   "sms_enabled": true, "poste": 0
 					  };
 		this.program_obj = JSON.parse(JSON.stringify(this.program_obj_origin));
 		this.initAlertCustomFromData(this.program_obj_origin, this.alert_custom_origin);
@@ -112,11 +111,9 @@ export class ProgramsDetailComponent implements OnInit {
 	
 	tmp_changes = tmp_changes || (this.alert_custom_origin.sms.activated != this.alert_custom.sms.activated)
 	tmp_changes = tmp_changes || (this.alert_custom_origin.mail.activated != this.alert_custom.mail.activated)
-	tmp_changes = tmp_changes || (this.alert_custom_origin.web.activated != this.alert_custom.web.activated)
 
 	tmp_changes = tmp_changes || (this.alert_custom_origin.sms.score != this.alert_custom.sms.score)
 	tmp_changes = tmp_changes || (this.alert_custom_origin.mail.score != this.alert_custom.mail.score)
-	tmp_changes = tmp_changes || (this.alert_custom_origin.web.score != this.alert_custom.web.score)
 
 	this.have_changes = tmp_changes;
     }
@@ -148,10 +145,8 @@ export class ProgramsDetailComponent implements OnInit {
 	this.program_obj.alert_type_default = this.alert_custom.def;
 	this.program_obj.sms_score = this.alert_custom.sms.score;
 	this.program_obj.email_score = this.alert_custom.mail.score;
-	this.program_obj.web_score = this.alert_custom.web.score;
 	this.program_obj.sms_enabled = this.alert_custom.sms.activated;
 	this.program_obj.email_enabled = this.alert_custom.mail.activated;
-	this.program_obj.web_enabled = this.alert_custom.web.activated;
 
 	this.program_obj.poste = this.selectedStation
 	
@@ -195,11 +190,9 @@ export class ProgramsDetailComponent implements OnInit {
 
 	alert_data.sms.score = prog_data.sms_score;
 	alert_data.mail.score = prog_data.email_score;
-	alert_data.web.score = prog_data.web_score;
 
 	alert_data.sms.activated = prog_data.sms_enabled;
 	alert_data.mail.activated = prog_data.email_enabled;
-	alert_data.web.activated = prog_data.web_enabled;
 
     }
 
