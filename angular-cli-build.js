@@ -21,7 +21,12 @@ module.exports = function(defaults) {
 	'file-saver/FileSaver.min.js'
     ],
       polyfills: [
-	  'vendor/file-saver/FileSaver.min.js'
+	  'vendor/file-saver/FileSaver.min.js',
+	  'vendor/es6-shim/es6-shim.js',
+	  'vendor/reflect-metadata/Reflect.js',
+	  'vendor/systemjs/dist/system.src.js',
+	  'vendor/zone.js/dist/zone.js'
+	  
       ]
   });
 };
