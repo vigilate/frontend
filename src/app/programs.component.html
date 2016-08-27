@@ -27,6 +27,8 @@
 	<input [(ngModel)]=filter type="text" placeholder="filter">
       </div>
     </div>
+    <button *ngIf="progs.length" class="hollow small button right" (click)="onNewProgram()">New program</button>
+    <pagination-controls autoHide="true" #pagination (pageChange)="p = $event;onPageChange(p)"></pagination-controls>
     <table id="softwares">
       <thead>
         <tr>
