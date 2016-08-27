@@ -164,4 +164,8 @@ export class AlertsComponent implements OnInit, OnDestroy {
     onClickFilter(f) {
 	this.filter = this.filter + " " + f;
     }
+
+    onClickRefresh() {
+	this.alertsService.trigerEmitTimeout();
+    }
 }

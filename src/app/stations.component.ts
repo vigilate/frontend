@@ -103,4 +103,9 @@ export class StationsComponent implements OnInit {
     sanitizedName(name) {
 	return name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
     }
+
+    onClickRefresh() {
+	this.stationsService.discardCache();
+	this.reloadList();
+    }
 }
