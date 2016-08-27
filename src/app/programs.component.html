@@ -2,6 +2,11 @@
   <div class="medium-8 medium-offset-2 columns">
     <h1><i class="fi-target"></i> Manage softwares</h1>
     <br>
+    <button class="tiny"(click)="onClickRefresh()">
+      <span *ngIf="!pageLoading"><i class="fi-refresh"></i> refresh</span>
+      <span *ngIf="pageLoading"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span> refreshing...</span>
+    </button>
+    
     <div *ngIf="stations_list.length > 1">
       <ul class="pagination">
 	<li class="{{(filtered_station == 'all') ? 'current': ''}}"><button (click)="selectStation('all')" href="">All</button></li>
@@ -22,7 +27,6 @@
 	<input [(ngModel)]=filter type="text" placeholder="filter">
       </div>
     </div>
-    
     <table id="softwares">
       <thead>
         <tr>

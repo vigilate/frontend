@@ -124,4 +124,8 @@ export class ProgramsComponent implements OnInit {
     onClickFilter(f) {
 	this.filter = this.filter + " " + f;
     }
+
+    onClickRefresh() {
+	this.programsService.trigerEmitTimeout();
+    }
 }
