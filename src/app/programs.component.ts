@@ -7,12 +7,13 @@ import { PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagi
 import { StorageService } from './storage.service'
 import { StationsService } from './stations.service';
 import { StationPipe } from './station.pipe';
+import { FilterPipe } from './filter.pipe';
 
 @Component({
     selector: 'programs',
     templateUrl: 'app/programs.component.html',
     directives: [AlertComponent, PaginationControlsCmp],
-    pipes: [PaginatePipe, StationPipe],
+    pipes: [PaginatePipe, StationPipe, FilterPipe],
     providers: [PaginationService]
 })
 
@@ -25,7 +26,14 @@ export class ProgramsComponent implements OnInit {
     stations_list = []
     stations = {}
     filtered_station = 'all';
+    filter = ""
     p = 0;
+
+    filter_options = ["is:vulnerable",
+		      "is!vulnerable",
+		     "version:",
+		     "station:"
+		    ];
     
     constructor (private programsService: ProgramsService,
 		 private router: Router,
@@ -70,6 +78,8 @@ export class ProgramsComponent implements OnInit {
 	this.programsService.getProgramsList()
             .subscribe(
                 programs => {
+		    for (let i = 0 ; i < programs.length ; i++)
+			programs[i].station_name = this.stations[programs[i].poste];
 		    this.progs = programs;
 		    this.pageLoading = false;
 		},
@@ -109,5 +119,9 @@ export class ProgramsComponent implements OnInit {
 
     selectStation(st) {
 	this.filtered_station = st;
+    }
+
+    onClickFilter(f) {
+	this.filter = this.filter + " " + f;
     }
 }
