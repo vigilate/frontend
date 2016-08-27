@@ -51,6 +51,9 @@ export class SettingsComponent implements OnInit {
     }
 
     deleteAccount() {
+	let ret = window.confirm("The user '" + this.userService.user.email + "' and all the data linked to it will be deleted.");
+	if (!ret)
+	    return;
 	this.userService.deleteAccount().subscribe(() => {
 	    this.router.navigate(['/logout']);
 	});
