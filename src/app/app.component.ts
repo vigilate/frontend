@@ -32,6 +32,8 @@ export class AppComponent implements OnInit {
     ]
 
     activated_page = "";
+
+    tour_current_step = "";
     
     constructor (private authService: AuthService,
 		 private programsService: ProgramsService,
@@ -50,8 +52,14 @@ export class AppComponent implements OnInit {
 
 	this.storageService.updated
 	    .subscribe((obj) => {
+		
 		if (obj.client == "AuthGuard" && obj.key == "current_page")
 		    this.activated_page = "/" + obj.value;
+		if (obj.client == "Tour" && obj.key == "current_step") {
+		    this.tour_current_step = obj.value;
+		    console.log("Tour changed", obj.value);
+		}
+		    
 	    });
     }
 
@@ -66,4 +74,11 @@ export class AppComponent implements OnInit {
     logout() {
 	this.router.navigate(['/logout']);
     }
+
+    // onClickTour() {
+    // 	this.tour_current_step = 1;
+    // 	// let obj = document.getElementById(this.tour_steps[this.tour_current_step].id);
+    // 	// obj.className.split(" ")
+	
+    // }
 }

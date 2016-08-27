@@ -45,6 +45,12 @@ export class ProgramsComponent implements OnInit {
 	this.p = this.storageService.get("ProgramsComponent", "page", 1);
 	this.updateList();
 
+	let tour = this.storageService.get("Tour", "current_step", "");
+	if (tour == "/programs") {
+	    let tour_current_step = "end";
+	    this.storageService.store("Tour", "current_step", tour_current_step);
+	}
+
 	this.cacheSubscription = this.programsService.cacheTimeout.subscribe(
 	    () => {
 		this.updateList();

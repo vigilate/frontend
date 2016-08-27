@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { StationsService } from './stations.service';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination/dist/ng2-pagination';
 import { Api } from './api.service';
+import { StorageService } from './storage.service'
 
 @Component({
     selector: 'stations',
@@ -20,16 +21,23 @@ export class StationsComponent implements OnInit {
     stations = []
     stations_dic = {}
     new_station_name = "";
+
+    tour_current_step = ""
     
     constructor (private authService: AuthService,
 		 private stationsService: StationsService,
 		 private router: Router,
-		 private api: Api
+		 private api: Api,
+		 private storageService: StorageService
 		){}
 
     ngOnInit() {
 	this.reloadList();
-
+	let tour = this.storageService.get("Tour", "current_step", "");
+	if (tour == "/stations") {
+	    this.tour_current_step = "add-station";
+	    this.storageService.store("Tour", "current_step", this.tour_current_step);
+	}
     }
 
     reloadList() {
@@ -79,6 +87,12 @@ export class StationsComponent implements OnInit {
 		    this.loadingSubmit = false;
 		    this.stationsService.discardCache();
 		    this.reloadList();
+		    let tour = this.storageService.get("Tour", "current_step", "");
+		    if (tour == "add-station") {
+			this.tour_current_step = "download-scanner";
+			this.storageService.store("Tour", "current_step", this.tour_current_step);
+			console.log("New step");
+		    }
 		},
                 error =>  {
 		    this.loadingSubmit = false;
@@ -97,9 +111,15 @@ export class StationsComponent implements OnInit {
 		    type = data.headers.get("Content-Type");
 		let blob = new Blob([data.text()], {type: type});
 		window["saveAs"](blob, "scanner-" + this.sanitizedName(name) + "_" + id + ".py");
+
+		let tour = this.storageService.get("Tour", "current_step", "");
+		    if (tour == "download-scanner") {
+			this.tour_current_step = "/programs";
+			this.storageService.store("Tour", "current_step", this.tour_current_step);
+		    }
+		
 	    });
     }
-
     sanitizedName(name) {
 	return name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
     }
