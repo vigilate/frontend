@@ -100,7 +100,12 @@ export class ProgramsComponent implements OnInit {
             .subscribe(
                 programs => {
 		    this.alerts.push({msg: "Program deleted", type: 'success'});
-		    this.progs.splice(index_array, 1);
+
+		    index_array = index_array + (this.p - 1) * 100;
+		    let tmp = this.progs.slice(0, index_array);
+		    if (index_array + 1 < this.progs.length)
+			tmp = tmp.concat(this.progs.slice(index_array + 1));
+		    this.progs = tmp;
 		},
                 error =>  {
 		    if (error == "NeedToReconnect")
