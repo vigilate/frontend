@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 export class StorageService {
 
     storage = {}
+    @Output() updated = new EventEmitter();
     
     constructor () {}
 
@@ -14,6 +15,7 @@ export class StorageService {
 	    this.storage[client] = {}
 	}
 	this.storage[client][key] = value;
+	this.updated.emit({"client":client, "key": key, "value":value});
     }
 
     get(client, key, def) {	

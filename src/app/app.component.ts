@@ -9,13 +9,14 @@ import { Backend } from './backend.class'
 import { UserService } from './user.service';
 import { NavigationExtras } from '@angular/router/router';
 import './rxjs-operators';
+import { StorageService } from './storage.service'
 
 @Component({
     moduleId: module.id,
     selector: 'app-root',
     templateUrl: 'app.component.html',
     styleUrls: ['app.component.css'],
-    directives: [ROUTER_DIRECTIVES, LoginComponent]
+    directives: [ROUTER_DIRECTIVES]
 })
 
 export class AppComponent implements OnInit {
@@ -23,25 +24,34 @@ export class AppComponent implements OnInit {
     nb_new_alert = 0
     
     routes = [
-	{name: "Dasboard", path: "/dashboard", active: false},
+	{name: "Dasboard", path: "/dashboard", active: true},
 	{name: "Programs", path: "/programs", active: false},
 	{name: "Alerts", path: "/alerts", active: false},
 	{name: "Settings", path: "/settings", active: false},
 	{name: "Stations", path: "/stations", active: false}
     ]
+
+    activated_page = "";
     
     constructor (private authService: AuthService,
 		 private programsService: ProgramsService,
 		 private backgroundService: BackgroundService,
 		 private backend: Backend,
 		 private userService: UserService,
-		 private router: Router
+		 private router: Router,
+		 private storageService: StorageService
 		) {}
 
     ngOnInit() {
 	this.backgroundService.cntAlertChange
 	    .subscribe(nb_new_alert => {
 		this.nb_new_alert = nb_new_alert
+	    });
+
+	this.storageService.updated
+	    .subscribe((obj) => {
+		if (obj.client == "AuthGuard" && obj.key == "current_page")
+		    this.activated_page = "/" + obj.value;
 	    });
     }
 

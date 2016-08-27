@@ -60,6 +60,12 @@
 	transition: color 0.1s;
 }
 
+.item_menu a.activated {
+	color: #1abdb7;
+	cursor: pointer;
+	transition: color 0.1s;
+}
+
 
 .columns:last-child {
     float: left !important;
