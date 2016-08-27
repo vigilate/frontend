@@ -18,6 +18,7 @@ export class StationsComponent implements OnInit {
     pageLoading = true;
     loadingSubmit = false;
     stations = []
+    stations_dic = {}
     new_station_name = "";
     
     constructor (private authService: AuthService,
@@ -36,6 +37,8 @@ export class StationsComponent implements OnInit {
 	this.stationsService.getStationsList()
             .subscribe(
                 stations => {
+		    for (let st of stations)
+			this.stations_dic[st.id] = st.name;
 		    this.stations = stations;
 		    this.pageLoading = false;
 		},
@@ -52,6 +55,9 @@ export class StationsComponent implements OnInit {
     }
 
     onDelete(id) {
+	let ret = window.confirm("The station '" + this.stations_dic[id] + "' and all the programs linked to it will be deleted.");
+	if (!ret)
+	    return;
 	this.stationsService.deleteStation(id)
             .subscribe(
                 stations => {
