@@ -21,6 +21,7 @@ export class AuthGuard implements CanActivate {
 	if (route.urlSegments && route.urlSegments[0])
 	    redirect_to = route.urlSegments[0].path;
 
+	this.storageService.store("AuthGuard", "current_page", redirect_to);
 	if (this.authService.isLoggedIn && this.userService.user)
 	    return true;
 	if (this.authService.token != "") {
