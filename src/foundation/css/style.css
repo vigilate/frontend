@@ -288,3 +288,13 @@ h3 {
     background-color: #f2f2f2;
     padding: 10px 10px 10px 0;
 }
+
+/* PROG */
+
+.my-dropdown {
+    height: 37px;
+}
+.my-dropdown:hover  .my-dropdown-content {
+    display: block;
+    left: 0px;
+}
