@@ -57,5 +57,33 @@
 	</form><br/>
 	<alert *ngFor="let alert of alerts" [type]="alert.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
 	<hr/>
+	<div class="row" data-equalizer>
+	  <div class="medium-4 small-12 columns">
+	    <ul class="pricing-table" data-equalizer-watch>
+	      <li class="title">Basic</li>
+	      <li class="price">Free</li>
+	      <li class="bullet-item">5 stations</li>
+	      <li class="cta-button"><button id="customButtonBasic" class="button">Use free version</button></li>
+	    </ul>    
+	  </div>
+	  <div class="medium-4 small-12 columns">
+	    <ul class="pricing-table" data-equalizer-watch>
+	      <li class="title">Silver</li>
+	      <li class="price">9.99 € / month</li>
+	      <li class="bullet-item">15 stations</li>
+	      <li class="cta-button"><button id="customButtonSilver" class="button">Upgrade Now</button></li>
+	    </ul>   
+	  </div>
+	  <div class="medium-4 small-12 columns">
+	    <ul class="pricing-table" data-equalizer-watch>
+	      <li class="title">Gold</li>
+	      <li class="price">49.99 € / month</li>
+	      <li class="bullet-item">Unlimited stations</li>
+	      <li class="cta-button"><button id="customButtonGold" class="button">Upgrade Now</button></li>
+	    </ul>   
+	  </div>
+	</div>
+
+	<hr/>
 	<button type="submit" class="button alert" (click)="deleteAccount()">Delete account</button>
 </div>
