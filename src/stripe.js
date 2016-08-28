@@ -11,8 +11,8 @@ var handler = StripeCheckout.configure({
 $(document).on('click', '#customButtonBasic', function(e) {   
   // Open Checkout with further options:
   handler.open({
-    name: 'Demo Site',
-    description: '2 widgets',
+    name: 'Basic',
+    description: 'Basic offer',
 	zipCode: true,
 	currency: "EUR",
     amount: 00
@@ -23,8 +23,8 @@ $(document).on('click', '#customButtonBasic', function(e) {
 $(document).on('click', '#customButtonSilver', function(e) {   
   // Open Checkout with further options:
   handler.open({
-    name: 'Demo Site',
-    description: '2 widgets',
+    name: 'Silver',
+    description: 'Silver offer',
 	zipCode: true,
 	currency: "EUR",
     amount: 999
@@ -35,8 +35,8 @@ $(document).on('click', '#customButtonSilver', function(e) {
 $(document).on('click', '#customButtonGold', function(e) {   
   // Open Checkout with further options:
   handler.open({
-    name: 'Demo Site',
-    description: '2 widgets',
+    name: 'Gold',
+    description: 'Gpmd offer',
 	zipCode: true,
 	currency: "EUR",
     amount: 4999
