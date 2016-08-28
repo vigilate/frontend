@@ -29,6 +29,21 @@ export class StationsService {
 	return this.stationsListObservable;
     }
 
+    getStationsDetail(id): Observable<any> {
+	return this.api.get(this.url + id + "/")
+	    .map(data => data.json())
+	    .catch(this.httpServiceError.handleError);
+    }
+
+    updateStationDetail(id, obj): Observable<any> {
+	var body = JSON.stringify(obj);
+
+	this.discardCache();
+	return this.api.patch(this.url + id + "/", body)
+	    .map(data => data.json())
+	    .catch(this.httpServiceError.handleError);
+    }
+    
     createStation(name): Observable<any> {
 	var body = JSON.stringify({ name:name, user:this.userService.user.id });
 

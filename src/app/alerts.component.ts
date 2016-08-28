@@ -8,17 +8,19 @@ import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagina
 import { StationsService } from './stations.service';
 import { StorageService } from './storage.service'
 import { StationPipe } from './station.pipe';
+import { FilterPipe } from './filter.pipe';
 
 @Component({
     selector: 'alerts',
     templateUrl: 'app/alerts.component.html',
     directives: [AlertComponent, PaginationControlsCmp],
-    pipes: [PaginatePipe, StationPipe],
+    pipes: [PaginatePipe, StationPipe, FilterPipe],
     providers: [PaginationService]
 })
 
 export class AlertsComponent implements OnInit, OnDestroy {
 
+    pageLoading = true;
     cacheSubscription = null;
     alertsHtml:Array<Object> = []
     alerts = []
@@ -30,6 +32,15 @@ export class AlertsComponent implements OnInit, OnDestroy {
 	read: false,
 	unread: false
     };
+
+    filter = "";
+    filter_options = ["is:read",
+		      "is:!read",
+		      "state:exploit",
+		      "state:patch",
+		      "version:",
+		      "station:"
+		     ];
     
     constructor (private authService: AuthService,
 		 private alertsService: AlertsService,
@@ -54,6 +65,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
     }
 
     updateList() {
+	this.pageLoading = true;
 	this.stationsService.getStationsList().subscribe(stations => {
 	    this.stations_list = stations;
 	    for (let st of stations)
@@ -63,17 +75,20 @@ export class AlertsComponent implements OnInit, OnDestroy {
 }
     
     updateListAlertOnly() {
+	this.pageLoading = true;
 	this.alertsService.getAlertsList()
             .subscribe(
                 alerts => {
 		    for (let i = 0 ; i < alerts.length ; i++)
 		    {
 			alerts[i].loadingMark = false;
+			alerts[i].program_info.station_name = this.stations[alerts[i].program_info.poste];
 		    }
 		    this.alerts = alerts;
-		    
+		    this.pageLoading = false;
 		},
                 error =>  {
+		    this.pageLoading = false;
 		    if (error == "NeedToReconnect")
 			throw error;
 		    console.log(error);
@@ -144,5 +159,13 @@ export class AlertsComponent implements OnInit, OnDestroy {
 
     selectStation(st) {
 	this.filtered_station = st;
+    }
+
+    onClickFilter(f) {
+	this.filter = this.filter + " " + f;
+    }
+
+    onClickRefresh() {
+	this.alertsService.trigerEmitTimeout();
     }
 }

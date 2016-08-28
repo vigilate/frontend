@@ -1,6 +1,12 @@
 <div class="small-12 medium-6 medium-offset-3 columns">
 	<h1><i class="fi-target blue"></i> Dashboard</h1>
 	<h3 class="subheader">Logged as {{ userService.user.email }}</h3>
+	<div *ngIf="stats_loaded && nb_total_station == 0" class="row">
+	  Welcome to Vigilate!<br />
+	  You don't have any station registered on this account.
+	  You need to create one so you can upload the list of program installed on your station.<br />
+	  How does that works? <a (click)="onClickTour()">Take the Tour!</a>
+	</div>
 	<div class="row" id="dashboard-stats">
 		<div (click)="onClick('programs')" class="small-12 medium-4 columns">
 			<span class="clickable">{{nb_total_prog}}</span>

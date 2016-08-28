@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { StationsService } from './stations.service';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination/dist/ng2-pagination';
 import { Api } from './api.service';
+import { StorageService } from './storage.service'
 
 @Component({
     selector: 'stations',
@@ -15,38 +16,56 @@ import { Api } from './api.service';
 
 export class StationsComponent implements OnInit {
 
+    pageLoading = true;
     loadingSubmit = false;
     stations = []
+    stations_dic = {}
     new_station_name = "";
+
+    tour_current_step = ""
     
     constructor (private authService: AuthService,
 		 private stationsService: StationsService,
 		 private router: Router,
-		 private api: Api
+		 private api: Api,
+		 private storageService: StorageService
 		){}
 
     ngOnInit() {
 	this.reloadList();
-
+	let tour = this.storageService.get("Tour", "current_step", "");
+	if (tour == "/stations") {
+	    this.tour_current_step = "add-station";
+	    this.storageService.store("Tour", "current_step", this.tour_current_step);
+	}
     }
 
     reloadList() {
-    this.stationsService.getStationsList()
+	this.pageLoading = true;
+	this.stationsService.getStationsList()
             .subscribe(
                 stations => {
+		    for (let st of stations)
+			this.stations_dic[st.id] = st.name;
 		    this.stations = stations;
-			},
+		    this.pageLoading = false;
+		},
                 error =>  {
+		    this.pageLoading = false;
 		    if (error == "NeedToReconnect")
 			throw error;
 		    console.log(error);
 		});
     }
-    
+
     onClick(id) {
+	this.router.navigate(['/stations', id]);
     }
 
     onDelete(id) {
+	let ret = window.confirm("The station '" + this.stations_dic[id] + "' and all the programs linked to it will be deleted.");
+	if (!ret)
+	    return;
 	this.stationsService.deleteStation(id)
             .subscribe(
                 stations => {
@@ -68,6 +87,12 @@ export class StationsComponent implements OnInit {
 		    this.loadingSubmit = false;
 		    this.stationsService.discardCache();
 		    this.reloadList();
+		    let tour = this.storageService.get("Tour", "current_step", "");
+		    if (tour == "add-station") {
+			this.tour_current_step = "download-scanner";
+			this.storageService.store("Tour", "current_step", this.tour_current_step);
+			console.log("New step");
+		    }
 		},
                 error =>  {
 		    this.loadingSubmit = false;
@@ -77,7 +102,7 @@ export class StationsComponent implements OnInit {
 		});
     }
 
-    onDownload(id) {
+    onDownload(id, name) {
 	this.api.get("/get_scanner/" + id + "/", false).subscribe(
 	    data => {
 		console.log(data);
@@ -85,7 +110,22 @@ export class StationsComponent implements OnInit {
 		if (data.headers.has("Content-Type"))
 		    type = data.headers.get("Content-Type");
 		let blob = new Blob([data.text()], {type: type});
-		window["saveAs"](blob, "scanner.py");
+		window["saveAs"](blob, "scanner-" + this.sanitizedName(name) + "_" + id + ".py");
+
+		let tour = this.storageService.get("Tour", "current_step", "");
+		    if (tour == "download-scanner") {
+			this.tour_current_step = "/programs";
+			this.storageService.store("Tour", "current_step", this.tour_current_step);
+		    }
+		
 	    });
+    }
+    sanitizedName(name) {
+	return name.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+    }
+
+    onClickRefresh() {
+	this.stationsService.discardCache();
+	this.reloadList();
     }
 }

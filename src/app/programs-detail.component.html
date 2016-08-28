@@ -51,15 +51,6 @@
 		    </div>
 		    <input id="checkbox_sms" type="checkbox" (change)="delayedUpdateHaveChange()" [(ngModel)]="alert_custom.sms.activated">
 		  </div>
-		  <div *ngIf="!alert_custom.def" class="row">
-	            <label class="small-3 medium-2 columns inline">
-		      Score alert web
-		    </label>
-		    <div class="small-9 medium-9 columns">
-		      <input type="text" (input)="updateHaveChange()" [(ngModel)]="alert_custom.web.score" [disabled]="!alert_custom.web.activated"/>
-		    </div>
-		    <input id="checkbox_web" type="checkbox" (change)="delayedUpdateHaveChange()" [(ngModel)]="alert_custom.web.activated">
-		  </div>
 		  <button *ngIf="have_changes" class="button small right" (click)="onSubmit()">
 		    <span *ngIf="!loadingSubmit">Submit</span>
 		    <span *ngIf="loadingSubmit">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>

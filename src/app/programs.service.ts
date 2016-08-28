@@ -96,4 +96,9 @@ export class ProgramsService {
 	    this.cacheTimeout.emit(null)
 	}
     }
+
+    trigerEmitTimeout() {
+	this.discardCache();
+	this.checkCacheTimestamp();
+    }
 }

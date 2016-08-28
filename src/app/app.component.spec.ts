@@ -21,7 +21,7 @@ import { StationsService } from './stations.service';
 import { UserService } from './user.service';
 import { Api } from './api.service';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { StorageService } from './storage.service'
 
 import { routes } from './app.routes';
 
@@ -41,6 +41,7 @@ beforeEachProviders(() => [
     StationsService,
     UserService,
     Api,
+    StorageService,
     provide(Router, { useClass: MockRouter }),
     provide(ActivatedRoute, { useClass: MockActivatedRoute }),
     provide(Http, {

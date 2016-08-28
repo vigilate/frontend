@@ -1,6 +1,10 @@
 <div id="content" class="row">
   <div class="medium-8 medium-offset-2 columns">
     <h1><i class="fi-target"></i> Alerts</h1><br/>
+    <button class="tiny"(click)="onClickRefresh()">
+      <span *ngIf="!pageLoading"><i class="fi-refresh"></i> refresh</span>
+      <span *ngIf="pageLoading"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span> refreshing...</span>
+    </button>
     <button class="button tiny" (click)="onMarkAll('read')">
       <span *ngIf="!loadingMarkAll['read']">Mark all read</span>
       <span *ngIf="loadingMarkAll['read']">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>  
@@ -10,11 +14,26 @@
       <span *ngIf="loadingMarkAll['unread']">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>  
     </button>
     <div *ngIf="stations_list.length > 1">
-	  <ul class="pagination">
-	    <li class="{{(filtered_station == 'all') ? 'current': ''}}"><button (click)="selectStation('all')" href="">All</button></li>
-	    <li class="{{(filtered_station == station.id) ? 'current': ''}}" *ngFor="let station of stations_list"><button (click)="selectStation(station.id)" href="#">{{station.name}}</button></li>
-	  </ul>
-	</div>
+      <ul class="pagination">
+	<li class="{{(filtered_station == 'all') ? 'current': ''}}"><button (click)="selectStation('all')" href="">All</button></li>
+	<li class="{{(filtered_station == station.id) ? 'current': ''}}" *ngFor="let station of stations_list"><button (click)="selectStation(station.id)" href="#">{{station.name}}</button></li>
+      </ul>
+    </div>
+    
+    <div class="row">
+      <div class="medium-1 columns my-dropdown">
+	
+	<a>Filters</a>
+	<ul id="drop1" class="f-dropdown my-dropdown-content">
+	  <li *ngFor="let flt of filter_options" ><a (click)="onClickFilter(flt)">{{flt}}</a></li>
+	</ul>
+	
+      </div>
+      <div class="medium-7 columns">
+	<input [(ngModel)]=filter type="text" placeholder="filter">
+      </div>
+    </div>
+    
     <table>
       <thead>
 	<tr>
@@ -29,7 +48,7 @@
 	</tr>
       </thead>
       <tbody>
-	<tr *ngFor="let alert of alerts | station:'alert':filtered_station | paginate: { itemsPerPage: 50, currentPage: p }">
+	<tr *ngFor="let alert of alerts | station:'alert':filtered_station | filter:filter | paginate: { itemsPerPage: 50, currentPage: p }">
 	  <td (click)="onClick(alert.id)">{{alert.program_info.program_name}}</td>
 	  <td (click)="onClick(alert.id)">{{alert.program_info.program_version}}</td>
 	  <td (click)="onClick(alert.id)">{{stations[alert.program_info.poste]}}</td>
@@ -46,7 +65,8 @@
 	</tr>
       </tbody>
     </table>
+    <div *ngIf="pageLoading" class="page-loading"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span></div>
     <alert *ngFor="let alert of alertsHtml" [type]="alertHtml.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
-    <pagination-controls (pageChange)="p = $event;onPageChange(p)"></pagination-controls>
+    <pagination-controls autoHide="true" (pageChange)="p = $event;onPageChange(p)"></pagination-controls>
   </div>
 </div>

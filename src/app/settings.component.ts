@@ -26,7 +26,7 @@ export class SettingsComponent implements OnInit {
     password = "";
     password_confirm = "";
     default_alert = "";
-    default_alert_types = ["EMAIL", "SMS", "WEB"];
+    default_alert_types = ["EMAIL", "SMS"];
     alerts:Array<Object> = []
     error_field = {};
     
@@ -51,6 +51,9 @@ export class SettingsComponent implements OnInit {
     }
 
     deleteAccount() {
+	let ret = window.confirm("The user '" + this.userService.user.email + "' and all the data linked to it will be deleted.");
+	if (!ret)
+	    return;
 	this.userService.deleteAccount().subscribe(() => {
 	    this.router.navigate(['/logout']);
 	});

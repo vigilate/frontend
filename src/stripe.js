@@ -8,7 +8,7 @@ var handler = StripeCheckout.configure({
   }
 });
 
-$('#customButton').on('click', function(e) {
+$(document).on('click', '#customButton', function(e) {   
   // Open Checkout with further options:
   handler.open({
     name: 'Demo Site',

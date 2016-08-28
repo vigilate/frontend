@@ -6,6 +6,8 @@ import { BackgroundService } from './background.service';
 import { UserService } from './user.service';
 import { AlertComponent } from 'ng2-bootstrap/components/alert';
 import { StorageService } from './storage.service'
+import { EmailValidator } from './validation.class'
+import { FormBuilder, Validators, Control, ControlGroup, FORM_DIRECTIVES } from '@angular/common';
 
 @Component({
     templateUrl: 'app/login.component.html',
@@ -22,16 +24,26 @@ export class LoginComponent implements OnInit {
     loadingLogin = false;
     loadingSignin = false;
 
+    ctrl = {
+	form: null,
+	email: null,
+    }
+
     constructor (private authService: AuthService,
 		 private userService: UserService,
 		 private router: Router,
 		 private route: ActivatedRoute,
 		 private backgroundService: BackgroundService,
-		 private storageService: StorageService) {}
+		 private storageService: StorageService,
+		 private builder: FormBuilder) {}
 
     ngOnInit() {
 	if (this.authService.isLoggedIn || (!this.authService.triedToConnect && this.authService.token != ""))
 	    this.router.navigate(['/dashboard']);
+	this.ctrl.email = new Control("",EmailValidator.isValid);
+	this.ctrl.form = this.builder.group({
+	    email:  this.ctrl.email
+	});
     }
     
     onSubmitLogin() {
@@ -44,7 +56,6 @@ export class LoginComponent implements OnInit {
 	this.authService.login(this.email, this.password)
             .subscribe(
 		data => {
-		    console.log(data)
 		    this.getUser();
 		},
 		error =>  {

@@ -1,37 +1,62 @@
 <div id="content" class="row">
   <div class="medium-8 medium-offset-2 columns">
     <h1><i class="fi-target"></i> Download the scanner for a new station</h1><br/>
-    <form>
+    <button class="tiny"(click)="onClickRefresh()">
+      <span *ngIf="!pageLoading"><i class="fi-refresh"></i> refresh</span>
+      <span *ngIf="pageLoading"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span> refreshing...</span>
+    </button>
+    <form class="{{(tour_current_step == 'add-station') ? 'highlight-zone': ''}}">
       <div class="row">
-        <label attr.for="input-name" class="small-3 medium-2 columns inline text-center">
+        <label attr.for="input-name" class="medium-1 columns inline text-center">
   	       Station name
         </label>
-        <div class="small-9 medium-10 columns">
+        <div class="medium-8 columns">
   	       <input [(ngModel)]="new_station_name" id="input-name" type="text"/>
         </div>
+	<div class="medium-2 columns">
+	  <button (click)="onAddStation()" class="button small right">
+	    <span *ngIf="!loadingSubmit">Add station</span>
+	    <span *ngIf="loadingSubmit">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>
+	  </button>
+	</div>
       </div>
-      <button (click)="onAddStation()" class="button small right">
-	<span *ngIf="!loadingSubmit">Add station</span>
-	<span *ngIf="loadingSubmit">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>
-      </button>
+
+      <div class="joyride-tip-guide highlight-zone-info" *ngIf="tour_current_step == 'add-station'">
+	<span class="joyride-nub top"></span>
+	<div class="joyride-content-wrapper">
+	  <p>Add a name that will identify your station and click on 'Add station'</p>
+	</div>
+      </div>
+
     </form>
     <hr/>
     <table>
       <thead>
       	<tr>
-      	  <th width="1150">Name</th>
+      	  <th width="1050">Name</th>
+	  <td width="100" class="text-center">Edit</td>
           <td width="200" class="text-center">Download scanner</td>
       	  <th width="100" class="text-center">Delete</th>
       	</tr>
       </thead>
       <tbody>
-      	<tr *ngFor="let station of stations | paginate: { itemsPerPage: 50, currentPage: p }">
-      	  <td (click)="onClick(station.id)">{{station.name}}</td>
-          <td class="text-center"><button class="button tiny" (click)="onDownload(station.id)">Download scanner</button></td>
+      	<tr *ngFor="let station of stations | paginate: { itemsPerPage: 50, currentPage: p } ; let isLast = last" class="{{(isLast && tour_current_step == 'download-scanner') ? 'highlight-zone': ''}}">
+      	  <td class="clickable" (click)="onClick(station.id)">{{station.name}}</td>
+	  <td> <button class="button tiny" (click)="onClick(prog.id)">Edit</button></td>
+          <td class="text-center"><button class="button tiny" (click)="onDownload(station.id, station.name)">Download scanner</button></td>
       	  <td class="text-center right"> <button class="button alert tiny" (click)="onDelete(station.id)">Delete</button></td>
       	</tr>
+	      
       </tbody>
     </table>
-    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <div class="joyride-tip-guide highlight-zone-info" *ngIf="tour_current_step == 'download-scanner'">
+      <span class="joyride-nub top"></span>
+      <div class="joyride-content-wrapper">
+	<p>You can now download the scanner associated with your station by clicking on the 'Downalod scanner' button.<br />Your browser will ask you if you want to save the file, save it and execute it.</p>
+      </div>
+    </div>
+    
+    <div *ngIf="pageLoading" class="page-loading"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span></div>
+    <pagination-controls autoHide="true" (pageChange)="p = $event"></pagination-controls>
   </div>
 </div>
