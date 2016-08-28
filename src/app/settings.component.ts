@@ -3,14 +3,14 @@ import { Router } from '@angular/router';
 import { User } from './user.model';
 import { AuthService } from './auth.service';
 import { UserService } from './user.service';
-import { AlertComponent } from 'ng2-bootstrap/components/alert';
 import { PhoneValidator, MatchValidator, TriggerValidator } from './validation.class'
 import { FormBuilder, Validators, Control, ControlGroup, FORM_DIRECTIVES } from '@angular/common';
+import { NotificationsService } from './notifications.service'
 
 @Component({
     selector: 'settings',
     templateUrl: 'app/settings.component.html',
-    directives: [AlertComponent, FORM_DIRECTIVES]
+    directives: [FORM_DIRECTIVES]
 })
 
 export class SettingsComponent implements OnInit {
@@ -27,13 +27,13 @@ export class SettingsComponent implements OnInit {
     password_confirm = "";
     default_alert = "";
     default_alert_types = ["EMAIL", "SMS"];
-    alerts:Array<Object> = []
     error_field = {};
     
     constructor (private authService: AuthService,
 		 private userService: UserService,
 		 private router: Router,
-		 private builder: FormBuilder
+		 private builder: FormBuilder,
+		 private notificationsService: NotificationsService
 		){}
 
     ngOnInit() {
@@ -75,7 +75,7 @@ export class SettingsComponent implements OnInit {
 	this.userService.updateInfos(info).subscribe(
 	    () => {
 		this.loadingSubmit = false;
-		this.alerts.push({msg: "Changes submited", type: 'success'});
+		this.notificationsService.info("Changes submited");
 	    },
 	    (err) => {
 		if (err.json) {

@@ -5,6 +5,7 @@ import { UserService } from './user.service';
 import { HttpServiceError } from './http-service-error.class'
 import { Api } from './api.service';
 import { ProgramsService } from './programs.service';
+import { BackgroundService } from './background.service';
 
 @Injectable()
 export class StationsService {
@@ -14,7 +15,8 @@ export class StationsService {
     constructor (private userService: UserService,
 		 private httpServiceError: HttpServiceError,
 		 private api: Api,
-		 private programsService: ProgramsService
+		 private programsService: ProgramsService,
+		 private backgroundService: BackgroundService
 		) {}
 
     private url = "/stations/";
@@ -65,5 +67,6 @@ export class StationsService {
 
     discardCache() {
 	this.stationsListObservable = null;
+	this.backgroundService.update();
     }
 }

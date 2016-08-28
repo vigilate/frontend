@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { User } from './user.model';
 import { AlertComponent } from 'ng2-bootstrap/components/alert';
 import { StationsService } from './stations.service';
-
+import { NotificationsService } from './notifications.service'
 
 @Component({
     selector: 'stations-detail',
@@ -24,7 +24,8 @@ export class StationsDetailComponent implements OnInit {
 
     constructor (private router: Router,
 		 private route: ActivatedRoute,
-		 private stationsService: StationsService
+		 private stationsService: StationsService,
+		 private notificationsService: NotificationsService
 		){}
 
     ngOnInit() {
@@ -70,7 +71,7 @@ export class StationsDetailComponent implements OnInit {
 		this.loadingSubmit = false;
 		this.station_obj_origin = JSON.parse(JSON.stringify(station))
 		this.updateHaveChange();
-		this.alerts.push({msg: "Changes submited", type: 'success'});
+		this.notificationsService.info("Changes submited");
 	    },
 	    error => {
 		this.loadingSubmit = false;
