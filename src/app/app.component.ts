@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     nb_new_alert = 0
     
     routes = [
-	{name: "Dasboard", path: "/dashboard", active: false},
+	{name: "Dashboard", path: "/dashboard", active: false},
 	{name: "Programs", path: "/programs", active: false},
 	{name: "Alerts", path: "/alerts", active: false},
 	{name: "Settings", path: "/settings", active: false},
