@@ -206,11 +206,23 @@ h3 {
 }
 
 .blue {
- 	color: #1bbab9;
+    color: #1bbab9;
 }
 
 .red {
-	color: #c60f13;
+    color: #c60f13;
+}
+
+.notification-block-alert {
+    box-shadow: -1px -1px 4px 1px #c60f13;
+}
+
+.notification-block-info {
+    box-shadow: -1px -1px 4px 1px #1bbab9;
+}
+
+.notification-block-success {
+    box-shadow: -1px -1px 4px 1px #9BD710;
 }
 
 .back-button {
@@ -219,16 +231,50 @@ h3 {
 	position: fixed;
 }
 
-#notification-block {
+.notification-block {
 	background-color: rgba(62, 77, 96, 0.8);
-	position: fixed;
-	bottom: 20px;
-	left: 20px;
-	margin: 0;
+	margin: 10px;
+	width: 250px;
 	padding: 25px;
+	padding-left: 35px;
 	color: #fff;
-	display: none;
+	opacity: 1;
+	border-width: 0px;
+	transition: opacity 1s, padding 0.8s, margin 0.8s, height 0.8s;
 }
+
+	
+.notification-expiring {
+    opacity: 0;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: -5px;
+    margin-bottom: -5px;
+    height: 0px;
+    border-width: 0px;
+}
+
+
+.notification-icon {
+    position: absolute;
+    left: 10px;
+    top: calc(50% - 15px);
+}
+
+#notification-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    height: calc(100% - 170px);
+}
+
+#notification-wrapper {
+    position: absolute;
+    bottom: 0;
+    max-height: 100%;
+    overflow-x: hidden;
+}
+
 
 .red-badge {
 	background-color: #c60f13;

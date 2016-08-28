@@ -54,7 +54,6 @@
     </table>
     <div *ngIf="pageLoading" class="page-loading"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span></div>
     <button class="hollow small button right" (click)="onNewProgram()">New program</button>
-    <alert *ngFor="let alert of alerts" [type]="alert.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
     <pagination-controls autoHide="true" #pagination (pageChange)="p = $event;onPageChange(p)"></pagination-controls>
   </div>
 </div>

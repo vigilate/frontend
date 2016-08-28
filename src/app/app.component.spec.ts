@@ -22,7 +22,7 @@ import { UserService } from './user.service';
 import { Api } from './api.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { StorageService } from './storage.service'
-
+import { NotificationsService } from './notifications.service'
 import { routes } from './app.routes';
 
 class MockRouter { createUrlTree() {} }
@@ -42,6 +42,7 @@ beforeEachProviders(() => [
     UserService,
     Api,
     StorageService,
+    NotificationsService,
     provide(Router, { useClass: MockRouter }),
     provide(ActivatedRoute, { useClass: MockActivatedRoute }),
     provide(Http, {

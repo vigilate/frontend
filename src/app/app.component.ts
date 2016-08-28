@@ -10,13 +10,14 @@ import { UserService } from './user.service';
 import { NavigationExtras } from '@angular/router/router';
 import './rxjs-operators';
 import { StorageService } from './storage.service'
+import { NotificationsComponent } from './notifications.component'
 
 @Component({
     moduleId: module.id,
     selector: 'app-root',
     templateUrl: 'app.component.html',
     styleUrls: ['app.component.css'],
-    directives: [ROUTER_DIRECTIVES]
+    directives: [ROUTER_DIRECTIVES, NotificationsComponent]
 })
 
 export class AppComponent implements OnInit {
@@ -74,11 +75,4 @@ export class AppComponent implements OnInit {
     logout() {
 	this.router.navigate(['/logout']);
     }
-
-    // onClickTour() {
-    // 	this.tour_current_step = 1;
-    // 	// let obj = document.getElementById(this.tour_steps[this.tour_current_step].id);
-    // 	// obj.className.split(" ")
-	
-    // }
 }

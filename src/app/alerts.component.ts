@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { User } from './user.model';
 import { AuthService } from './auth.service';
 import { AlertsService } from './alerts.service';
-import { AlertComponent } from 'ng2-bootstrap/components/alert';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination/dist/ng2-pagination';
 import { StationsService } from './stations.service';
 import { StorageService } from './storage.service'
@@ -13,7 +12,7 @@ import { FilterPipe } from './filter.pipe';
 @Component({
     selector: 'alerts',
     templateUrl: 'app/alerts.component.html',
-    directives: [AlertComponent, PaginationControlsCmp],
+    directives: [PaginationControlsCmp],
     pipes: [PaginatePipe, StationPipe, FilterPipe],
     providers: [PaginationService]
 })
@@ -22,7 +21,6 @@ export class AlertsComponent implements OnInit, OnDestroy {
 
     pageLoading = true;
     cacheSubscription = null;
-    alertsHtml:Array<Object> = []
     alerts = []
     p = 0;
     stations_list = []

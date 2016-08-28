@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from './user.model';
 import { ProgramsService } from './programs.service';
-import { AlertComponent } from 'ng2-bootstrap/components/alert';
 import { PaginatePipe, PaginationControlsCmp, PaginationService } from 'ng2-pagination/dist/ng2-pagination';
 import { StorageService } from './storage.service'
 import { StationsService } from './stations.service';
 import { StationPipe } from './station.pipe';
 import { FilterPipe } from './filter.pipe';
+import { NotificationsService } from './notifications.service'
 
 @Component({
     selector: 'programs',
     templateUrl: 'app/programs.component.html',
-    directives: [AlertComponent, PaginationControlsCmp],
+    directives: [PaginationControlsCmp],
     pipes: [PaginatePipe, StationPipe, FilterPipe],
     providers: [PaginationService]
 })
@@ -21,7 +21,6 @@ export class ProgramsComponent implements OnInit {
 
     pageLoading = true;
     cacheSubscription = null;
-    alerts:Array<Object> = []
     progs = []
     stations_list = []
     stations = {}
@@ -38,7 +37,8 @@ export class ProgramsComponent implements OnInit {
     constructor (private programsService: ProgramsService,
 		 private router: Router,
 		 private storageService: StorageService,
-		 private stationsService: StationsService
+		 private stationsService: StationsService,
+		 private notificationsService: NotificationsService
 		){}
 
     ngOnInit() {
@@ -105,8 +105,6 @@ export class ProgramsComponent implements OnInit {
 	this.programsService.deleteProgram(id)
             .subscribe(
                 programs => {
-		    this.alerts.push({msg: "Program deleted", type: 'success'});
-
 		    index_array = index_array + (this.p - 1) * 100;
 		    let tmp = this.progs.slice(0, index_array);
 		    if (index_array + 1 < this.progs.length)
@@ -116,7 +114,10 @@ export class ProgramsComponent implements OnInit {
                 error =>  {
 		    if (error == "NeedToReconnect")
 			throw error;
-		    this.alerts.push({msg: error.msg, type: 'danger'});
+		    if (error.code == 404)
+			this.updateList();
+		    else
+			this.notificationsService.alert(error.msg);
 		});
     }
 

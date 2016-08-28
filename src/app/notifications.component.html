@@ -1,0 +1,12 @@
+<div id="notification-container">
+  <div id="notification-wrapper">
+    <div *ngFor="let notif of notifications" class="alert-box notification-block {{(notif.expiring) ? 'notification-expiring': ''}} notification-block-{{notif.type}}">
+      <div class="notification-icon">
+	<i *ngIf="notif.type == 'alert'" class="fi-alert red big-icon"></i>
+	<i *ngIf="notif.type == 'success'" class="fi-check green big-icon"></i>
+	<i *ngIf="notif.type == 'info'" class="fi-info blue big-icon"></i>
+      </div>
+      <span>{{notif.msg}}</span>
+    </div>
+  </div>
+</div>

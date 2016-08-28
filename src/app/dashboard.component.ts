@@ -6,6 +6,7 @@ import { UserService } from './user.service';
 import { BackgroundService } from './background.service';
 import { StorageService } from './storage.service'
 
+
 @Component({
     selector: 'dasboard',
     templateUrl: 'app/dashboard.component.html',
@@ -35,6 +36,7 @@ export class DashboardComponent implements OnInit {
 		this.nb_total_alert = nb_total_alert;
 		this.storageService.store("DashboardComponent", "total_alert", nb_total_alert);
 		this.stats_loaded = true;
+
 	    });
 
 	this.backgroundService.cntTotalProg
