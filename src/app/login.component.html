@@ -1,19 +1,24 @@
 <form [ngFormModel]="ctrl.form" class="form-signin small-12 medium-6 large-2">
   <h2 class="form-signin-heading">Please sign in or login</h2>
-  <div *ngIf="ctrl.email.dirty && !ctrl.email.valid">
+  <div *ngIf="(ctrl.email.dirty || clicked) && !ctrl.email.valid">
+    <small class="error" *ngIf="ctrl.email.errors.required">The email address is required.</small>
     <small class="error" *ngIf="ctrl.email.errors.isValidEmail">Please enter a valid email address.</small>
   </div>
+  <small class="error" *ngIf="error_field.email">{{error_field['email']}}</small>
   <label for="inputEmail">Email</label>
   <input ngControl="email" type="text" id="inputEmail" placeholder="Email" required autofocus [(ngModel)]="email">
+  <div *ngIf="(ctrl.password.dirty || clicked) && !ctrl.password.valid">
+    <small class="error" *ngIf="ctrl.password.errors.required">The password is required</small>
+  </div>
+  <small class="error" *ngIf="error_field.password">{{error_field['password']}}</small>
   <label for="inputPassword">Password</label>
-  <input type="password" id="inputPassword" placeholder="Password" required [(ngModel)]="password">
-  <button [disabled]="!ctrl.form.valid" class="button large" (click)="onSubmitLogin()">
+  <input ngControl="password" type="password" id="inputPassword" placeholder="Password" required [(ngModel)]="password">
+  <button class="button large" (click)="onSubmitLogin()">
     <span *ngIf="!loadingLogin">Login</span>
     <span *ngIf="loadingLogin">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>
   </button>
-  <button [disabled]="!ctrl.form.valid" class="button large" (click)="onSubmitSignin()">
+  <button class="button large" (click)="onSubmitSignin()">
     <span *ngIf="!loadingSignin">Sign in</span>
     <span *ngIf="loadingSignin">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>
   </button>
-  <alert *ngFor="let alert of alerts" [type]="alert.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
 </form>

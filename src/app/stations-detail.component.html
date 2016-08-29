@@ -1,13 +1,17 @@
 <div id="content" class="row">
     <div class="small-12 medium-8 medium-offset-2 columns">
-		<form *ngIf="station_obj">
+		<form [ngFormModel]="ctrl.form" *ngIf="station_obj">
 
 		  <div *ngFor="let station_parm of station_params" class="row" [class.has-warning]="station_obj_origin[station_parm.key] != station_obj[station_parm.key]">
+		    <div *ngIf="(ctrl.name.dirty || clicked) && !ctrl.name.valid">
+		      <small class="error" *ngIf="ctrl.name.errors.required">The name is required</small>
+		    </div>
+		    <small class="error" *ngIf="error_field.name">{{error_field['name']}}</small>
 		    <label attr.for="input-{{ station_parm.key }}" class="small-3 medium-2 columns inline">
 		      {{ station_parm.name }}
 		    </label>
 		    <div class="small-9 medium-10 columns">
-		      <input (input)="onChange(station_parm.key, $event)" value="{{station_obj[station_parm.key]}}" id="input-{{ station_parm.key }}" type="text"  [readonly]="station_parm.readonly" />
+		      <input ngControl="name" (input)="onChange(station_parm.key, $event)" value="{{station_obj[station_parm.key]}}" id="input-{{ station_parm.key }}" type="text"  [readonly]="station_parm.readonly" />
 		    </div>
 		  </div>
 
@@ -16,7 +20,6 @@
 		    <span *ngIf="loadingSubmit">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>
 		  </button>
 		</form>
-		<alert *ngFor="let alert of alerts" [type]="alert.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
     </div>
 </div>
 

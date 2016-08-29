@@ -73,8 +73,10 @@ export class ProgramsComponent implements OnInit {
 		    this.stations[st.id] = st.name;
 		this.updateListProgOnly();
 	    },
-	    () => {
+	    error => {
 		this.pageLoading = false;
+		if (error == "NeedToReconnect")
+		    throw error;
 	    }
 	);
     }

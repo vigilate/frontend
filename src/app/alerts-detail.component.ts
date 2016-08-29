@@ -4,18 +4,16 @@ import { Observable } from 'rxjs/Observable';
 import { User } from './user.model';
 import { AuthService } from './auth.service';
 import { AlertsService } from './alerts.service';
-import { AlertComponent } from 'ng2-bootstrap/components/alert';
 import { CvssPipe } from './cvss.pipe';
 
 @Component({
     selector: 'alerts-detail',
     templateUrl: 'app/alerts-detail.component.html',
-    directives: [AlertComponent],
+    directives: [],
     pipes: [CvssPipe]
 })
 
 export class AlertsDetailComponent implements OnInit {
-    alertsHtml:Array<Object> = []
     alerts_obj;
 
     constructor (private authService: AuthService,

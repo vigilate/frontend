@@ -48,15 +48,30 @@ export class SettingsComponent implements OnInit {
 	    password:  this.ctrl.password,
 	    password_confirm:  this.ctrl.password_confirm
 	});
+	this.userService.getUser().subscribe(
+	    data => {
+		this.phone_number = this.userService.user.phone;
+		this.default_alert = this.userService.user.default_alert_type;
+	    },
+	    error => {
+	    }
+	);
     }
 
     deleteAccount() {
 	let ret = window.confirm("The user '" + this.userService.user.email + "' and all the data linked to it will be deleted.");
 	if (!ret)
 	    return;
-	this.userService.deleteAccount().subscribe(() => {
-	    this.router.navigate(['/logout']);
-	});
+	this.userService.deleteAccount().subscribe(
+	    () => {
+		this.notificationsService.success("The user has been deleted.");
+		this.router.navigate(['/logout']);
+	    },
+	    error => {
+		if (error == "NeedToReconnect")
+		    throw error;
+	    }
+	);
     }
 
     onClickSubmit() {

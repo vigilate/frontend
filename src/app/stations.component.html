@@ -5,13 +5,17 @@
       <span *ngIf="!pageLoading"><i class="fi-refresh"></i> refresh</span>
       <span *ngIf="pageLoading"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span> refreshing...</span>
     </button>
-    <form class="{{(tour_current_step == 'add-station') ? 'highlight-zone': ''}}">
+    <form [ngFormModel]="ctrl.form" class="{{(tour_current_step == 'add-station') ? 'highlight-zone': ''}}">
       <div class="row">
+	<div *ngIf="(ctrl.name.dirty || clicked) && !ctrl.name.valid">
+	  <small class="error" *ngIf="ctrl.name.errors.required">The name is required</small>
+	</div>
+	<small class="error" *ngIf="error_field.name">{{error_field['name']}}</small>
         <label attr.for="input-name" class="medium-1 columns inline text-center">
   	       Station name
         </label>
         <div class="medium-8 columns">
-  	       <input [(ngModel)]="new_station_name" id="input-name" type="text"/>
+  	       <input ngControl="name" [(ngModel)]="new_station_name" id="input-name" type="text"/>
         </div>
 	<div class="medium-2 columns">
 	  <button (click)="onAddStation()" class="button small right">
@@ -42,7 +46,7 @@
       <tbody>
       	<tr *ngFor="let station of stations | paginate: { itemsPerPage: 50, currentPage: p } ; let isLast = last" class="{{(isLast && tour_current_step == 'download-scanner') ? 'highlight-zone': ''}}">
       	  <td class="clickable" (click)="onClick(station.id)">{{station.name}}</td>
-	  <td> <button class="button tiny" (click)="onClick(prog.id)">Edit</button></td>
+	  <td> <button class="button tiny" (click)="onClick(station.id)">Edit</button></td>
           <td class="text-center"><button class="button tiny" (click)="onDownload(station.id, station.name)">Download scanner</button></td>
       	  <td class="text-center right"> <button class="button alert tiny" (click)="onDelete(station.id)">Delete</button></td>
       	</tr>
