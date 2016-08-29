@@ -42,9 +42,9 @@
       </thead>
       <tbody>
         <tr *ngFor="let prog of progs | station:'prog':filtered_station | filter:filter | paginate: { itemsPerPage: 100, currentPage: p } ; let i = index">
-          <td class="clickable" (click)="onClick(prog.id)">{{prog.program_name}}</td>
-          <td class="clickable" (click)="onClick(prog.id)">{{prog.program_version}}</td>
-	  <td class="clickable" (click)="onClick(prog.id)">{{stations[prog.poste]}}</td>
+          <td class="clickable" (click)="onClick(prog.id)" [innerHTML]=prog.program_name></td>
+          <td class="clickable" (click)="onClick(prog.id)" [innerHTML]=prog.program_version></td>
+	  <td class="clickable" (click)="onClick(prog.id)" [innerHTML]=prog.station_name></td>
           <td *ngIf="prog.alert_id" (click)="onClickAlert(prog.alert_id)" class="text-center red clickable"><i class="fi-alert big-icon"></i> Learn more</td>
           <td *ngIf="!prog.alert_id"></td>
           <td> <button class="button tiny" (click)="onClick(prog.id)">Edit</button></td>

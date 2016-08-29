@@ -49,9 +49,9 @@
       </thead>
       <tbody>
 	<tr *ngFor="let alert of alerts | station:'alert':filtered_station | filter:filter | paginate: { itemsPerPage: 50, currentPage: p }">
-	  <td (click)="onClick(alert.id)">{{alert.program_info.program_name}}</td>
-	  <td (click)="onClick(alert.id)">{{alert.program_info.program_version}}</td>
-	  <td (click)="onClick(alert.id)">{{stations[alert.program_info.poste]}}</td>
+	  <td (click)="onClick(alert.id)" [innerHTML]=alert.program_info.program_name></td>
+	  <td (click)="onClick(alert.id)" [innerHTML]=alert.program_info.program_version></td>
+	  <td (click)="onClick(alert.id)" [innerHTML]=alert.program_info.station_name></td>
 	  <td (click)="onClick(alert.id)">{{alert.number_cve}}</td>
 	  <td (click)="onClick(alert.id)">
 	    <span *ngFor="let state of alert.state" class="state-badge state-badge-{{state}}">{{state}}</span>
