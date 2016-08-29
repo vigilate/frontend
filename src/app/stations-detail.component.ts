@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { User } from './user.model';
-import { AlertComponent } from 'ng2-bootstrap/components/alert';
 import { StationsService } from './stations.service';
+import { FormBuilder, Validators, Control, ControlGroup, FORM_DIRECTIVES } from '@angular/common';
 import { NotificationsService } from './notifications.service'
 
 @Component({
     selector: 'stations-detail',
     templateUrl: 'app/stations-detail.component.html',
-    directives: [AlertComponent]
+    directives: []
 })
 
 export class StationsDetailComponent implements OnInit {
@@ -22,13 +22,26 @@ export class StationsDetailComponent implements OnInit {
 	{name: "Name", key: "name"}
     ]
 
+    clicked = false;
+    ctrl = {
+	form: null,
+	name: null,
+    }
+    error_field = {}
+
     constructor (private router: Router,
 		 private route: ActivatedRoute,
 		 private stationsService: StationsService,
+		 private builder: FormBuilder,
 		 private notificationsService: NotificationsService
 		){}
 
     ngOnInit() {
+	this.ctrl.name = new Control("", Validators.required);
+	this.ctrl.form = this.builder.group({
+	    name:  this.ctrl.name,
+	});
+
 	let sub = this.route.params.subscribe(params => {
 	    let id = +params['id'];
 	    this.stationsService.getStationsDetail(id).subscribe(
@@ -63,9 +76,11 @@ export class StationsDetailComponent implements OnInit {
     }
 
     onSubmit() {
+	this.error_field = {}
+	this.clicked = true;
+	if (!this.ctrl.form.valid)
+	    return;
 	this.loadingSubmit = true;
-	
-
 	this.stationsService.updateStationDetail(this.station_obj.id, this.station_obj).subscribe(
 	    station => {
 		this.loadingSubmit = false;
@@ -77,7 +92,16 @@ export class StationsDetailComponent implements OnInit {
 		this.loadingSubmit = false;
 		if (error == "NeedToReconnect")
 		    throw error;
-		this.alerts.push({msg: error.msg, type: 'danger'});
+		if (error.json) {
+		    for (let f in error.json) {
+			this.error_field[f] = error.json[f].join(" ");
+		    }
+		}
+		if (error.code == 404) {
+		    this.notificationsService.alert("This station has been deleted and can't be updated anymore.");
+		    this.stationsService.discardCache();
+		    this.onGoBackList();
+		}
 	    }
 	);
 

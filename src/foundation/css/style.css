@@ -354,15 +354,6 @@ h3 {
 
 /* TUTO */
 
-/* #item-logout { */
-/*     /\* -webkit-appearance: textfield; *\/ */
-/*     /\* background:url('icons.png') #fff no-repeat 5px -601px; *\/ */
-/*     /\* padding:0 10px 0 32px!important; *\/ */
-/*     /\* width:168px; *\/ */
-/*     outline: 0px rgba(0,0,0,0) solid; */
-/*     transition: outline-color .3s */
-/* } */
-
 .highlight-zone {
     padding: 20px;
     z-index:1000;

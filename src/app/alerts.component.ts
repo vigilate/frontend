@@ -64,12 +64,19 @@ export class AlertsComponent implements OnInit, OnDestroy {
 
     updateList() {
 	this.pageLoading = true;
-	this.stationsService.getStationsList().subscribe(stations => {
-	    this.stations_list = stations;
-	    for (let st of stations)
-		this.stations[st.id] = st.name;
-	    this.updateListAlertOnly();
-	});
+	this.stationsService.getStationsList().subscribe(
+	    stations => {
+		this.stations_list = stations;
+		for (let st of stations)
+		    this.stations[st.id] = st.name;
+		this.updateListAlertOnly();
+	    },
+	    error => {
+		this.pageLoading = false;
+		if (error == "NeedToReconnect")
+		    throw error;
+	    }
+	);
 }
     
     updateListAlertOnly() {

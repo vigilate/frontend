@@ -1,18 +1,24 @@
 <div id="content" class="row">
     <div class="small-12 medium-8 medium-offset-2 columns">
-		<form *ngIf="program_obj">
+		<form *ngIf="program_obj" [ngFormModel]="ctrl.form">
 
 		  <div *ngFor="let program_parm of program_params" class="row" [class.has-warning]="program_obj_origin[program_parm.key] != program_obj[program_parm.key]">
+
+		    <small class="error" *ngIf="error_field[program_parm.key]">{{error_field[program_parm.key]}}</small>
+		    <div *ngIf="(ctrl[program_parm.key].dirty || clicked) && !ctrl[program_parm.key].valid">
+		      <small class="error" *ngIf="ctrl[program_parm.key].errors.required">The field {{program_parm.name}} is required.</small>
+		    </div>
+		    
 		    <label attr.for="input-{{ program_parm.key }}" class="small-3 medium-2 columns inline">
 		      {{ program_parm.name }}
 		    </label>
 		    <div class="small-9 medium-10 columns">
-		      <input (input)="onChange(program_parm.key, $event)" value="{{program_obj[program_parm.key]}}" id="input-{{ program_parm.key }}" type="text"  [readonly]="program_parm.readonly" />
+		      <input ngControl="{{program_parm.key}}" (input)="onChange(program_parm.key, $event)" value="{{program_obj[program_parm.key]}}" id="input-{{ program_parm.key }}" type="text"  [readonly]="program_parm.readonly" />
 		    </div>
 		  </div>
 
-
 		  <div class="row">
+		    <small class="error" *ngIf="error_field.poste">{{error_field['poste']}}</small>
 		    <label attr.for="input-poste" class="small-3 medium-2 columns inline">
 		      Station
 		    </label>
@@ -22,7 +28,16 @@
 			  {{station.name}}
 			</option>
 		      </select>
-		      <input *ngIf="selectedStation == -1" type="text" [(ngModel)]="station_new_name" />
+		    </div>
+		  </div>
+
+		  <div *ngIf="selectedStation == -1" class="row">
+		    <small class="error" *ngIf="error_field.name">{{error_field['name']}}</small>
+		    <label attr.for="input-poste" class="small-3 medium-2 columns inline">
+		      Station name
+		    </label>
+		    <div class="small-9 medium-10 columns">
+		      <input type="text" [(ngModel)]="station_new_name" />
 		    </div>
 		  </div>
 
@@ -33,8 +48,10 @@
 		  	</div>
 		  </div>
 		  
-		  <div *ngIf="!alert_custom.def" class="row">   
-	        <label class="small-3 medium-2 columns inline">
+		  <div *ngIf="!alert_custom.def" class="row">
+		    <small class="error" *ngIf="error_field.email_score">{{error_field['email_score']}}</small>
+		    <small class="error" *ngIf="error_field.email_enabled">{{error_field['email_enabled']}}</small>
+	            <label class="small-3 medium-2 columns inline">
 		      Score alert mail
 		    </label>
 		    <div class="small-9 medium-9 columns">
@@ -43,6 +60,8 @@
 		    <input id="checkbox_mail" type="checkbox" (change)="delayedUpdateHaveChange()" [(ngModel)]="alert_custom.mail.activated">
 		  </div>
 		  <div *ngIf="!alert_custom.def" class="row">
+		    <small class="error" *ngIf="error_field.sms_score">{{error_field['sms_score']}}</small>
+		    <small class="error" *ngIf="error_field.sms_enabled">{{error_field['sms_enabled']}}</small>
 	            <label class="small-3 medium-2 columns inline">
 		      Score alert sms
 		    </label>
@@ -56,7 +75,6 @@
 		    <span *ngIf="loadingSubmit">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>
 		  </button>
 		</form>
-		<alert *ngFor="let alert of alerts" [type]="alert.type" dismissOnTimeout="3000">{{ alert.msg }}</alert>
 	</div>
 </div>
 

@@ -4,13 +4,14 @@ import { Observable } from 'rxjs/Observable';
 import { User } from './user.model';
 import { UserService } from './user.service';
 import { ProgramsService } from './programs.service';
-import { AlertComponent } from 'ng2-bootstrap/components/alert';
 import { StationsService } from './stations.service';
+import { FormBuilder, Validators, Control, ControlGroup, FORM_DIRECTIVES } from '@angular/common';
+import { NotificationsService } from './notifications.service'
 
 @Component({
     selector: 'programs-detail',
     templateUrl: 'app/programs-detail.component.html',
-    directives: [AlertComponent]
+    directives: [FORM_DIRECTIVES]
 })
 
 export class ProgramsDetailComponent implements OnInit {
@@ -36,16 +37,33 @@ export class ProgramsDetailComponent implements OnInit {
 	mail: {score: 0, activated: false},
     }
 
+    clicked = false;
+    ctrl = {
+	form: null,
+	program_name: null,
+	program_version: null,
+    }
+    error_field = {}
+
     alert_custom;
     
     constructor (private userService: UserService,
 		 private programsService: ProgramsService,
 		 private router: Router,
 		 private route: ActivatedRoute,
-		 private stationsService: StationsService
+		 private stationsService: StationsService,
+		 private builder: FormBuilder,
+		 private notificationsService: NotificationsService
 		){}
 
     ngOnInit() {
+	this.ctrl.program_name = new Control("", Validators.required);
+	this.ctrl.program_version = new Control("", Validators.required);
+	this.ctrl.form = this.builder.group({
+	    program_name:  this.ctrl.program_name,
+	    program_version:  this.ctrl.program_version
+	});
+	
 	let sub = this.route.params.subscribe(params => {
 	    if (params['id'] != "new") {
 		let id = +params['id'];
@@ -56,6 +74,8 @@ export class ProgramsDetailComponent implements OnInit {
 			this.initAlertCustomFromData(this.program_obj_origin, this.alert_custom_origin);
 			this.alert_custom = JSON.parse(JSON.stringify(this.alert_custom_origin));
 			this.selectedStation = this.program_obj["poste"];
+			this.ctrl.program_name.updateValue(this.program_obj.program_name);
+			this.ctrl.program_version.updateValue(this.program_obj.program_version);
 		    },
 		    error => {
 			if (error == "NeedToReconnect")
@@ -87,10 +107,17 @@ export class ProgramsDetailComponent implements OnInit {
     }
 
     reloadStations() {
-	this.stationsService.getStationsList().subscribe(stations => {
-	    this.stations = [{"id":-1, "name": "Create new station"}]
-	    this.stations = this.stations.concat(stations)
-	});
+	this.stationsService.getStationsList().subscribe(
+	    stations => {
+		this.stations = [{"id":-1, "name": "Create new station"}]
+		this.stations = this.stations.concat(stations)
+		this.selectedStation = this.stations[this.stations.length - 1].id;
+	    },
+	    error => {
+		if (error == "NeedToReconnect")
+		    throw error;
+	    }
+	);
     }
     onChange(key, ev) {
 	this.program_obj[key] = ev.target.value;
@@ -123,6 +150,15 @@ export class ProgramsDetailComponent implements OnInit {
     }
 
     onSubmit() {
+	this.error_field = {}
+	this.clicked = true;
+	let station_valid = true;
+	if (this.selectedStation == -1 && this.station_new_name == "") {
+	    this.error_field["name"] = "If you create a new station, it is required to give it a name."
+	    station_valid = false;
+	}
+	if (!this.ctrl.form.valid || !station_valid)
+	    return;
 	this.loadingSubmit = true;
 	if (this.selectedStation == -1)
 	{
@@ -136,7 +172,11 @@ export class ProgramsDetailComponent implements OnInit {
 		error => {
 		    if (error == "NeedToReconnect")
 			throw error;
-		    this.alerts.push({msg: error.msg, type: 'danger'});
+		    if (error.json) {
+			for (let f in error.json) {
+			    this.error_field[f] = error.json[f].join(" ");
+			}
+		    }
 		}
 	    );
 	    return
@@ -160,7 +200,11 @@ export class ProgramsDetailComponent implements OnInit {
 		    this.loadingSubmit = false;
 		    if (error == "NeedToReconnect")
 			throw error;
-		    this.alerts.push({msg: error.msg, type: 'danger'});
+		    if (error.json) {
+			for (let f in error.json) {
+			    this.error_field[f] = error.json[f].join(" ");
+			}
+		    }
 		}
 	    );
 	}
@@ -173,13 +217,22 @@ export class ProgramsDetailComponent implements OnInit {
 		    this.alert_custom = JSON.parse(JSON.stringify(this.alert_custom_origin));
 		    
 		    this.updateHaveChange();
-		    this.alerts.push({msg: "Changes submited", type: 'success'});
+		    this.notificationsService.info("Changes submited");
 		},
 		error => {
 		    this.loadingSubmit = false;
 		    if (error == "NeedToReconnect")
 			throw error;
-		    this.alerts.push({msg: error.msg, type: 'danger'});
+		    if (error.json) {
+			for (let f in error.json) {
+			    this.error_field[f] = error.json[f].join(" ");
+			}
+		    }
+		    if (error.code == 404) {
+			this.notificationsService.alert("This program has been deleted and can't be updated anymore.");
+			this.stationsService.discardCache();
+			this.onGoBackList();
+		    }
 		}
 	    );
 	}
