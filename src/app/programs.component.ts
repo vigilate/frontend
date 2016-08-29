@@ -29,7 +29,7 @@ export class ProgramsComponent implements OnInit {
     p = 0;
 
     filter_options = ["is:vulnerable",
-		      "is!vulnerable",
+		      "is:!vulnerable",
 		     "version:",
 		     "station:"
 		    ];
@@ -136,10 +136,30 @@ export class ProgramsComponent implements OnInit {
     }
 
     onClickFilter(f) {
+	if (this.filter.indexOf(f) != -1)
+	    return;
+	if (f.indexOf("!") != -1) {
+	    let tmp = f.replace(":!", ":");
+	    if (this.filter.indexOf(tmp) != -1) {
+		this.filter = this.filter.replace(tmp, f);
+		return;
+	    }
+	}
+	else {
+	    let tmp = f.replace(":", ":!");
+	    if (this.filter.indexOf(tmp) != -1) {
+		this.filter = this.filter.replace(tmp, f);
+		return;
+	    }
+	}
 	this.filter = this.filter + " " + f;
     }
 
     onClickRefresh() {
 	this.programsService.trigerEmitTimeout();
+    }
+
+    onClickAlert(alert_id) {
+	this.router.navigate(['/alerts', alert_id]);
     }
 }

@@ -75,7 +75,7 @@ export class FilterPipe implements PipeTransform {
 	    ret = false;
 	    for (let op_is of rules.is) {
 		if (op_is.value.startsWith("v") && obj_type == "prog") // vuln
-		    ret = ret || (obj.is_vulnerable != 0) != op_is.reversed;
+		    ret = ret || (obj.alert_id != null) != op_is.reversed;
 		else if (op_is.value.startsWith("r") && obj_type == "alert") // read
 		    ret = ret || (!!obj.view) != op_is.reversed;
 		else if (op_is.value.startsWith("n") && obj_type == "alert") // new

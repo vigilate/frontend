@@ -45,8 +45,8 @@
           <td class="clickable" (click)="onClick(prog.id)">{{prog.program_name}}</td>
           <td class="clickable" (click)="onClick(prog.id)">{{prog.program_version}}</td>
 	  <td class="clickable" (click)="onClick(prog.id)">{{stations[prog.poste]}}</td>
-          <td *ngIf="prog.is_vulnerable" class="text-center red clickable"><i class="fi-alert big-icon"></i> Learn more</td>
-          <td *ngIf="!prog.is_vulnerable"></td>
+          <td *ngIf="prog.alert_id" (click)="onClickAlert(prog.alert_id)" class="text-center red clickable"><i class="fi-alert big-icon"></i> Learn more</td>
+          <td *ngIf="!prog.alert_id"></td>
           <td> <button class="button tiny" (click)="onClick(prog.id)">Edit</button></td>
           <td class="right"> <button class="button alert tiny" (click)="onClickDelete(prog.id, i)">Delete</button></td>
         </tr>
