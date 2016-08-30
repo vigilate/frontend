@@ -49,8 +49,8 @@
 	</tr>
       </thead>
       <tbody>
-	<tr *ngFor="let alert of alerts | station:'alert':filtered_station | filter:filter | paginate: { itemsPerPage: 50, currentPage: p }">
-	  <td class="clickable" (click)="onClick(alert.id)" [innerHTML]=alert.program_info.program_name></td>
+	<tr  *ngFor="let alert of alerts | station:'alert':filtered_station | filter:filter | paginate: { itemsPerPage: 50, currentPage: p }">
+	  <td class="clickable {{(!alert.view) ? 'background-new-alert': ''}}" (click)="onClick(alert.id)" [innerHTML]=alert.program_info.program_name></td>
 	  <td class="clickable" (click)="onClick(alert.id)" [innerHTML]=alert.program_info.program_version></td>
 	  <td class="clickable" (click)="onClick(alert.id)" [innerHTML]=alert.program_info.station_name></td>
 	  <td class="clickable" (click)="onClick(alert.id)">{{alert.number_cve}}</td>
