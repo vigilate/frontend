@@ -52,7 +52,7 @@
 		</div><br/>
 		<button [disabled]="!ctrl.form.valid" (click)="onClickSubmit()" class="button">
 		  <span *ngIf="!loadingSubmit">Submit</span>
-		  <span *ngIf="loadingSubmit">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>
+		  <span *ngIf="loadingSubmit">Loading... <i class="fi-refresh loading-spinner"></i></span>
 		</button>
 	</form><br/>
 	<hr/>

@@ -4,9 +4,8 @@
     <br>
     <button class="tiny"(click)="onClickRefresh()">
       <span *ngIf="!pageLoading"><i class="fi-refresh"></i> refresh</span>
-      <span *ngIf="pageLoading"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span> refreshing...</span>
+      <span *ngIf="pageLoading"><i class="fi-refresh loading-spinner"></i> refreshing...</span>
     </button>
-    
     <div *ngIf="stations_list.length > 1">
       <ul class="pagination">
 	<li class="{{(filtered_station == 'all') ? 'current': ''}}"><button (click)="selectStation('all')" href="">All</button></li>
@@ -52,7 +51,7 @@
         </tr>
       </tbody>
     </table>
-    <div *ngIf="pageLoading" class="page-loading"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span></div>
+    <div *ngIf="pageLoading" class="page-loading"><i class="fi-refresh loading-spinner"></i></div>
     <button class="hollow small button right" (click)="onNewProgram()">New program</button>
     <pagination-controls autoHide="true" #pagination (pageChange)="p = $event;onPageChange(p)"></pagination-controls>
   </div>

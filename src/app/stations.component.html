@@ -3,7 +3,7 @@
     <h1><i class="fi-target"></i> Download the scanner for a new station</h1><br/>
     <button class="tiny"(click)="onClickRefresh()">
       <span *ngIf="!pageLoading"><i class="fi-refresh"></i> refresh</span>
-      <span *ngIf="pageLoading"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span> refreshing...</span>
+      <span *ngIf="pageLoading"><i class="fi-refresh loading-spinner"></i> refreshing...</span>
     </button>
     <form [ngFormModel]="ctrl.form" class="{{(tour_current_step == 'add-station') ? 'highlight-zone': ''}}">
       <div class="row">
@@ -20,7 +20,7 @@
 	<div class="medium-2 columns">
 	  <button (click)="onAddStation()" class="button small right">
 	    <span *ngIf="!loadingSubmit">Add station</span>
-	    <span *ngIf="loadingSubmit">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>
+	    <span *ngIf="loadingSubmit">Loading... <i class="fi-refresh loading-spinner"></i></span>
 	  </button>
 	</div>
       </div>
@@ -60,7 +60,7 @@
       </div>
     </div>
     
-    <div *ngIf="pageLoading" class="page-loading"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span></div>
+    <div *ngIf="pageLoading" class="page-loading"><i class="fi-refresh loading-spinner"></i></div>
     <pagination-controls autoHide="true" (pageChange)="p = $event"></pagination-controls>
   </div>
 </div>
