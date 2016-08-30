@@ -26,6 +26,8 @@ export class FilterPipe implements PipeTransform {
 	    delete rules.state;
 
 	for (let word of str_filter.split(" ")) {
+	    if (word == "")
+	    	continue;
 	    let op_idx = word.indexOf(":");
 	    if (op_idx != -1) {
 		let op_key = word.substring(0, op_idx);
@@ -49,7 +51,7 @@ export class FilterPipe implements PipeTransform {
 		rules.contain_str.push(word);
 	}
 
-	return list.filter(obj => {
+	let matching = list.filter(obj => {
 
 	    let name;
 	    let version;
@@ -57,7 +59,7 @@ export class FilterPipe implements PipeTransform {
 	    
 	    if (obj_type == "prog") {
 		name = obj.program_name;
-		version = obj.version;
+		version = obj.program_version;
 		station = obj.station_name;
 	    }
 	    else {
@@ -65,24 +67,29 @@ export class FilterPipe implements PipeTransform {
 		version = obj.program_info.program_version;
 		station = obj.program_info.station_name;
 	    }
-	    
-	    let ret = true;
-	    for (let word of rules.contain_str)
-		ret = ret && name.indexOf(word) !== -1;
-	    if (!ret)
-		return ret;
 
-	    ret = false;
-	    for (let op_is of rules.is) {
-		if (op_is.value.startsWith("v") && obj_type == "prog") // vuln
-		    ret = ret || (obj.alert_id != null) != op_is.reversed;
-		else if (op_is.value.startsWith("r") && obj_type == "alert") // read
-		    ret = ret || (!!obj.view) != op_is.reversed;
-		else if (op_is.value.startsWith("n") && obj_type == "alert") // new
-		    ret = ret || !((!!obj.view) != op_is.reversed);
+	    let ret;
+	    if (rules.contain_str.length) {
+		ret = false;
+		for (let word of rules.contain_str)
+		    ret = ret || name.indexOf(word) !== -1;
+		if (!ret)
+		    return ret;
 	    }
-	    if (rules.is.length && !ret)
-		return ret;
+
+	    if (rules.is.length) {
+		ret = false;
+		for (let op_is of rules.is) {
+		    if (op_is.value.startsWith("v") && obj_type == "prog") // vuln
+			ret = ret || (obj.alert_id != null) != op_is.reversed;
+		    else if (op_is.value.startsWith("r") && obj_type == "alert") // read
+			ret = ret || (!!obj.view) != op_is.reversed;
+		    else if (op_is.value.startsWith("n") && obj_type == "alert") // new
+			ret = ret || !((!!obj.view) != op_is.reversed);
+		}
+		if (!ret)
+		    return ret;
+	    }
 
 
 	    if ("state" in rules) {
@@ -97,22 +104,89 @@ export class FilterPipe implements PipeTransform {
 		    return ret;
 	    }
 
-	    
-	    ret = false;
-	    for (let op_version of rules.version) {
-		ret = ret || version.indexOf(op_version) !== -1;
+
+	    if (rules.version.length) {
+		ret = false;
+		for (let op_version of rules.version) {
+		    console.log("is", version, "in", op_version.value);
+		    ret = ret || version.indexOf(op_version.value) !== -1;
+		}
+		if (!ret)
+		    return ret;
 	    }
-	    if (rules.version.length && !ret)
-		return ret;
 
 	    ret = false;
 	    for (let op_station of rules.station) {
-		ret = ret || station.indexOf(op_station) !== -1;
+		ret = ret || station.indexOf(op_station.value) !== -1;
 	    }
 	    if (rules.station.length && !ret)
 		return ret;
 
 	    return true;
 	});
+
+	matching = JSON.parse(JSON.stringify(matching));
+	return matching.map(obj => {
+	    let name;
+	    let version;
+	    let station;
+	    
+	    if (obj_type == "prog") {
+	    	name = obj.program_name;
+	    	version = obj.program_version;
+	    	station = obj.station_name;
+	    }
+	    else {
+	    	name = obj.program_info.program_name;
+	    	version = obj.program_info.program_version;
+	    	station = obj.program_info.station_name;
+	    }
+	    name = this.htmlEscape(name);
+	    version = this.htmlEscape(version);
+	    station = this.htmlEscape(station);
+
+	    name = this.hl(name, rules.contain_str);
+	    if (rules.version.length)
+		version = this.hl(version, rules.version.map(o => o.value));
+	    if (rules.station.length)
+		station = this.hl(station, rules.station.map(o => o.value));
+
+	    
+	    if (obj_type == "prog") {
+	    	obj.program_name = name;
+	    	obj.program_version = version;
+	    	obj.station_name = station;
+	    }
+	    else {
+	    	obj.program_info.program_name = name;
+	    	obj.program_info.program_version = version;
+	    	obj.program_info.station_name = station;
+	    }
+
+	    
+	    return obj;
+	    
+	});
+
+    }
+
+    hl(str, values) {
+	if (!values.length)
+	    return str;
+	let dic = {}	    
+	for (let val of values) {
+	    dic[val] = '<span class="filterHl">' + val + '</span>';
+	}
+	let re = new RegExp(values.join("|"),"gi");
+	str = str.replace(re, (matched) => {
+	    return dic[matched];
+	});
+	return str;
+    }
+
+    htmlEscape(val) {
+	val = val.replace("<", "&lt;");
+	val = val.replace(">", "&gt;");
+	return val;
     }
 }

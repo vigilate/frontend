@@ -380,3 +380,10 @@ h3 {
 /* .columns { */
 /*     position: static !important; */
 /* } */
+
+/* FILTERS */
+
+.filterHl {
+    font-weight: bold;
+    background-color: rgba(255, 255, 0, 0.4);
+}

@@ -15,7 +15,11 @@ export class CvssPipe implements PipeTransform {
     transform(cvss_part: string): string {
 	if (cvss_part) {
 	    let splited = cvss_part.split(":");
-	    return this.CVSS_lvalue[splited[0]].replace("%s", splited[1].replace("NONE", "NO"));
+	    let to_insert = splited[1].replace("NONE", "NO");
+	    to_insert = to_insert.replace("<", "&lt;");
+	    to_insert = to_insert.replace(">", "&gt;");
+	    
+	    return this.CVSS_lvalue[splited[0]].replace("%s", to_insert);
 	}
 	return "";
     }
