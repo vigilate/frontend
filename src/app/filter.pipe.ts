@@ -96,9 +96,9 @@ export class FilterPipe implements PipeTransform {
 		ret = false;
 		for (let op_state of rules.state) {
 		    if (op_state.value.startsWith("e")) // exploit
-			ret = ret || (("exploit" in obj.state) != op_state.reversed);
+			ret = ret || ((obj.state.indexOf("exploit") !== -1) != op_state.reversed);
 		    else if (op_state.value.startsWith("p")) // patch
-			ret = ret || (("patch" in obj.state) != op_state.reversed);
+			ret = ret || ((obj.state.indexOf("patch") !== -1) != op_state.reversed);
 		}
 		if (rules.state.length && !ret)
 		    return ret;
@@ -108,7 +108,6 @@ export class FilterPipe implements PipeTransform {
 	    if (rules.version.length) {
 		ret = false;
 		for (let op_version of rules.version) {
-		    console.log("is", version, "in", op_version.value);
 		    ret = ret || version.indexOf(op_version.value) !== -1;
 		}
 		if (!ret)
