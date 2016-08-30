@@ -55,7 +55,7 @@
 		      Score alert mail
 		    </label>
 		    <div class="small-9 medium-9 columns">
-		      <input type="text" (input)="updateHaveChange()" [(ngModel)]="alert_custom.mail.score" [disabled]="!alert_custom.mail.activated"/> 
+		      <input type="text" (input)="delayedUpdateHaveChange()" [(ngModel)]="alert_custom.mail.score" [disabled]="!alert_custom.mail.activated"/> 
 		    </div>
 		    <input id="checkbox_mail" type="checkbox" (change)="delayedUpdateHaveChange()" [(ngModel)]="alert_custom.mail.activated">
 		  </div>
@@ -66,7 +66,7 @@
 		      Score alert sms
 		    </label>
 		    <div class="small-9 medium-9 columns">
-		      <input type="text" (input)="updateHaveChange()" [(ngModel)]="alert_custom.sms.score" [disabled]="!alert_custom.sms.activated"/>
+		      <input type="text" (input)="delayedUpdateHaveChange()" [(ngModel)]="alert_custom.sms.score" [disabled]="!alert_custom.sms.activated"/>
 		    </div>
 		    <input id="checkbox_sms" type="checkbox" (change)="delayedUpdateHaveChange()" [(ngModel)]="alert_custom.sms.activated">
 		  </div>
