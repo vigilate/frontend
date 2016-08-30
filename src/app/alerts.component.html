@@ -3,15 +3,15 @@
     <h1><i class="fi-target"></i> Alerts</h1><br/>
     <button class="tiny"(click)="onClickRefresh()">
       <span *ngIf="!pageLoading"><i class="fi-refresh"></i> refresh</span>
-      <span *ngIf="pageLoading"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span> refreshing...</span>
+      <span *ngIf="pageLoading"><i class="fi-refresh loading-spinner"></i> refreshing...</span>
     </button>
     <button class="button tiny" (click)="onMarkAll('read')">
       <span *ngIf="!loadingMarkAll['read']">Mark all read</span>
-      <span *ngIf="loadingMarkAll['read']">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>  
+      <span *ngIf="loadingMarkAll['read']">Loading... <i class="fi-refresh loading-spinner"></i></span>  
     </button>
     <button class="button tiny" (click)="onMarkAll('unread')">
       <span *ngIf="!loadingMarkAll['unread']">Mark all unread</span>
-      <span *ngIf="loadingMarkAll['unread']">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>  
+      <span *ngIf="loadingMarkAll['unread']">Loading... <i class="fi-refresh loading-spinner"></i></span>  
     </button>
     <div *ngIf="stations_list.length > 1">
       <ul class="pagination">
@@ -60,14 +60,14 @@
 	  <td (click)="onClick(alert.id)"><progress style="width:100%" max="100" value="{{alert.max_cvss*10}}"></progress></td>
 	  <td><button class="button tiny" (click)="onMark(alert)">
 	       <span *ngIf="!alert.loadingMark">{{alert.view ? "Unread" : "Read" }}</span>
-	       <span *ngIf="alert.loadingMark">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>  
+	       <span *ngIf="alert.loadingMark">Loading... <i class="fi-refresh loading-spinner"></i></span>  
 	  </button></td>
 	  <td> <button class="button tiny" (click)="onClick(alert.id)">View</button></td>
 	  <td><i *ngIf="!alert.view" class="fi-alert big-icon"></i></td>
 	</tr>
       </tbody>
     </table>
-    <div *ngIf="pageLoading" class="page-loading"><span class="glyphicon glyphicon-refresh glyphicon-spin"></span></div>
+    <div *ngIf="pageLoading" class="page-loading"><i class="fi-refresh loading-spinner"></i></div>
     <pagination-controls autoHide="true" (pageChange)="p = $event;onPageChange(p)"></pagination-controls>
   </div>
 </div>

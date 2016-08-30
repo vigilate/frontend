@@ -292,8 +292,7 @@ h3 {
 
 /* ANIMATION */
 
-
-.fa-spin-custom, .glyphicon-spin {
+.fa-spin-custom, .glyphicon-spin, .loading-spinner:before {
     -webkit-animation: spin 1000ms infinite linear;
     animation: spin 1000ms infinite linear;
 }
