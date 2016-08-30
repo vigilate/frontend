@@ -37,23 +37,24 @@
     <table>
       <thead>
 	<tr>
-	  <th width="200">Name</th>
+	  <th width="300">Name</th>
 	  <th width="100">Version</th>
 	  <th width="100">Station</th>
 	  <th width="50">Vulnerabilities</th>
-	  <th width="900">State</th>
-	  <th width="50">Vulnerability score</th>
+	  <th width="700">State</th>
+	  <th width="100">Vulnerability score</th>
 	  <th width="50">Mark as</th>
+	  <th width="50">More information</th>
 	  <th width="50">New</th>
 	</tr>
       </thead>
       <tbody>
 	<tr *ngFor="let alert of alerts | station:'alert':filtered_station | filter:filter | paginate: { itemsPerPage: 50, currentPage: p }">
-	  <td (click)="onClick(alert.id)" [innerHTML]=alert.program_info.program_name></td>
-	  <td (click)="onClick(alert.id)" [innerHTML]=alert.program_info.program_version></td>
-	  <td (click)="onClick(alert.id)" [innerHTML]=alert.program_info.station_name></td>
-	  <td (click)="onClick(alert.id)">{{alert.number_cve}}</td>
-	  <td (click)="onClick(alert.id)">
+	  <td class="clickable" (click)="onClick(alert.id)" [innerHTML]=alert.program_info.program_name></td>
+	  <td class="clickable" (click)="onClick(alert.id)" [innerHTML]=alert.program_info.program_version></td>
+	  <td class="clickable" (click)="onClick(alert.id)" [innerHTML]=alert.program_info.station_name></td>
+	  <td class="clickable" (click)="onClick(alert.id)">{{alert.number_cve}}</td>
+	  <td class="clickable" (click)="onClick(alert.id)">
 	    <span *ngFor="let state of alert.state" class="state-badge state-badge-{{state}}">{{state}}</span>
 	  </td>
 	  <td (click)="onClick(alert.id)"><progress style="width:100%" max="100" value="{{alert.max_cvss*10}}"></progress></td>
@@ -61,6 +62,7 @@
 	       <span *ngIf="!alert.loadingMark">{{alert.view ? "Unread" : "Read" }}</span>
 	       <span *ngIf="alert.loadingMark">Loading... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></span>  
 	  </button></td>
+	  <td> <button class="button tiny" (click)="onClick(alert.id)">View</button></td>
 	  <td><i *ngIf="!alert.view" class="fi-alert big-icon"></i></td>
 	</tr>
       </tbody>
