@@ -56,45 +56,32 @@
 		</button>
 	</form>
 	<hr/>
-	<div class="row" data-equalizer>
-	  <div class="medium-4 small-12 columns {{(userService.user.contrat == 0) ? 'enabled-plan' : ''}}">
-	    <ul class="pricing-table" data-equalizer-watch>
-	      <li class="title">Basic</li>
-	      <li class="price">Free</li>
-	      <li class="bullet-item">5 stations</li>
-	      <li class="cta-button">
-		<button (click)="onClickPlan(0)" *ngIf="userService.user.contrat != 0" class="button">
-		  <span *ngIf="!loadingSubmit">Use free version</span>
-		  <span *ngIf="loadingSubmit">Loading... <i class="fi-refresh loading-spinner"></i></span>
-	      </button></li>
-	    </ul>    
-	  </div>
-	  <div class="medium-4 small-12 columns {{(userService.user.contrat == 1) ? 'enabled-plan' : ''}}">
-	    <ul class="pricing-table" data-equalizer-watch>
-	      <li class="title">Silver</li>
-	      <li class="price">9.99 € / month</li>
-	      <li class="bullet-item">15 stations</li>
-	      <li class="cta-button">
-		<button (click)="onClickPlan(1)" *ngIf="userService.user.contrat != 1" class="button">
-		  <span *ngIf="!loadingSubmit">Upgrade Now</span>
-		  <span *ngIf="loadingSubmit">Loading... <i class="fi-refresh loading-spinner"></i></span>
-	      </button></li>
-	    </ul>   
-	  </div>
-	  <div class="medium-4 small-12 columns {{(userService.user.contrat == 2) ? 'enabled-plan' : ''}}">
-	    <ul class="pricing-table" data-equalizer-watch>
-	      <li class="title">Gold</li>
-	      <li class="price">49.99 € / month</li>
-	      <li class="bullet-item">Unlimited stations</li>
-	      <li class="cta-button">
-		<button (click)="onClickPlan(2)" *ngIf="userService.user.contrat != 2" class="button">
-		  <span *ngIf="!loadingSubmit">Upgrade Now</span>
-		  <span *ngIf="loadingSubmit">Loading... <i class="fi-refresh loading-spinner"></i></span>
-	      </button></li>
-	    </ul>   
-	  </div>
-	</div>
 
+	<span *ngIf="selected_plan && selected_plan.name">
+	  The activated plan is {{selected_plan.name}}
+	</span>
+	<br />
+	<span *ngIf="selected_plan && selected_plan['validity_time']">
+	  <span *ngIf="remaining_time > 0">The {{selected_plan['name']}} plan will expire in {{remaining_time}}s</span>
+	  <span *ngIf="remaining_time <= 0">The {{selected_plan['name']}} current plan have expired.</span>
+	</span>
+	<div class="row" data-equalizer>
+	  
+	  <div *ngFor="let plan of plans" class="medium-4 small-12 columns {{(selected_plan.id == plan.id || (plan.max_stations < selected_plan.max_stations && plan.max_stations != 0)) ? 'enabled-plan' : ''}}">
+	    <ul class="pricing-table" data-equalizer-watch>
+	      <li class="title">{{plan.name}}</li>
+	      <li class="price">{{plan.price == 0 ? "Free" : plan.price + " € / month"}}</li>
+	      <li class="bullet-item">{{plan.max_stations == 0 ? 'Unlimited' : plan.max_stations}} stations</li>
+	      <li class="cta-button">
+		<button (click)="onClickPlan(plan)" *ngIf="!(selected_plan.id == plan.id || (plan.max_stations < selected_plan.max_stations && plan.max_stations != 0))" class="button">
+		  <span *ngIf="!loadingSubmit">Upgrade Now</span>
+		  <span *ngIf="loadingSubmit">Loading... <i class="fi-refresh loading-spinner"></i></span>
+	      </button></li>
+	    </ul>
+	  </div>
+	  
+	</div>
+	
 	<br />
 	<button type="submit" class="button alert" (click)="deleteAccount()">Delete account</button>
 </div>
