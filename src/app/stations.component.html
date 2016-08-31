@@ -44,10 +44,10 @@
       	</tr>
       </thead>
       <tbody>
-      	<tr *ngFor="let station of stations | paginate: { itemsPerPage: 50, currentPage: p } ; let isLast = last" class="{{(isLast && tour_current_step == 'download-scanner') ? 'highlight-zone': ''}}">
-      	  <td class="clickable" (click)="onClick(station.id)">{{station.name}}</td>
-	  <td> <button class="button tiny" (click)="onClick(station.id)">Edit</button></td>
-          <td class="text-center"><button class="button tiny" (click)="onDownload(station.id, station.name)">Download scanner</button></td>
+      	<tr *ngFor="let station of stations | paginate: { itemsPerPage: 50, currentPage: p } ; let isLast = last" class="{{(isLast && tour_current_step == 'download-scanner') ? 'highlight-zone': ''}} {{(station.disabled) ? 'disabled-station': ''}}">
+      	  <td class="clickable" (click)="onClick(station.id)">{{station.name}}<span *ngIf="station.disabled"> (disabled)</span></td>
+	  <td> <button *ngIf="!station.disabled" class="button tiny" (click)="onClick(station.id)">Edit</button></td>
+          <td class="text-center"><button *ngIf="!station.disabled" class="button tiny" (click)="onDownload(station.id, station.name)">Download scanner</button></td>
       	  <td class="text-center right"> <button class="button alert tiny" (click)="onDelete(station.id)">Delete</button></td>
       	</tr>
 	      

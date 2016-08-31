@@ -57,62 +57,44 @@
 	</form>
 	<hr/>
 	<div class="row" data-equalizer>
-	  <div class="medium-4 small-12 columns">
+	  <div class="medium-4 small-12 columns {{(userService.user.contrat == 0) ? 'enabled-plan' : ''}}">
 	    <ul class="pricing-table" data-equalizer-watch>
 	      <li class="title">Basic</li>
 	      <li class="price">Free</li>
 	      <li class="bullet-item">5 stations</li>
-	      <li class="cta-button"><button class="button">Use free version</button></li>
+	      <li class="cta-button">
+		<button (click)="onClickPlan(0)" *ngIf="userService.user.contrat != 0" class="button">
+		  <span *ngIf="!loadingSubmit">Use free version</span>
+		  <span *ngIf="loadingSubmit">Loading... <i class="fi-refresh loading-spinner"></i></span>
+	      </button></li>
 	    </ul>    
 	  </div>
-	  <div class="medium-4 small-12 columns">
+	  <div class="medium-4 small-12 columns {{(userService.user.contrat == 1) ? 'enabled-plan' : ''}}">
 	    <ul class="pricing-table" data-equalizer-watch>
 	      <li class="title">Silver</li>
 	      <li class="price">9.99 € / month</li>
 	      <li class="bullet-item">15 stations</li>
-	      <li class="cta-button"><button class="button">Upgrade Now</button></li>
+	      <li class="cta-button">
+		<button (click)="onClickPlan(1)" *ngIf="userService.user.contrat != 1" class="button">
+		  <span *ngIf="!loadingSubmit">Upgrade Now</span>
+		  <span *ngIf="loadingSubmit">Loading... <i class="fi-refresh loading-spinner"></i></span>
+	      </button></li>
 	    </ul>   
 	  </div>
-	  <div class="medium-4 small-12 columns">
+	  <div class="medium-4 small-12 columns {{(userService.user.contrat == 2) ? 'enabled-plan' : ''}}">
 	    <ul class="pricing-table" data-equalizer-watch>
 	      <li class="title">Gold</li>
 	      <li class="price">49.99 € / month</li>
 	      <li class="bullet-item">Unlimited stations</li>
-	      <li class="cta-button"><button class="button">Upgrade Now</button></li>
+	      <li class="cta-button">
+		<button (click)="onClickPlan(2)" *ngIf="userService.user.contrat != 2" class="button">
+		  <span *ngIf="!loadingSubmit">Upgrade Now</span>
+		  <span *ngIf="loadingSubmit">Loading... <i class="fi-refresh loading-spinner"></i></span>
+	      </button></li>
 	    </ul>   
 	  </div>
 	</div>
 
-	<button id="customButton">Purchase</button>
-
-	<script>
-	var handler = StripeCheckout.configure({
-	  key: 'pk_test_W4oyNJMHYlny4XYgZ7iBHbjj',
-	  image: '/img/documentation/checkout/marketplace.png',
-	  locale: 'auto',
-	token: function(token) {
-	console.log("token", token);
-	    // You can access the token ID with `token.id`.
-	    // Get the token ID to your server-side code for use.
-	  }
-	});
-
-	$('#customButton').on('click', function(e) {
-	  // Open Checkout with further options:
-	  handler.open({
-	    name: 'Demo Site',
-	    description: '2 widgets',
-		zipCode: true,
-		currency: "EUR",
-	    amount: 2000
-	  });
-	  e.preventDefault();
-	});
-
-	// Close Checkout on page navigation:
-	$(window).on('popstate', function() {
-	  handler.close();
-	});
-	</script>
+	<br />
 	<button type="submit" class="button alert" (click)="deleteAccount()">Delete account</button>
 </div>
