@@ -43,7 +43,11 @@ export class UserService {
     updateInfos(infos): Observable<any> {
 	var body = JSON.stringify(infos);
 	return this.api.patch(this.url + this.user.id + "/", body)
-	    .map(data => data.json())
+	    .do((data) => {
+		if (data.ok)
+		    this.user = data.json();
+	    })
+		.map(data => data.json())
 	    .catch(this.httpServiceError.handleError);
     }
 

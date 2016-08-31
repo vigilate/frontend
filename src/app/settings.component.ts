@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { User } from './user.model';
 import { AuthService } from './auth.service';
 import { UserService } from './user.service';
+import { StationsService } from './stations.service';
 import { PhoneValidator, MatchValidator, TriggerValidator } from './validation.class'
 import { FormBuilder, Validators, Control, ControlGroup, FORM_DIRECTIVES } from '@angular/common';
 import { NotificationsService } from './notifications.service'
@@ -28,9 +29,15 @@ export class SettingsComponent implements OnInit {
     default_alert = "";
     default_alert_types = ["EMAIL", "SMS"];
     error_field = {};
+    loadingPlan = {
+	0:false,
+	1: false,
+	2: false
+    }
     
     constructor (private authService: AuthService,
 		 private userService: UserService,
+		 private stationsService: StationsService,
 		 private router: Router,
 		 private builder: FormBuilder,
 		 private notificationsService: NotificationsService
@@ -99,6 +106,26 @@ export class SettingsComponent implements OnInit {
 		    }
 		}
 		this.loadingSubmit = false;
+	    }
+	);
+    }
+
+    onClickPlan(id) {
+	this.loadingPlan[id] = true;
+	let info = {"contrat": id};
+	this.userService.updateInfos(info).subscribe(
+	    () => {
+		this.loadingPlan[id] = false;
+		this.stationsService.discardCache();
+		this.notificationsService.info("Changes submited");
+	    },
+	    (err) => {
+		if (err.json) {
+		    for (let f in err.json) {
+			this.error_field[f] = err.json[f].join(" ");
+		    }
+		}
+		this.loadingPlan[id] = false;
 	    }
 	);
     }
