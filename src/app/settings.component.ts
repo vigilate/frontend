@@ -41,6 +41,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     selected_plan = null;
     remaining_time = 0
     timerId = -1;
+    last_reload_user = 0;
 
     constructor (private authService: AuthService,
 		 private userService: UserService,
@@ -76,6 +77,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
 
     reloadUser() {
+	if (new Date().getTime()/1000 - this.last_reload_user < 1)
+	    return;
+	this.last_reload_user = new Date().getTime()/1000;
+	
 	this.userService.getUser().subscribe(
 	    data => {
 		this.phone_number = this.userService.user.phone;
@@ -95,7 +100,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
 		    this.plans_dic[pl.id] = pl;
 		this.selected_plan = this.plans_dic[this.userService.user["plan"]]
 
-		this.updateRemaining();
+		if (this.timerId == -1)
+		    this.updateRemaining();
 		
 	    },
 	    error => {
@@ -105,7 +111,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     updateRemaining() {
 	if (this.timerId == -1) {
-	    this.timerId = setInterval(() => this.updateRemaining(), 5000);
+	    this.timerId = setInterval(() => this.updateRemaining(), 3000);
 	}
 
 	this.selected_plan = this.plans_dic[this.userService.user["plan"]]
