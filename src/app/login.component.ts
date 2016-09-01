@@ -82,7 +82,6 @@ export class LoginComponent implements OnInit {
 	this.userService.getUser()
             .subscribe(
                 data => {
-		    console.log(data)
 		    this.loadingLogin = false;
 		    this.backgroundService.init()
 		    let redir = this.storageService.get("AuthGuard", "redirect", "dashboard");
@@ -110,7 +109,6 @@ export class LoginComponent implements OnInit {
 	this.authService.signin(this.email, this.password)
             .subscribe(
                 user => {
-		    console.log(this.user)
 		    this.loadingSignin = false;
 		    this.notificationsService.success("User " + user.email + " created");
 		},
