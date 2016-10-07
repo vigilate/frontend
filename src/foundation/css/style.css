@@ -214,15 +214,18 @@ h3 {
 }
 
 .notification-block-alert {
-    box-shadow: -1px -1px 4px 1px #c60f13;
+    /*box-shadow: -1px -1px 4px 1px #c60f13;*/
+    border-top: 2px solid #c60f13;
 }
 
 .notification-block-info {
-    box-shadow: -1px -1px 4px 1px #1bbab9;
+    /*box-shadow: -1px -1px 4px 1px #1bbab9;*/
+    border-top: 2px solid #1bbab9;
 }
 
 .notification-block-success {
-    box-shadow: -1px -1px 4px 1px #9BD710;
+    /*box-shadow: -1px -1px 4px 1px #9BD710;*/
+    border-top: 2px solid #9BD710;
 }
 
 .back-button {
@@ -353,7 +356,12 @@ h3 {
     display: block;
     left: 0px;
 }
-
+.filter-button {
+	padding: 9px;
+    line-height: 2.2em;
+    background-color: #1abdb7;
+    color: white;
+}
 
 /* TUTO */
 
