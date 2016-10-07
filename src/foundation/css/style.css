@@ -403,6 +403,10 @@ h3 {
 
 /* PRICING */
 
-.enabled-plan, .disabled-station {
-    opacity: 0.4
+.disabled-station {
+   opacity: 0.4;
+}
+
+.enabled-plan .pricing-table .title {
+	background-color: #1abdb7;
 }

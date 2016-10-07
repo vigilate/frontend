@@ -57,13 +57,13 @@
 	</form>
 	<hr/>
 
-	<span *ngIf="selected_plan && selected_plan.name">
-	  The activated plan is {{selected_plan.name}}
-	</span>
+	<div *ngIf="selected_plan && selected_plan.name">
+	  <i class="fi-price-tag blue" style="font-size:1.5em;vertical-align:middle;"></i> The {{selected_plan.name}} plan is activated.
+	</div>
 	<br />
 	<span *ngIf="selected_plan && selected_plan['validity_time']">
 	  <span *ngIf="remaining_time > 0">The {{selected_plan['name']}} plan will expire in {{remaining_time}}s</span>
-	  <span *ngIf="remaining_time <= 0">The {{selected_plan['name']}} current plan have expired.</span>
+	  <span *ngIf="remaining_time <= 0">The {{selected_plan['name']}} current plan has expired.</span>
 	</span>
 	<div class="row" data-equalizer>
 	  
