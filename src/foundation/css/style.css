@@ -290,6 +290,10 @@ h3 {
     text-align: center;
 }
 
+.button-center{
+    text-align: center;
+}
+
 /* ANIMATION */
 
 .fa-spin-custom, .glyphicon-spin, .loading-spinner:before {
