@@ -16,7 +16,7 @@
     <div class="row">
       <div class="medium-1 columns my-dropdown">
 
-	<a>Filters</a>
+	<a class="filter-button">Filters</a>
 	<ul id="drop1" class="f-dropdown my-dropdown-content">
 	  <li *ngFor="let flt of filter_options" ><a (click)="onClickFilter(flt)">{{flt}}</a></li>
 	</ul>
