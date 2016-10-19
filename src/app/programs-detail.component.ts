@@ -191,7 +191,9 @@ export class ProgramsDetailComponent implements OnInit {
 	this.program_obj.poste = this.selectedStation
 	
 	if (this.creating_new)	{
-	    this.programsService.createProgram(this.program_obj).subscribe(
+	    let tmp_prog_obj = this.program_obj;
+	    tmp_prog_obj.program_version = [tmp_prog_obj.program_version];
+	    this.programsService.createProgram(tmp_prog_obj).subscribe(
 		program => {
 		    this.loadingSubmit = false;
 		    this.router.navigate(['/programs']);
@@ -209,7 +211,9 @@ export class ProgramsDetailComponent implements OnInit {
 	    );
 	}
 	else {
-	    this.programsService.updateProgramsDetail(this.program_obj.id, this.program_obj).subscribe(
+	    let tmp_prog_obj = this.program_obj;
+	    tmp_prog_obj.program_version = [tmp_prog_obj.program_version];
+	    this.programsService.updateProgramsDetail(this.program_obj.id, tmp_prog_obj).subscribe(
 		program => {
 		    this.loadingSubmit = false;
 		    this.program_obj_origin = JSON.parse(JSON.stringify(program))
