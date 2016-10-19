@@ -110,6 +110,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     updateRemaining() {
+	if (this.plans.length == 0)
+	    return;
+
 	if (this.timerId == -1) {
 	    this.timerId = setInterval(() => this.updateRemaining(), 3000);
 	}
