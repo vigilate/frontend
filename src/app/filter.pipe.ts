@@ -72,7 +72,7 @@ export class FilterPipe implements PipeTransform {
 	    if (rules.contain_str.length) {
 		ret = false;
 		for (let word of rules.contain_str)
-		    ret = ret || name.indexOf(word) !== -1;
+		    ret = ret || name.toLowerCase().indexOf(word.toLowerCase()) !== -1;
 		if (!ret)
 		    return ret;
 	    }
@@ -108,7 +108,7 @@ export class FilterPipe implements PipeTransform {
 	    if (rules.version.length) {
 		ret = false;
 		for (let op_version of rules.version) {
-		    ret = ret || version.indexOf(op_version.value) !== -1;
+		    ret = ret || version.toLowerCase().indexOf(op_version.value.toLowerCase()) !== -1;
 		}
 		if (!ret)
 		    return ret;
@@ -116,7 +116,7 @@ export class FilterPipe implements PipeTransform {
 
 	    ret = false;
 	    for (let op_station of rules.station) {
-		ret = ret || station.indexOf(op_station.value) !== -1;
+		ret = ret || station.toLowerCase().indexOf(op_station.value.toLowerCase()) !== -1;
 	    }
 	    if (rules.station.length && !ret)
 		return ret;
@@ -172,13 +172,9 @@ export class FilterPipe implements PipeTransform {
     hl(str, values) {
 	if (!values.length)
 	    return str;
-	let dic = {}	    
-	for (let val of values) {
-	    dic[val] = '<span class="filterHl">' + val + '</span>';
-	}
 	let re = new RegExp(values.join("|"),"gi");
 	str = str.replace(re, (matched) => {
-	    return dic[matched];
+	    return '<span class="filterHl">' + matched + '</span>';
 	});
 	return str;
     }
