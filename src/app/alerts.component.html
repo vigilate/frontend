@@ -41,11 +41,11 @@
 	  <th width="150">Version</th>
 	  <th width="150">Station</th>
 	  <th width="50">Vulnerabilities</th>
-	  <th width="200">State</th>
-	  <th width="250">Severity score</th>
-	  <th width="100">Mark as</th>
-	  <th width="200">More information</th>
-	  <th width="100">New</th>
+	  <th width="200" class="text-center">State</th>
+	  <th width="250" class="text-center">Severity score</th>
+	  <th width="100" class="text-center">Mark as</th>
+	  <th width="200" class="text-center">More information</th>
+	  <th width="100" class="text-center">New</th>
 	</tr>
       </thead>
       <tbody>
@@ -54,10 +54,11 @@
 	  <td class="clickable" (click)="onClick(alert.id)" [innerHTML]=alert.program_info.program_version></td>
 	  <td class="clickable" (click)="onClick(alert.id)" [innerHTML]=alert.program_info.station_name></td>
 	  <td class="clickable" (click)="onClick(alert.id)">{{alert.number_cve}}</td>
-	  <td class="clickable" (click)="onClick(alert.id)">
+	  <td class="clickable text-center" (click)="onClick(alert.id)">
 	    <span *ngFor="let state of alert.state" class="state-badge state-badge-{{state}}">{{state}}</span>
 	  </td>
-	  <td (click)="onClick(alert.id)"><progress style="width:100%" max="100" value="{{alert.max_cvss*10}}"></progress></td>
+	  <td (click)="onClick(alert.id)"><progress style="width:100%" max="100" value="{{alert.max_cvss*10}}"></progress>
+	  </td>
 	  <td class="button-center"><button class="button tiny" (click)="onMark(alert)">
 	       <span *ngIf="!alert.loadingMark">{{alert.view ? "Unread" : "Read" }}</span>
 	       <span *ngIf="alert.loadingMark">Loading... <i class="fi-refresh loading-spinner"></i></span>  
