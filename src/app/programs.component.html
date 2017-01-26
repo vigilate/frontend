@@ -1,11 +1,13 @@
 <div id="content" class="row">
   <div class="medium-8 medium-offset-2 columns">
-    <h1><i class="fi-target"></i> Manage software</h1>
+    <h1><i class="fi-target"></i> Manage software 
+    <button *ngIf="progs.length" class="hollow small button right" (click)="onNewProgram()">Add a new program</button></h1>
     <br>
     <button class="tiny"(click)="onClickRefresh()">
       <span *ngIf="!pageLoading"><i class="fi-refresh"></i> refresh</span>
       <span *ngIf="pageLoading"><i class="fi-refresh loading-spinner"></i> refreshing...</span>
     </button>
+    <br/>
     <div *ngIf="stations_list.length > 1">
       <ul class="pagination">
 	<li class="{{(filtered_station == 'all') ? 'current': ''}}"><button (click)="selectStation('all')" href="">All</button></li>
@@ -22,12 +24,12 @@
 	</ul>
 
       </div>
-      <div class="medium-7 columns">
-	<input [(ngModel)]=filter type="text" placeholder="filter">
+      <div class="medium-11 columns">
+	<input [(ngModel)]=filter type="text" placeholder="Filter">
       </div>
     </div>
-    <button *ngIf="progs.length" class="hollow small button right" (click)="onNewProgram()">New program</button>
-    <pagination-controls autoHide="true" #pagination (pageChange)="p = $event;onPageChange(p)"></pagination-controls>
+    <br/>
+    <pagination-controls autoHide="true" #pagination (pageChange)="p = $event;onPageChange(p)" class="right"></pagination-controls>
     <table id="softwares">
       <thead>
         <tr>
@@ -52,7 +54,7 @@
       </tbody>
     </table>
     <div *ngIf="pageLoading" class="page-loading"><i class="fi-refresh loading-spinner"></i></div>
-    <button class="hollow small button right" (click)="onNewProgram()">New program</button>
+    <button class="hollow small button right" (click)="onNewProgram()">Add a new program</button>
     <pagination-controls autoHide="true" #pagination (pageChange)="p = $event;onPageChange(p)"></pagination-controls>
   </div>
 </div>

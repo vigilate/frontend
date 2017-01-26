@@ -1,9 +1,9 @@
 <div id="menu" class="row">
-  <div class="medium-1 columns" id="logo">
+  <div class="medium-2 small-3 columns" id="logo">
     <img (click)="onImgClick()" src="foundation/img/vigilate_logo.png">
   </div>
   <template [ngIf]="authService.isLoggedIn && userService.user">
-    <div class="medium-10 medium-centered columns">
+    <div class="medium-9 medium-centered columns">
       
       <!-- <div  class="medium-2 columns item_menu" id="menu-icon-{{r.path.substring(1)}}"> -->
 	
@@ -12,7 +12,7 @@
 
 	
         <a class="{{(activated_page == r.path) ? 'activated': ''}}" [routerLink]="[r.path]">
-          <i class="fi-target"></i><span *ngIf="nb_new_alert && r.path == '/alerts'" class="red-badge">{{nb_new_alert}}</span>
+          <i class="fi-target"></i><span *ngIf="nb_new_alert && r.path == '/alerts'" class="label round">{{nb_new_alert}}</span>
           <span>{{r.name}}</span>
         </a>
 

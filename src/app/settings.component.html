@@ -1,7 +1,7 @@
 <div class="medium-8 medium-offset-2 columns">
 	<h1><i class="fi-target"></i> Settings</h1><br/>
 	<form [ngFormModel]="ctrl.form">
-		<h2 class="subheader">Change phone number</h2>
+		<h2 class="subheader dark-blue">Change phone number</h2>
 		<div class="row">
 		  <small class="error" *ngIf="error_field.phone">{{error_field['phone']}}</small>
 		  <div *ngIf="ctrl.phone.dirty && !ctrl.phone.valid">
@@ -15,7 +15,7 @@
 		    </div>
 		</div>
 
-		<h2 class="subheader">Change default alert</h2>
+		<h2 class="subheader dark-blue">Change default alert</h2>
 		<div class="row">
 		  <small class="error" *ngIf="error_field.default_alert_type">{{error_field['default_alert_type']}}</small>
 		    <label class="small-3 medium-2 columns inline">
@@ -30,7 +30,7 @@
 		    </div>
 		</div>
 
-		<h2 class="subheader">Change password</h2>
+		<h2 class="subheader dark-blue">Change password</h2>
 		<div class="row">
 		    <label class="small-3 medium-2 columns inline">
 		      New password
